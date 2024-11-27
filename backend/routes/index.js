@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const apiRouter = require('./api');
+const path = require('path');
 
 // **Use the API Router for All /api Routes**
 router.use('/api', apiRouter);
@@ -17,27 +18,43 @@ if (process.env.NODE_ENV !== 'production') {
 router.get('/', (req, res) => {
   res.status(200).json({
     message: 'Welcome to the Luxury Car Service API!',
-    status: 'Running'
+    status: 'Running',
   });
 });
 
-// **Route to Restore CSRF Token (Development Only)**
-router.get('/api/csrf/restore', (req, res) => {
-  try {
-    console.log('CSRF route hit'); // Debugging log
-    const csrfToken = req.csrfToken(); // Generate CSRF token
-    res.cookie('XSRF-TOKEN', csrfToken);
-    res.status(200).json({ 'XSRF-Token': csrfToken });
-  } catch (error) {
-    console.error('Error generating CSRF token:', error);
-    res.status(500).json({ message: 'Failed to generate CSRF token' });
-  }
-});
+// **Serve React Build Files in Production**
+if (process.env.NODE_ENV === 'production') {
+  // Serve the frontend's index.html file at the root route
+  router.get('/', (req, res) => {
+    res.cookie('XSRF-TOKEN', req.csrfToken());
+    return res.sendFile(
+      path.resolve(__dirname, '../../frontend', 'dist', 'index.html')
+    );
+  });
 
-// Temporary test route for CSRF testing
+  // Serve the static assets in the frontend's build folder
+  router.use(express.static(path.resolve('../frontend/dist')));
+
+  // Serve the frontend's index.html file for all other routes NOT starting with /api
+  router.get(/^(?!\/?api).*/, (req, res) => {
+    res.cookie('XSRF-TOKEN', req.csrfToken());
+    return res.sendFile(
+      path.resolve(__dirname, '../../frontend', 'dist', 'index.html')
+    );
+  });
+}
+
+// **Restore CSRF Token (Development Only)**
+if (process.env.NODE_ENV !== 'production') {
+  router.get('/api/csrf/restore', (req, res) => {
+    res.cookie('XSRF-TOKEN', req.csrfToken()); // Set CSRF token in cookies
+    return res.json({}); // Send an empty JSON response
+  });
+}
+
+// **Temporary Test Route for CSRF Testing**
 router.post('/api/test', (req, res) => {
   return res.json({ requestBody: req.body });
 });
-
 
 module.exports = router;
