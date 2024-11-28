@@ -14,25 +14,12 @@ const removeUser = () => ({
   type: REMOVE_USER,
 });
 
-
 // Thunk Actions
 export const restoreUser = () => async (dispatch) => {
-  try {
-    console.log("Calling restoreUser...");
-    const response = await csrfFetch("/api/session");
-    console.log("Response received:", response);
-
-    const data = await response.json();
-    console.log("Data parsed:", data);
-
-    dispatch(setUser(data.user));
-    console.log("Dispatched setUser with:", data.user);
-
-    return response;
-  } catch (err) {
-    console.error("Error in restoreUser:", err);
-    throw err;
-  }
+  const response = await csrfFetch("/api/session");
+  const data = await response.json();
+  dispatch(setUser(data.user));
+  return response;
 };
 
 export const signup = (user) => async (dispatch) => {
@@ -48,7 +35,7 @@ export const signup = (user) => async (dispatch) => {
     }),
   });
   const data = await response.json();
-  dispatch(setUser(data.user)); // Add the user to the Redux store
+  dispatch(setUser(data.user));
   return response;
 };
 
@@ -82,7 +69,5 @@ const sessionReducer = (state = initialState, action) => {
       return state;
   }
 };
-
-
 
 export default sessionReducer;
