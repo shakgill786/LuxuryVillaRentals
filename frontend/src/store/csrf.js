@@ -1,4 +1,3 @@
-// frontend/src/store/csrf.js
 import Cookies from 'js-cookie';
 
 // Custom CSRF fetch function
@@ -11,6 +10,8 @@ export async function csrfFetch(url, options = {}) {
       options.headers['Content-Type'] || 'application/json';
     options.headers['XSRF-Token'] = Cookies.get('XSRF-TOKEN');
   }
+
+  options.credentials = "include";
 
   const res = await window.fetch(url, options);
 

@@ -12,10 +12,10 @@ import * as sessionActions from './store/session';
 const store = configureStore();
 
 // Expose store and csrfFetch for debugging in development
-if (process.env.NODE_ENV !== 'production') {
-  restoreCSRF(); // Restore the CSRF token
+if (import.meta.env.MODE !== 'production') {
+  restoreCSRF();
+  window.csrfFetch = csrfFetch;
   window.store = store;
-  window.csrfFetch = csrfFetch; // Expose custom CSRF fetch wrapper globally
   window.sessionActions = sessionActions;
 }
 
