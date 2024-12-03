@@ -1,9 +1,11 @@
-// frontend/src/components/Navigation/Navigation.jsx
 import { NavLink } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import ProfileButton from './ProfileButton';
 import * as sessionActions from '../../store/session';
-import './Navigation.css'
+import OpenModalButton from '../OpenModalButton/OpenModalButton';
+import LoginFormModal from '../LoginFormModal/LoginFormModal'; // Import LoginFormModal
+import SignupFormModal from '../SignupFormModal/SignupFormModal'; // Import SignupFormModal
+import './Navigation.css';
 
 function Navigation({ isLoaded }) {
   const sessionUser = useSelector((state) => state.session.user);
@@ -17,22 +19,29 @@ function Navigation({ isLoaded }) {
   const sessionLinks = sessionUser ? (
     <li>
       <ProfileButton user={sessionUser} />
+      <button onClick={logout}>Log Out</button> {/* Logout button for logged-in users */}
     </li>
   ) : (
     <>
       <li>
-        <NavLink to="/login">Log In</NavLink>
+        <OpenModalButton
+          buttonText="Log In"
+          modalComponent={<LoginFormModal />} // Trigger Login modal
+        />
       </li>
       <li>
-        <NavLink to="/signup">Sign Up</NavLink>
+        <OpenModalButton
+          buttonText="Sign Up"
+          modalComponent={<SignupFormModal />} // Trigger Signup modal
+        />
       </li>
     </>
   );
-  
+
   return (
     <ul>
       <li>
-        <NavLink to="/">Home</NavLink>
+        <NavLink to="/">Home</NavLink> {/* Home link remains as is */}
       </li>
       {isLoaded && sessionLinks}
     </ul>
