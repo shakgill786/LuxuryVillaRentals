@@ -1,7 +1,7 @@
 {
   "name": "backend",
   "version": "1.0.0",
-  "description": "Luxury Car Services Backend",
+  "description": "Luxury Villa Services Backend",
   "main": "app.js",
   "scripts": {
     "sequelize": "sequelize",

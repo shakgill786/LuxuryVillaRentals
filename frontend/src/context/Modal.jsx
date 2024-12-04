@@ -23,7 +23,7 @@ export function ModalProvider({ children }) {
     modalContent,
     setModalContent,
     setOnModalClose,
-    closeModal, // Allow components to close the modal programmatically
+    closeModal, 
   };
 
   return (
@@ -39,7 +39,7 @@ export function ModalProvider({ children }) {
 export function Modal() {
   const { modalRef, modalContent, closeModal } = useContext(ModalContext);
 
-  if (!modalRef.current || !modalContent) return null;
+  if (!modalRef || !modalRef.current || !modalContent) return null;
 
   return ReactDOM.createPortal(
     <div id="modal">
