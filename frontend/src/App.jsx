@@ -5,6 +5,8 @@ import { createBrowserRouter, RouterProvider, Outlet } from 'react-router-dom';
 import LoginFormPage from "./components/LoginFormPage/LoginFormPage";
 import SignupFormPage from "./components/SignupFormPage/SignupFormPage";
 import Navigation from './components/Navigation/Navigation';
+import LandingPage from './components/LandingPage/LandingPage';
+import SpotDetailsPage from './components/SpotDetailsPage/SpotDetailsPage';
 import * as sessionActions from './store/session';
 
 
@@ -32,13 +34,18 @@ const router = createBrowserRouter([
       children: [
         {
           path: '/',
-          element: <h1>Welcome to the App!</h1>
+          element: <LandingPage />
         },
         {
           path: '/login',
           element: <LoginFormPage />
         },
-        { path: "/signup", element: <SignupFormPage /> },
+        { path: "/signup", 
+        element: <SignupFormPage /> },
+        {
+          path: "/spots/:spotId",
+          element: <SpotDetailsPage />,
+        },
       ]
     }
   ]);
