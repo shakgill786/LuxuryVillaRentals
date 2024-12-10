@@ -13,9 +13,17 @@ body {
 
 /* Logo */
 .navbar-logo img.logo {
-  height: 80px; /* Adjust logo size */
-  width: 80px;
+  height: 90px; /* Adjust logo size */
+  width: 90px;
   cursor: pointer;
+  transition: all 0.3s ease-in-out; /* Smooth transition for size changes */
+  border-radius: 50%;
+  border: 2px solid #b79a6d; /* Customize the border color and thickness */
+}
+
+.navbar-logo img.logo:hover {
+  transform: scale(1.05); /* Slight zoom effect on hover */
+  border: 2px solid goldenrod; /* Change border color on hover if desired */
 }
 
 /* Links */
@@ -66,5 +74,6 @@ button {
 }
 
 button:hover {
-  background-color: #b79a6d;
+  background-color:goldenrod; /* Change border color on hover if desired */
+  ;
 }

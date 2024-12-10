@@ -25,6 +25,7 @@ const LandingPage = () => {
             key={spot.id}
             className="spot-card"
             onClick={() => navigate(`/spots/${spot.id}`)} // Navigate to spot details page
+            title={spot.name} // Adds a tooltip with the spot's name
           >
             <img
               src={spot.previewImage || '/placeholder.jpg'}

@@ -60,6 +60,7 @@ app.use((req, res, next) => {
 // Restore user session
 app.use(restoreUser);
 
+
 // Import and apply routes
 const routes = require('./routes');
 app.use(routes);

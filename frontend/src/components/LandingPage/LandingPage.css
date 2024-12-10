@@ -9,14 +9,13 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Min size ensures 4 columns max */
   grid-template-columns: repeat(4, 1fr); /* 4 columns max */
-  gap: 20px;
+  gap: 15px;
   margin-top: 20px;
 }
 
 .spot-card {
   background: #fff;
   border: 1px solid #ddd;
-  border-radius: 8px;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
   cursor: pointer;
   overflow: hidden;
@@ -47,4 +46,8 @@
 
 .spot-rating {
   color: #ffcc00;
+}
+
+.tooltip {
+  position: absolute;
 }
