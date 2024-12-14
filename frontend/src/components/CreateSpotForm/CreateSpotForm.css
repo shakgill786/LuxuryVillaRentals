@@ -1,0 +1,152 @@
+.create-spot-form {
+  max-width: 600px;
+  margin: auto;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+.create-spot-form h1 {
+  margin-bottom: 20px;
+  font-size: 2rem;
+  color: black; /* Ensure the header text is black */
+  text-align: center;
+}
+
+.create-spot-form h2 {
+  margin-bottom: 10px;
+  font-size: 1.5rem;
+  color: black; /* Ensure the subheader text is black */
+}
+
+.create-spot-form p {
+  margin-bottom: 10px;
+  color: gray;
+  font-size: 0.9rem;
+}
+
+.create-spot-form label {
+  display: block;
+  margin-bottom: 10px;
+  font-size: 1rem;
+  color: #333; /* Label text color */
+}
+
+.create-spot-form input,
+.create-spot-form textarea {
+  width: 100%;
+  margin-bottom: 10px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 1rem;
+  box-sizing: border-box;
+}
+
+.create-spot-form textarea {
+  resize: none; /* Prevent resizing of the textarea */
+  height: 150px; /* Set a fixed height for the textarea */
+}
+
+.create-spot-form button {
+  width: 100%;
+  padding: 10px;
+  background: goldenrod;
+  color: black;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.create-spot-form button:hover {
+  background: darkgoldenrod;
+}
+
+/* Error messages */
+.create-spot-form .error {
+  color: red !important; /* Ensure error messages are red */
+  font-size: 0.9rem;
+  margin-top: -5px;
+  margin-bottom: 10px;
+}
+
+/* Styling for the location inputs */
+.location-inputs {
+  display: flex;
+  gap: 20px; /* Space between inputs */
+  margin-bottom: 20px;
+}
+
+.location-inputs label {
+  display: flex;
+  flex-direction: column;
+  font-size: 0.9rem;
+  color: #333;
+}
+
+.location-inputs input {
+  width: 100%;
+  padding: 8px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 1rem;
+  box-sizing: border-box;
+}
+
+.location-inputs .comma {
+  align-self: center;
+  justify-self: left;
+  margin-top: 15px; /* Adjusts the position lower */
+  font-size: 1.2rem;
+  color: black; /* Color of the comma between inputs */
+}
+
+/* Price Input Section */
+.price-input-container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.price-input-container .dollar-sign {
+  margin-right: 10px; /* Space between dollar sign and input */
+  font-size: 1.2rem; /* Adjust size of the dollar sign */
+  color: black; /* Optional: dollar sign color */
+}
+
+.price-input-container input {
+  width: 100%; /* Ensure input spans the full container width */
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 1rem;
+  box-sizing: border-box;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .location-inputs {
+    flex-direction: column; /* Single column for smaller screens */
+    gap: 10px; /* Adjust spacing for smaller layout */
+  }
+
+  .create-spot-form button {
+    font-size: 14px;
+    padding: 8px;
+  }
+
+  .create-spot-form h1,
+  .create-spot-form h2 {
+    font-size: 1.5rem;
+  }
+
+  .price-input-container {
+    flex-direction: column; /* Stack elements for smaller screens */
+  }
+
+  .price-input-container .dollar-sign {
+    margin-bottom: 5px; /* Add spacing below the dollar sign */
+  }
+}

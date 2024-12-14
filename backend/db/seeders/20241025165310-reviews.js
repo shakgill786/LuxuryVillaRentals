@@ -14,7 +14,7 @@ module.exports = {
  
     await queryInterface.bulkInsert(options, [
       {
-        userId: 1,
+        userId: 2,
         spotId: 1,
         review: 'Amazing villa with breathtaking ocean views!',
         stars: 5,
@@ -22,7 +22,7 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
-        userId: 2,
+        userId: 1,
         spotId: 2,
         review: 'A cozy apartment, perfect location but slightly noisy.',
         stars: 4,
@@ -30,7 +30,7 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
-        userId: 3,
+        userId: 1,
         spotId: 3,
         review: 'Great experience, but the cabin could use some upgrades.',
         stars: 3,

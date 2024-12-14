@@ -3,9 +3,10 @@ import { csrfFetch } from './csrf';
 // Action Types
 const LOAD_SPOTS = 'spots/LOAD_SPOTS';
 const FETCH_ERROR = 'spots/FETCH_ERROR';
-const LOAD_SINGLE_SPOT = "spots/LOAD_SINGLE_SPOT";
-const LOAD_REVIEWS = "spots/LOAD_REVIEWS";
-const ADD_REVIEW = "spots/ADD_REVIEW";
+const LOAD_SINGLE_SPOT = 'spots/LOAD_SINGLE_SPOT';
+const LOAD_REVIEWS = 'spots/LOAD_REVIEWS';
+const ADD_REVIEW = 'spots/ADD_REVIEW';
+const CREATE_SPOT = 'spots/CREATE_SPOT';
 
 // Action Creators
 const loadSpots = (spots, page, size) => ({
@@ -35,11 +36,15 @@ const addReview = (review) => ({
   review,
 });
 
-// Thunk Action to Fetch Spots
+export const createSpot = (spot) => ({
+  type: CREATE_SPOT,
+  spot,
+});
+
+// Thunk Actions
 export const fetchAllSpots = (page = 1, size = 20) => async (dispatch) => {
   try {
     const response = await csrfFetch(`/api/spots?page=${page}&size=${size}`);
-
     if (response.ok) {
       const spots = await response.json();
       dispatch(loadSpots(spots, page, size));
@@ -68,7 +73,7 @@ export const fetchReviews = (spotId) => async (dispatch) => {
     const response = await csrfFetch(`/api/spots/${spotId}/reviews`);
     if (response.ok) {
       const reviews = await response.json();
-      dispatch(loadReviews(reviews));
+      dispatch(loadReviews(reviews.Reviews)); // Only pass Reviews array
     }
   } catch (err) {
     console.error('Fetch Error:', err);
@@ -79,18 +84,46 @@ export const fetchReviews = (spotId) => async (dispatch) => {
 export const postReview = (spotId, reviewData) => async (dispatch) => {
   try {
     const response = await csrfFetch(`/api/spots/${spotId}/reviews`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(reviewData),
     });
     if (response.ok) {
       const newReview = await response.json();
-      dispatch(addReview(newReview));
+      dispatch(addReview(newReview)); // Add review to the Redux store
+      dispatch(fetchReviews(spotId)); // Refresh reviews
       return newReview;
+    } else {
+      const error = await response.json();
+      throw error;
     }
   } catch (err) {
     console.error('Post Review Error:', err);
-    dispatch(fetchError(err));
+    throw err;
+  }
+};
+
+export const createSpotThunk = (spotData) => async (dispatch) => {
+  try {
+    const response = await csrfFetch('/api/spots', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(spotData),
+    });
+
+    if (response.ok) {
+      const newSpot = await response.json();
+      dispatch(createSpot(newSpot));
+      return newSpot;
+    } else {
+      const error = await response.json();
+      throw error;
+    }
+  } catch (err) {
+    console.error('Create Spot Error:', err);
+    throw err;
   }
 };
 
@@ -101,6 +134,8 @@ const initialState = {
     page: 1,
     size: 20,
   },
+  singleSpot: null,
+  spotReviews: {}, // Keep reviews for a single spot here
   error: null,
 };
 
@@ -126,21 +161,31 @@ const spotsReducer = (state = initialState, action) => {
     case FETCH_ERROR:
       return { ...state, error: action.error };
 
-    case LOAD_REVIEWS:
-      return {
-        ...state,
-        singleSpot: {
-          ...state.singleSpot,
-          Reviews: action.reviews,
-        },
-      };
+    case LOAD_REVIEWS: {
+      const newState = { ...state };
+      const spotReviews = {};
+      action.reviews.forEach((review) => {
+        spotReviews[review.id] = review;
+      });
+      newState.spotReviews = spotReviews;
+      return newState;
+    }
 
-    case ADD_REVIEW:
+    case ADD_REVIEW: {
+      const newState = { ...state };
+      newState.spotReviews = {
+        ...state.spotReviews,
+        [action.review.id]: action.review,
+      };
+      return newState;
+    }
+
+    case CREATE_SPOT:
       return {
         ...state,
-        singleSpot: {
-          ...state.singleSpot,
-          Reviews: [action.review, ...state.singleSpot.Reviews],
+        allSpots: {
+          ...state.allSpots,
+          [action.spot.id]: action.spot,
         },
       };
 

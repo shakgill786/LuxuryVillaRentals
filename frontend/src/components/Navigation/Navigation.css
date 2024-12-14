@@ -28,8 +28,8 @@ body {
 
 /* Links */
 .navbar-links {
-  list-style: none;
   display: flex;
+  align-items: center;
   gap: 15px; /* Add spacing between items */
   margin: 0;
   padding: 0;
@@ -64,16 +64,35 @@ ul.profile-dropdown li {
 }
 
 /* Button Styling */
-button {
-  padding: 5px 10px;
-  background-color: #d1c19d;
-  color: #1b2232;
-  border: none;
-  border-radius: 50%;
-  cursor: pointer;
+.navbar-links button {
+  background-color: #d1c09f; /* Set a dark gray background */
+  color: white; /* White text color */
+  border: none; /* Remove border */
+  padding: 8px 12px; /* Add padding for a rectangular shape */
+  border-radius: 50%; /* Optional: slightly rounded corners */
+  cursor: pointer; /* Change cursor to pointer on hover */
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3); /* Add a subtle box shadow */
+  transition: background-color 0.1s ease, transform 0.1s ease; /* Smooth hover effect */
 }
 
-button:hover {
+.navbar-links button:hover {
   background-color:goldenrod; /* Change border color on hover if desired */
+  transform: scale(1.05); /* Slightly enlarge button on hover */
   ;
+}
+
+.create-spot-button {
+  padding: 10px 15px;
+  font: arial;
+  background-color: goldenrod;
+  color: black;
+  text-decoration: none;
+  border-radius: 5px;
+  font-size: 16px;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.create-spot-button:hover {
+  background-color: darkgoldenrod;
 }

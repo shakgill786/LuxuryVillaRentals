@@ -1,0 +1,132 @@
+.write-review-button {
+    margin: 15px 0; /* Space between star rating and review list */
+    text-align: center; /* Center the button */
+  }
+  
+  .review-list {
+    margin-top: 20px;
+  }
+  
+  .review-list li {
+    margin-bottom: 15px;
+  }
+  
+  .create-review-button {
+    display: flex;
+    padding: 10px 20px;
+    background-color: goldenrod;
+    border: none;
+    border-radius: 5px;
+    color: black;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  
+  .create-review-button:hover {
+    background-color: darkgoldenrod;
+    transform: scale(1.05); /* Slightly enlarge button on hover */
+}
+
+.create-review-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: #192231;
+  padding: 20px;
+  border-radius: 10px;
+  max-width: 400px;
+  width: 100%;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.close-modal {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+}
+
+h2 {
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+  color: white;
+}
+
+textarea {
+  width: 90%;
+  height: 80px;
+  margin-bottom: 10px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 1rem;
+  resize: none;
+}
+
+.star-rating {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.star {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: #ccc;
+  cursor: pointer;
+  margin-right: 5px;
+}
+
+.star.filled {
+  color: gold;
+}
+
+.star-rating span {
+  margin-left: 10px;
+  font-size: 1rem;
+  color: white;
+}
+
+button[type="submit"] {
+  background: goldenrod;
+  color: black;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+button[type="submit"]:hover {
+    transform: scale(1.05); /* Slightly enlarge button on hover */
+}
+
+button[type="submit"]:disabled {
+  background: #b79a6d;
+  cursor: not-allowed;
+}
+
+.error {
+  color: red;
+  font-size: 0.9rem;
+  margin-bottom: 10px;
+}
+
+  

@@ -301,6 +301,52 @@
     .pricing-reserve {
       padding: 10px;
     }
+
+    .delete-review-button {
+      background-color: #555; /* Set a dark gray background */
+      color: white; /* White text color */
+      border: none; /* Remove border */
+      padding: 8px 12px; /* Add padding for a rectangular shape */
+      border-radius: 4px; /* Optional: slightly rounded corners */
+      cursor: pointer; /* Change cursor to pointer on hover */
+      box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3); /* Add a subtle box shadow */
+      transition: background-color 0.2s ease, transform 0.2s ease; /* Smooth hover effect */
+    }
+    
+    .delete-review-button:hover {
+      background-color: #333; /* Darken background on hover */
+      transform: scale(1.05); /* Slightly enlarge button on hover */
+    }
+
+    .write-review-button {
+      margin: 15px 0; /* Space between star rating and review list */
+      text-align: center; /* Center the button */
+    }
+    
+    .review-list {
+      margin-top: 20px;
+    }
+    
+    .review-list li {
+      margin-bottom: 15px;
+    }
+    
+    .create-review-button {
+      display: flex;
+      padding: 10px 20px;
+      background-color: goldenrod;
+      border: none;
+      border-radius: 5px;
+      color: black;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    
+    .create-review-button:hover {
+      background-color: darkgoldenrod;
+    }
+    
   
   }
   

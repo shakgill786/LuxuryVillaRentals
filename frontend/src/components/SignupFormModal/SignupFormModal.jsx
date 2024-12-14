@@ -2,6 +2,8 @@ import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import * as sessionActions from '../../store/session'; // Adjust the path to your Redux session actions
 import { useModal } from '../../context/Modal';
+import './SignupFormModal.css';
+
 
 function SignupFormModal() {
   const dispatch = useDispatch();
@@ -48,9 +50,9 @@ function SignupFormModal() {
       <h1>Sign Up</h1>
       <form onSubmit={handleSubmit}>
         <label>
-          Email
           <input
             type="email"
+            placeholder="Email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
@@ -59,9 +61,9 @@ function SignupFormModal() {
         {errors.email && <p className="error">{errors.email}</p>}
         
         <label>
-          Username
           <input
             type="text"
+            placeholder="Username"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             required
@@ -70,9 +72,9 @@ function SignupFormModal() {
         {errors.username && <p className="error">{errors.username}</p>}
 
         <label>
-          First Name
           <input
             type="text"
+            placeholder="First Name"
             value={firstName}
             onChange={(e) => setFirstName(e.target.value)}
             required
@@ -81,9 +83,9 @@ function SignupFormModal() {
         {errors.firstName && <p className="error">{errors.firstName}</p>}
 
         <label>
-          Last Name
           <input
             type="text"
+            placeholder="Last Name"
             value={lastName}
             onChange={(e) => setLastName(e.target.value)}
             required
@@ -92,9 +94,9 @@ function SignupFormModal() {
         {errors.lastName && <p className="error">{errors.lastName}</p>}
 
         <label>
-          Password
           <input
             type="password"
+            placeholder="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
@@ -103,9 +105,9 @@ function SignupFormModal() {
         {errors.password && <p className="error">{errors.password}</p>}
 
         <label>
-          Confirm Password
           <input
             type="password"
+            placeholder="Confirm Password"
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
             required

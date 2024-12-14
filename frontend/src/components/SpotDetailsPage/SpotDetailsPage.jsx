@@ -1,21 +1,26 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { fetchSpotDetails, fetchReviews, postReview } from "../../store/spots"; // Thunk actions
-import { deleteReview } from "../../store/reviews";
+import { fetchSpotDetails } from "../../store/spots"; // Thunk actions
+import { deleteReview, fetchReviews } from "../../store/reviews";
 import "./SpotDetailsPage.css";
+import CreateReviewButton from "../CreateReviewModal/CreateReviewButton";
 
 const SpotDetailsPage = () => {
   const { spotId } = useParams();
   const dispatch = useDispatch();
   const loggedInUser = useSelector((state) => state.session.user);
   const spot = useSelector((state) => state.spots.singleSpot);
+  const reviews = useSelector((state) => Object.values(state.reviews.spotReviews || {}));
+  console.log("Reviews: ", reviews); 
+  
+  // Action Types
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
       await dispatch(fetchSpotDetails(spotId));
-      await dispatch(fetchReviews(spotId));
+      await dispatch(fetchReviews(spotId)); // Fetch reviews for the spot
       setIsLoading(false);
     };
     fetchData();
@@ -93,81 +98,66 @@ const SpotDetailsPage = () => {
 
       <hr className="section-divider" />
 
-{/* Reviews Section */}
-<section className="reviews">
-  <h3>
-    ⭐ {spot.avgStarRating ? spot.avgStarRating.toFixed(1) : "New"}
-    {spot.numReviews > 0 && (
-      <>
-        <span> · </span>
-        <span>
-          {spot.numReviews} {spot.numReviews === 1 ? "Review" : "Reviews"}
-        </span>
-      </>
-    )}
-  </h3>
-  {spot.Reviews?.length > 0 ? (
-    <ul className="review-list">
-      {spot.Reviews.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)).map((review) => (
-        <li key={review.id}>
-          <p>
-            <strong>{review.User?.firstName}</strong> ·{" "}
-            {new Date(review.createdAt).toLocaleDateString("en-US", {
-              month: "long",
-              year: "numeric",
-            })}
-          </p>
-          <p>{review.review}</p>
-          {loggedInUser && loggedInUser.id === review.userId && ( // Show Delete button only for user's own reviews
-            <button
-              className="delete-review-button"
-              onClick={async () => {
-                if (window.confirm("Are you sure you want to delete this review?")) {
-                  await dispatch(deleteReview(review.id));
-                  dispatch(fetchSpotDetails(spotId)); // Refresh spot details
-                }
-              }}
-            >
-              Delete
-            </button>
+      {/* Reviews Section */}
+      <section className="reviews">
+        <h3>
+          ⭐ {spot.avgStarRating ? spot.avgStarRating.toFixed(1) : "New"}
+          {spot.numReviews > 0 && (
+            <>
+              <span> · </span>
+              <span>
+                {spot.numReviews} {spot.numReviews === 1 ? "Review" : "Reviews"}
+              </span>
+            </>
           )}
-        </li>
-      ))}
-    </ul>
-  ) : (
-    loggedInUser && loggedInUser.id !== spot.ownerId ? (
-      <p>Be the first to post a review!</p>
-    ) : (
-      <p>No reviews yet.</p>
-    )
-  )}
-  {loggedInUser && loggedInUser.id !== spot.ownerId && (
-    <form
-      onSubmit={async (e) => {
-        e.preventDefault();
-        const reviewData = {
-          review: e.target.review.value,
-          stars: parseInt(e.target.stars.value, 10),
-        };
-        await dispatch(postReview(spotId, reviewData));
-        dispatch(fetchSpotDetails(spotId)); // Refresh spot details
-        e.target.reset();
-      }}
-      className="review-form"
-    >
-      <textarea name="review" placeholder="Write your review here..." required></textarea>
-      <select name="stars" required>
-        <option value="5">5 Stars</option>
-        <option value="4">4 Stars</option>
-        <option value="3">3 Stars</option>
-        <option value="2">2 Stars</option>
-        <option value="1">1 Star</option>
-      </select>
-      <button type="submit">Submit Review</button>
-    </form>
-  )}
-</section>
-</div>
+        </h3>
+
+          {/* Create Review Button */}
+          {loggedInUser && loggedInUser.id !== spot.ownerId && (
+          <div className="write-review-button">
+            <CreateReviewButton spotId={spotId} />
+          </div>
+        )}
+
+
+         {/* Render reviews */}
+         {reviews.length > 0 ? (
+          <ul className="review-list">
+            {reviews
+              .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+              .map((review) => (
+                <li key={review.id}>
+                  <p>
+                    <strong>{review.User?.firstName}</strong> ·{" "}
+                    {new Date(review.createdAt).toLocaleDateString("en-US", {
+                      month: "long",
+                      year: "numeric",
+                    })}
+                  </p>
+                  <p>{review.review}</p>
+                  {loggedInUser && loggedInUser.id === review.userId && (
+                    <button
+                      className="delete-review-button"
+                      onClick={async () => {
+                        if (window.confirm("Are you sure you want to delete this review?")) {
+                          await dispatch(deleteReview(review.id));
+                          dispatch(fetchReviews(spotId));
+                        }
+                      }}
+                      
+                    >
+                      Delete
+                    </button>
+                  )}
+                </li>
+              ))}
+          </ul>
+        ) : (
+          <p>No reviews yet.</p>
+        )}
+
+      </section>
+    </div>
   );
 };
 
