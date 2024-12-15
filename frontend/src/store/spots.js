@@ -90,8 +90,8 @@ export const postReview = (spotId, reviewData) => async (dispatch) => {
     });
     if (response.ok) {
       const newReview = await response.json();
-      dispatch(addReview(newReview)); // Add review to the Redux store
-      dispatch(fetchReviews(spotId)); // Refresh reviews
+      dispatch(addReview(newReview)); // Dispatch addReview to update Redux state
+      dispatch(fetchSpotDetails(spotId)); // Optional: Refresh spot details (e.g., avg rating)
       return newReview;
     } else {
       const error = await response.json();
@@ -102,6 +102,7 @@ export const postReview = (spotId, reviewData) => async (dispatch) => {
     throw err;
   }
 };
+
 
 export const createSpotThunk = (spotData) => async (dispatch) => {
   try {
@@ -161,23 +162,24 @@ const spotsReducer = (state = initialState, action) => {
     case FETCH_ERROR:
       return { ...state, error: action.error };
 
-    case LOAD_REVIEWS: {
-      const newState = { ...state };
-      const spotReviews = {};
-      action.reviews.forEach((review) => {
-        spotReviews[review.id] = review;
-      });
-      newState.spotReviews = spotReviews;
-      return newState;
-    }
+      case LOAD_REVIEWS: {
+        const newState = { ...state };
+        const spotReviews = {};
+        action.reviews.forEach((review) => {
+          spotReviews[review.id] = review;
+        });
+        newState.spotReviews = spotReviews;
+        return newState;
+      }
 
     case ADD_REVIEW: {
-      const newState = { ...state };
-      newState.spotReviews = {
-        ...state.spotReviews,
-        [action.review.id]: action.review,
+      return {
+        ...state,
+        spotReviews: {
+          ...state.spotReviews,
+          [action.review.id]: action.review, // Add new review dynamically
+        },
       };
-      return newState;
     }
 
     case CREATE_SPOT:

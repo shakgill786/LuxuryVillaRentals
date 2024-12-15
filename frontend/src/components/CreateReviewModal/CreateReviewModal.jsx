@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { postReview } from "../../store/spots";
+import { postReview, fetchReviews } from "../../store/spots";
 import "./CreateReviewModal.css";
 
 function CreateReviewModal({ spotId, closeModal }) {
@@ -22,7 +22,10 @@ function CreateReviewModal({ spotId, closeModal }) {
 
     try {
       await dispatch(postReview(spotId, reviewData));
-      closeModal();
+      setReview(""); // Clear form fields
+      setStars(5);
+      closeModal(); // Close the modal
+      await dispatch(fetchReviews(spotId)); // Ensure reviews refresh after submission
     } catch (error) {
       setErrors({ api: "Failed to submit review. Please try again." });
     }

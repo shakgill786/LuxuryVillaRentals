@@ -219,7 +219,7 @@ function CreateSpotForm() {
 
         {/* Submit Button */}
         {errors.api && <p className="error">{errors.api}</p>}
-        <button type="submit">Create Spot</button>
+        <button type="submit">Create a Spot</button>
       </form>
     </div>
   );
