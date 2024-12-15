@@ -60,6 +60,32 @@ const SpotDetailsPage = () => {
           </h2>
           <p>{spot.description}</p>
         </section>
+
+        {/* Pricing and Reserve Section */}
+        <section className="pricing-reserve">
+          <div className="pricing">
+            <p>${spot.price} / night</p>
+            <p>
+              <span>
+                ⭐ {spot.avgStarRating ? spot.avgStarRating.toFixed(1) : "New"}
+              </span>
+              {spot.numReviews > 0 && (
+                <>
+                  {" "}·{" "}
+                  <span>
+                    {spot.numReviews} {spot.numReviews === 1 ? "review" : "reviews"}
+                  </span>
+                </>
+              )}
+            </p>
+          </div>
+          <button
+            className="reserve-button"
+            onClick={() => alert("Feature Coming Soon")}
+          >
+            Reserve
+          </button>
+        </section>
       </div>
 
       <hr className="section-divider" />

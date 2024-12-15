@@ -1,4 +1,3 @@
-// CreateSpotForm.jsx
 import { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -11,8 +10,8 @@ function CreateSpotForm() {
 
   const [formData, setFormData] = useState({
     country: '',
-    latitude: '',
-    longitude: '',
+    lat: '', // Renamed latitude to lat
+    lng: '', // Renamed longitude to lng
     address: '',
     city: '',
     state: '',
@@ -38,13 +37,17 @@ function CreateSpotForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const { country, latitude, longitude, address, city, state, description, name, price, previewImage } = formData;
+    const { country, lat, lng, address, city, state, description, name, price, previewImage } = formData;
 
     // Validation
     const newErrors = {};
     if (!country) newErrors.country = 'Country is required';
-    if (!latitude || isNaN(Number(latitude))) newErrors.latitude = 'Latitude is required and must be a number';
-    if (!longitude || isNaN(Number(longitude))) newErrors.longitude = 'Longitude is required and must be a number';
+    if (!lat || isNaN(Number(lat)) || Number(lat) < -90 || Number(lat) > 90) {
+      newErrors.lat = 'Latitude must be a number between -90 and 90';
+    }
+    if (!lng || isNaN(Number(lng)) || Number(lng) < -180 || Number(lng) > 180) {
+      newErrors.lng = 'Longitude must be a number between -180 and 180';
+    }
     if (!address) newErrors.address = 'Street address is required';
     if (!city) newErrors.city = 'City is required';
     if (!state) newErrors.state = 'State is required';
@@ -61,8 +64,8 @@ function CreateSpotForm() {
       const newSpot = await dispatch(
         createSpotThunk({
           ...formData,
-          latitude: parseFloat(latitude),
-          longitude: parseFloat(longitude),
+          lat: parseFloat(lat), // Ensure lat is a float
+          lng: parseFloat(lng), // Ensure lng is a float
           images: imageUrls.filter(Boolean),
         })
       );
@@ -76,8 +79,8 @@ function CreateSpotForm() {
     return () => {
       setFormData({
         country: '',
-        latitude: '',
-        longitude: '',
+        lat: '',
+        lng: '',
         address: '',
         city: '',
         state: '',
@@ -138,33 +141,29 @@ function CreateSpotForm() {
             Latitude
             <input
               type="text"
-              name="latitude"
-              value={formData.latitude}
+              name="lat" // Renamed to match backend
+              value={formData.lat}
               onChange={handleChange}
               placeholder="Latitude"
             />
-            {errors.latitude && <p className="error">{errors.latitude}</p>}
+            {errors.lat && <p className="error">{errors.lat}</p>}
           </label>
           <span className="comma">,</span>
           <label className="longitude-input">
             Longitude
             <input
               type="text"
-              name="longitude"
-              value={formData.longitude}
+              name="lng" // Renamed to match backend
+              value={formData.lng}
               onChange={handleChange}
               placeholder="Longitude"
             />
-            {errors.longitude && <p className="error">{errors.longitude}</p>}
+            {errors.lng && <p className="error">{errors.lng}</p>}
           </label>
         </div>
 
         {/* Description Section */}
         <h2>Describe your place to guests</h2>
-        <p>
-          Mention the best features of your space, any special amenities like fast wifi or parking,
-          and what you love about the neighborhood.
-        </p>
         <textarea
           name="description"
           value={formData.description}
@@ -175,30 +174,28 @@ function CreateSpotForm() {
 
         {/* Title Section */}
         <h2>Create a title for your spot</h2>
-        <p>Catch guests&apos; attention with a spot title that highlights what makes your place special.</p>
-        <input type="text" name="name" value={formData.name} onChange={handleChange} placeholder="Name of your spot" />
+        <input
+          type="text"
+          name="name"
+          value={formData.name}
+          onChange={handleChange}
+          placeholder="Name of your spot"
+        />
         {errors.name && <p className="error">{errors.name}</p>}
 
-{/* Price Section */}
-<h2>Set a base price for your spot</h2>
-<p>Competitive pricing can help your listing stand out and rank higher in search results.</p>
-<div className="price-input-container">
-  <input
-    type="number"
-    name="price"
-    value={formData.price}
-    onChange={handleChange}
-    placeholder="Price per night (USD)"
-  />
-</div>
-{errors.price && <p className="error">{errors.price}</p>}
-
-
-
+        {/* Price Section */}
+        <h2>Set a base price for your spot</h2>
+        <input
+          type="number"
+          name="price"
+          value={formData.price}
+          onChange={handleChange}
+          placeholder="Price per night (USD)"
+        />
+        {errors.price && <p className="error">{errors.price}</p>}
 
         {/* Images Section */}
         <h2>Liven up your spot with photos</h2>
-        <p>Submit a link to at least one photo to publish your spot.</p>
         <input
           type="text"
           name="previewImage"

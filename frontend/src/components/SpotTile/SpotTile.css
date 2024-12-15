@@ -1,0 +1,83 @@
+.spot-tile {
+  background: #fff;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: transform 0.2s ease-in-out;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* Push content to bottom */
+  height: 350px; /* Set a consistent height */
+}
+
+.spot-tile:hover {
+  transform: scale(1.02);
+}
+
+.spot-tile img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.spot-info {
+  padding: 10px;
+  font-size: 14px;
+  text-align: left;
+}
+
+.spot-header {
+  display: flex;
+  justify-content: space-between; /* Pushes content to opposite ends */
+  align-items: center; /* Align vertically centered */
+  margin-bottom: 5px; /* Space below header */
+}
+
+.spot-location {
+  font-weight: 600;
+}
+
+.spot-rating {
+  font-size: 14px;
+  color: #ffcc00; /* Optional: Gold color for the star */
+}
+
+.spot-price {
+  font-size: 14px;
+  font-weight: bold;
+  margin-top: 5px; /* Add slight spacing above price */
+}
+
+.spot-actions {
+  gap: 20px;
+  margin-bottom: 10px; /* Space at bottom */
+}
+
+.update-button,
+.delete-button {
+  margin: 0 5px; /* Add small horizontal margin between buttons */
+  padding: 8px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.update-button {
+  background-color: goldenrod;
+  color: black;
+}
+
+.update-button:hover {
+  background-color: darkgoldenrod;
+  transform: scale(1.05);
+}
+
+.delete-button {
+  background-color: goldenrod;
+  color: black;
+}
+
+.delete-button:hover {
+  background-color: darkgoldenrod;
+  transform: scale(1.05);
+}

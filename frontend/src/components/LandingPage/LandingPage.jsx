@@ -33,12 +33,14 @@ const LandingPage = () => {
               className="spot-image"
             />
             <div className="spot-info">
+            <div className="spot-header">
               <div className="spot-location">{`${spot.city}, ${spot.state}`}</div>
-              <div className="spot-price">{`$${spot.price} / night`}</div>
               <div className="spot-rating">
                 {spot.avgRating ? `⭐ ${spot.avgRating.toFixed(1)}` : 'New'}
               </div>
             </div>
+            </div>
+            <div className="spot-price">{`$${spot.price} / night`}</div>
           </div>
         ))}
       </div>

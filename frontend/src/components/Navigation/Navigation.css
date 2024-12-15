@@ -11,6 +11,8 @@ body {
   border-bottom: 1px solid #ccc;
 }
 
+
+
 /* Logo */
 .navbar-logo img.logo {
   height: 90px; /* Adjust logo size */
@@ -28,6 +30,7 @@ body {
 
 /* Links */
 .navbar-links {
+  list-style: none;
   display: flex;
   align-items: center;
   gap: 15px; /* Add spacing between items */
