@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useDispatch } from "react-redux";
 import { postReview, fetchReviews } from "../../store/spots";
 import "./CreateReviewModal.css";
@@ -8,6 +8,21 @@ function CreateReviewModal({ spotId, closeModal }) {
   const [review, setReview] = useState("");
   const [stars, setStars] = useState(0);
   const [errors, setErrors] = useState({});
+
+  // Ref to the modal content
+  const modalRef = useRef(null);
+
+  useEffect(() => {
+    // Close modal if clicked outside
+    const handleClickOutside = (event) => {
+      if (modalRef.current && !modalRef.current.contains(event.target)) {
+        closeModal();
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [closeModal]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -22,21 +37,18 @@ function CreateReviewModal({ spotId, closeModal }) {
 
     try {
       await dispatch(postReview(spotId, reviewData));
-      setReview(""); // Clear form fields
+      setReview("");
       setStars(5);
-      closeModal(); // Close the modal
-      await dispatch(fetchReviews(spotId)); // Ensure reviews refresh after submission
+      closeModal();
+      await dispatch(fetchReviews(spotId));
     } catch (error) {
-      setErrors({ api: "Failed to submit review. Please try again." });
+      setErrors({ api: "Review already exists for this spot" });
     }
   };
 
   return (
     <div className="create-review-modal">
-      <div className="modal-content">
-        <button className="close-modal" onClick={closeModal}>
-          ✕
-        </button>
+      <div className="modal-content" ref={modalRef}>
         <h2>How was your stay?</h2>
         {errors.api && <p className="error">{errors.api}</p>}
         <form onSubmit={handleSubmit}>

@@ -52,9 +52,8 @@ ul.profile-dropdown {
   border: 1px solid #ccc;
   border-radius: 5px;
   padding: 10px;
-  min-width: 100px;
+  min-width: 150px;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-  z-index: 10;
 }
 
 ul.profile-dropdown.hidden {
@@ -72,7 +71,7 @@ ul.profile-dropdown li {
   color: white; /* White text color */
   border: none; /* Remove border */
   padding: 8px 12px; /* Add padding for a rectangular shape */
-  border-radius: 50%; /* Optional: slightly rounded corners */
+  border-radius: 12px; /* Optional: slightly rounded corners */
   cursor: pointer; /* Change cursor to pointer on hover */
   box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3); /* Add a subtle box shadow */
   transition: background-color 0.1s ease, transform 0.1s ease; /* Smooth hover effect */
