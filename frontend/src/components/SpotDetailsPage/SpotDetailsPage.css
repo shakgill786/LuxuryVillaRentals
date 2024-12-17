@@ -59,6 +59,7 @@
   }
   
   .thumbnail-images img {
+    height: 100%;
     width: 100%;
     aspect-ratio: 16 / 9; /* Enforce consistent aspect ratio */
     object-fit: cover; /* Ensure thumbnails fill their cells without distortion */
