@@ -1,4 +1,5 @@
-const config = require('./index'); // Ensure './index' exports the necessary environment variables
+require('dotenv').config();
+console.log('Database URL:', process.env.DATABASE_URL);
 
 module.exports = {
   development: {
