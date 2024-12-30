@@ -1,3 +1,9 @@
+body {
+  font-family: 'Arial', sans-serif; /* Change font family */
+  background-color: #970789; /* Set a light background color */
+  color: #333; /* Default text color */
+}
+
 .landing-page {
   max-width: 1200px;
   margin: 0 auto;
@@ -5,7 +11,13 @@
   text-align: left;
 }
 
-
+.landing-page h1 {
+  font-family: 'Georgia', serif; /* Elegant serif font */
+  color: #412eae; /* A bold, vibrant color */
+  text-align: center; /* Center the H1 */
+  margin-top: 20px; /* Add some space above */
+  font-size: 2.5rem; /* Increase font size */
+}
 
 .spots-grid {
   display: grid;
@@ -19,19 +31,34 @@
   background: #fff;
   border: 1px solid #ddd;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
   cursor: pointer;
   overflow: hidden;
-  transition: transform 0.2s ease-in-out;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .spot-card:hover {
-  transform: scale(1.02);
+  transform: translateY(-5px); /* Slight upward motion on hover */
+  box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.2); /* Stronger shadow */
+  border-color: #ff6f61; /* Highlight border */
 }
 
 .spot-image {
+  position: relative;
   width: 100%;
   height: 200px;
   object-fit: cover;
+}
+
+.spot-image::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.5));
+  z-index: 1;
 }
 
 .spot-info {
@@ -50,16 +77,17 @@
   font-weight: 600;
 }
 
-.spot-rating {
-  font-size: 14px;
-  color: #ffcc00; /* Gold color for the star */
+.spot-price {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #ff6f61; /* Bold red */
+  text-align: left;
+  margin: 10px 0;
+  transition: color 0.3s ease-in-out;
 }
 
-.spot-price {
-  font-size: 16px;
-  padding: 10px; /* Adds consistent spacing */
-  font-weight: bold;
-  text-align: left;
+.spot-price:hover {
+  color: #333; /* Subtle dark hover effect */
 }
 
 .tooltip {

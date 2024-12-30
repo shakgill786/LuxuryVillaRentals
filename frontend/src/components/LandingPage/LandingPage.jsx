@@ -18,7 +18,7 @@ const LandingPage = () => {
 
   return (
     <div className="landing-page">
-      <h1>Explore Luxury Villas</h1>
+      <h1>Choose Your Dream Pad</h1>
       <div className="spots-grid">
         {spots.map((spot) => (
           <div
