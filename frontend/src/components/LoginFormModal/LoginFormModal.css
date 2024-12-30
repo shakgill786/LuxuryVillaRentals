@@ -1,98 +1,119 @@
-/* Styling for the login modal */
+/* Import modern font */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+/* Global Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Wrapper for the entire modal */
+body {
+  font-family: 'Poppins', sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+/* Modal Background */
+#modal {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+  z-index: 1000;
+}
+
+#modal-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: transparent !important; /* Ensure it's transparent */
+  z-index: 1;
+}
+
+/* Modal Content */
+#modal-content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  max-width: 400px;
+  padding: 20px;
+  background: linear-gradient(135deg, #1e3c72, #2a5298);
+  border-radius: 15px;
+  box-shadow: 0 15px 25px rgba(0, 0, 0, 0.3);
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+/* Login Modal Content */
+.login-modal-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative; /* Ensure it's positioned inside the modal */
+  width: 100%;
+  height: auto;
+}
+
+/* Login Modal */
 .login-modal {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   max-width: 400px;
-  margin: auto;
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
+  width: 100%;
+  padding: 20px;
+  background: linear-gradient(135deg, #1e3c72, #2a5298);
   border-radius: 15px;
-  box-shadow: 0 15px 25px rgba(0, 0, 0, 0.1);
   color: white;
   text-align: center;
-  position: relative; /* For positioning the close button */
 }
 
-/* Title styling */
+/* Login Title */
 .login-modal h1 {
-  margin-bottom: 30px;
-  color: white;
-  font-size: 2em;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-}
-
-/* Input fields */
-.login-modal input {
-  width: 60%; /* Full width to match container */
-  padding: 10px;
   margin-bottom: 20px;
-  background: rgba(255, 255, 255, 0.2);
-  border: none;
-  border-radius: 5px;
-  color: white;
-  font-size: 16px;
+  color: #ffcc00;
+  font-size: 2.2em;
+  text-transform: uppercase;
+  font-weight: 600;
 }
 
-.login-modal input::placeholder {
-  color: rgba(255, 255, 255, 0.7);
-}
-
-.login-modal input:focus {
-  outline: none;
-  background: rgba(255, 255, 255, 0.3);
-}
-
-/* Button styling */
-.login-modal-button {
-  width: 80%; /* Ensure button matches input field width */
-  padding: 10px;
-  margin-top: 10px; /* Add some spacing above the button */
-  background: goldenrod;
-  border: none;
-  border-radius: 5px;
-  color: white;
-  font-size: 16px;
-  cursor: pointer;
-  transition: background 0.3s ease, transform 0.2s ease;
-}
-
-.login-modal-button:hover {
-  background: #ffcc00; /* Slightly brighter goldenrod */
-  transform: scale(1.05); /* Slightly enlarge button on hover */
-}
-
-/* Demo login button styling */
-.demo-login-button {
-  margin-top: 10px;
-  width: 80%; /* Match input field and other button widths */
-  padding: 10px;
-  background: goldenrod;
-  border: none;
-  border-radius: 5px;
-  color: black;
-  font-size: 16px;
-  cursor: pointer;
-  transition: background 0.3s ease, transform 0.2s ease;
-  font-weight: bold;
-}
-
-.demo-login-button:hover {
-  background: #ffcc00; /* Slightly brighter goldenrod */
-  transform: scale(1.05); /* Slightly enlarge on hover */
-}
-
-/* Error message styling */
-.error-message {
-  color: red;
-  font-size: 14px;
+/* Inputs */
+.login-modal input {
+  width: 90%;
+  padding: 12px;
   margin-bottom: 15px;
-  text-align: center;
+  background: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 5px;
+  color: white;
 }
 
-/* Close modal button */
+/* Buttons */
+.login-modal-button,
+.demo-login-button {
+  width: 90%;
+  padding: 12px;
+  margin-top: 10px;
+  background: linear-gradient(135deg, #ffcc00, #ff9900);
+  border: none;
+  border-radius: 5px;
+  color: white;
+  cursor: pointer;
+}
+
+/* Close Button */
 .close-modal-button {
   position: absolute;
   top: 10px;
@@ -100,12 +121,17 @@
   background: transparent;
   border: none;
   color: white;
-  font-size: 20px;
-  cursor: pointer;
-  transition: transform 0.2s ease, color 0.2s ease;
+  font-size: 24px;
 }
 
-.close-modal-button:hover {
-  transform: scale(1.2); /* Slight enlargement on hover */
-  color: goldenrod; /* Match modal theme */
+/* Fade-in Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
