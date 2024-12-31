@@ -1,46 +1,64 @@
 /* Dropdown Menu */
 ul.profile-dropdown {
-    position: absolute;
-    top: 100%;
-    right: 0;
-    margin-top: 5px;
-    background-color: white;
-    border: 10px solid #ccc;
-    border-radius: 5px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    padding: 10px;
-    list-style: none;
-    z-index: 10;
-    min-width: 150px;
-    max-width: calc(100vw - 20px); /* Prevent it from exceeding the viewport width */
-    overflow: hidden; /* Prevent content from spilling out */
-    transform: translateX(-5px); /* Adjust for slight alignment issues */
-  }
-  
-  ul.profile-dropdown.hidden {
-    display: none;
-  }
-  
-  /* Dropdown Items */
-  ul.profile-dropdown li {
-    padding: 8px 10px;
-    cursor: pointer;
-  }
-  
-  ul.profile-dropdown li:hover {
-    background-color: #f5f5f5;
-  }
-  
-  /* Profile Button */
-  .profile-button-container {
-    position: relative;
-    display: inline-block;
-  }
-  
-  .profile-button-container button {
-    background: none;
-    border: none;
-    cursor: pointer;
-    font-size: 20px;
-  }
-  
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin-top: 10px;
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.2);
+  padding: 10px;
+  list-style: none;
+  z-index: 1000;
+  min-width: 180px;
+  max-width: calc(100vw - 20px); /* Prevent overflow */
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-10px);
+  transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s ease;
+}
+
+ul.profile-dropdown.visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+/* Dropdown Items */
+ul.profile-dropdown .dropdown-item {
+  padding: 8px 10px;
+  font-size: 14px;
+  font-weight: bold;
+  color: #555;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+ul.profile-dropdown .dropdown-item:hover {
+  background-color: #f5f5f5;
+  color: #ff6f61;
+}
+
+/* Dropdown Buttons */
+.dropdown-button {
+  background-color: #ff6f61;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.dropdown-button:hover {
+  background-color: goldenrod;
+  transform: scale(1.05);
+}
+
+/* Profile Button Container */
+.profile-button-container {
+  position: relative;
+  display: inline-block;
+}

@@ -1,48 +1,146 @@
+/* General styling */
 body {
-  font-family: 'Arial', sans-serif; /* Change font family */
-  background-color: #970789; /* Set a light background color */
-  color: #333; /* Default text color */
+  font-family: 'Georgia', serif;
+  background-color: #970789;
+  color: #333;
 }
 
-.landing-page {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 20px;
-  text-align: left;
+/* Navbar styling */
+.navbar {
+  display: flex;
+  justify-content: space-around; /* Space out items (logo and button) */
+  align-items: center; /* Vertically center items */
+  padding: 30px 20px;
+  box-shadow: 4px 10px 24px rgba(0, 0, 0, 0.1);
+  background: linear-gradient(135deg, #742eae, #702a981b);
+  height: 250px;
+  position: relative; /* For positioning child elements */
 }
 
+/* Navbar Logo */
+.navbar-logo {
+  flex: 0;
+}
+
+img.logo {
+  width: auto !important;
+  height: 200px !important; /* Increase logo size */
+  object-fit: contain;
+  transition: transform 0.3s ease, filter 0.3s ease;
+  margin: 0;
+  padding: 0;
+}
+
+img.logo:hover {
+  transform: scale(1.1); /* Slight enlargement on hover */
+  filter: drop-shadow(0px 4px 6px rgba(0, 0, 0, 0.3)); /* Add shadow effect */
+}
+
+/* Navbar Links */
+.navbar-links {
+  display: flex;
+  align-items: center;
+  gap: 20px; /* Add spacing between links */
+  font-size: 16px;
+  color: white;
+}
+
+.navbar-links a {
+  text-decoration: none;
+  color: white;
+  transition: color 0.3s ease;
+}
+
+.navbar-links a:hover {
+  color: #ffcc00; /* Change link color on hover */
+}
+
+/* Profile Button Container */
+.profile-button-container {
+  position: absolute;
+  bottom: 10px; /* Keep aligned to the bottom of the navbar */
+  right: 20px; /* Align to the right side of the navbar */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Profile Button */
+.profile-button {
+  display: flex;
+  align-items: center; /* Center icon vertically */
+  justify-content: center; /* Center icon horizontally */
+  width: 100px; /* Set fixed width for circular button */
+  height: 70px; /* Set fixed height for circular button */
+  background: linear-gradient(135deg, #ff6f61, #ffcc00); /* Gradient background */
+  color: white;
+  border: none;
+  border-radius: 50%; /* Make it circular */
+  font-size: 24px; /* Adjust font size for icon */
+  cursor: pointer;
+  animation: gradientPulse 2s infinite alternate; /* Pulsing effect */
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2); /* Add shadow */
+  transition: transform 0.2s ease, box-shadow 0.3s ease;
+}
+
+.profile-button:hover {
+  transform: scale(1.1); /* Slightly enlarge on hover */
+  box-shadow: 0px 8px 12px rgba(0, 0, 0, 0.3); /* Add shadow on hover */
+}
+
+/* Keyframe Animation for Gradient Pulse */
+@keyframes gradientPulse {
+  0% {
+    background: linear-gradient(135deg, #ff6f61, #ffcc00);
+  }
+  100% {
+    background: linear-gradient(135deg, #ffcc00, #ff6f61);
+  }
+}
+
+/* Profile Icon (SVG) */
+svg.profile-icon {
+  width: 40px; /* Adjust width */
+  height: 50px; /* Adjust height */
+  color: white; /* Ensure icon contrasts with button background */
+}
+
+/* Center the heading */
 .landing-page h1 {
-  font-family: 'Georgia', serif; /* Elegant serif font */
-  color: #412eae; /* A bold, vibrant color */
-  text-align: center; /* Center the H1 */
-  margin-top: 20px; /* Add some space above */
-  font-size: 2.5rem; /* Increase font size */
+  font-family: 'Georgia', serif;
+  color: #ffffff;
+  text-align: center;
+  margin-top: 20px;
+  font-size: 2.5rem;
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
 }
 
+/* Spots grid */
 .spots-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Min size ensures 4 columns max */
-  grid-template-columns: repeat(4, 1fr); /* 4 columns max */
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   gap: 15px;
   margin-top: 20px;
 }
 
+/* Spot cards */
 .spot-card {
   background: #fff;
   border: 1px solid #ddd;
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
   border-radius: 10px;
-  cursor: pointer;
   overflow: hidden;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .spot-card:hover {
-  transform: translateY(-5px); /* Slight upward motion on hover */
-  box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.2); /* Stronger shadow */
-  border-color: #ff6f61; /* Highlight border */
+  transform: translateY(-5px);
+  box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.2);
+  border-color: #ff6f61;
 }
 
+/* Spot image */
 .spot-image {
   position: relative;
   width: 100%;
@@ -50,46 +148,6 @@ body {
   object-fit: cover;
 }
 
-.spot-image::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.5));
-  z-index: 1;
-}
-
 .spot-info {
   padding: 10px;
-}
-
-.spot-header {
-  display: flex;
-  justify-content: space-between; /* Pushes items to opposite sides */
-  align-items: center; /* Aligns items vertically */
-  margin-bottom: 5px; /* Adds slight spacing below the header */
-}
-
-.spot-location {
-  font-size: 16px;
-  font-weight: 600;
-}
-
-.spot-price {
-  font-size: 1.2rem;
-  font-weight: bold;
-  color: #ff6f61; /* Bold red */
-  text-align: left;
-  margin: 10px 0;
-  transition: color 0.3s ease-in-out;
-}
-
-.spot-price:hover {
-  color: #333; /* Subtle dark hover effect */
-}
-
-.tooltip {
-  position: absolute;
 }

@@ -2,17 +2,24 @@ import { NavLink } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import ProfileButton from './ProfileButton';
 import './Navigation.css';
+import { FaUserCircle } from 'react-icons/fa'; // Import Font Awesome Icon
 
 function Navigation({ isLoaded }) {
   const sessionUser = useSelector((state) => state.session.user);
 
   return (
     <nav className="navbar">
+      {/* Logo */}
       <div className="navbar-logo">
         <NavLink to="/">
           <img src="/Logo1.webp" alt="Luxury Villas Logo" className="logo" />
         </NavLink>
       </div>
+
+      {/* Centered Title */}
+      <div className="navbar-title">Escape - Indulge - Relax</div>
+
+      {/* Profile Button */}
       <ul className="navbar-links">
         {sessionUser && (
           <li>
@@ -22,7 +29,7 @@ function Navigation({ isLoaded }) {
           </li>
         )}
         {isLoaded && (
-          <li>
+          <li className="profile-button-container">
             <ProfileButton user={sessionUser} />
           </li>
         )}

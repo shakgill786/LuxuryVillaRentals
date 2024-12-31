@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import { FaUserCircle } from 'react-icons/fa';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate
+import { useNavigate } from 'react-router-dom';
 import * as sessionActions from '../../store/session';
 import OpenModalMenuItem from './OpenModalMenuItem.jsx';
 import LoginFormModal from '../LoginFormModal/LoginFormModal';
@@ -9,7 +9,7 @@ import SignupFormModal from '../SignupFormModal/SignupFormModal';
 
 function ProfileButton({ user }) {
   const dispatch = useDispatch();
-  const navigate = useNavigate(); // Hook to navigate to other routes
+  const navigate = useNavigate();
   const [showMenu, setShowMenu] = useState(false);
   const ulRef = useRef();
 
@@ -31,50 +31,57 @@ function ProfileButton({ user }) {
     return () => document.removeEventListener('click', closeMenu);
   }, [showMenu]);
 
-  const closeMenu = () => setShowMenu(false);
-
   const logout = (e) => {
     e.preventDefault();
     dispatch(sessionActions.logout());
-    closeMenu();
+    setShowMenu(false);
   };
 
   const navigateToManageSpots = () => {
-    closeMenu(); // Close menu before navigating
-    navigate("/manage-spots"); // Navigate to Manage Spots
+    setShowMenu(false);
+    navigate('/manage-spots');
   };
 
-  const ulClassName = `profile-dropdown${showMenu ? '' : ' hidden'}`;
+  const ulClassName = `profile-dropdown ${showMenu ? 'visible' : 'hidden'}`;
 
   return (
     <div className="profile-button-container">
-      <button onClick={toggleMenu}>
-        <FaUserCircle size={24} />
+      <button className="profile-button" onClick={toggleMenu} aria-label="Profile Menu">
+        <FaUserCircle className="profile-icon" />
       </button>
+
       <ul className={ulClassName} ref={ulRef}>
         {user ? (
           <>
-            <li>Hello, {user.username}</li>
-            <li>{user.email}</li>
-            <li>
-              <button onClick={navigateToManageSpots}>Manage Spots</button>
+            <li className="dropdown-item">Hello, {user.username}</li>
+            <li className="dropdown-item">{user.email}</li>
+            <li className="dropdown-item">
+              <button onClick={navigateToManageSpots} className="dropdown-button">
+                Manage Spots
+              </button>
             </li>
-            <li>
-              <button onClick={logout}>Log Out</button>
+            <li className="dropdown-item">
+              <button onClick={logout} className="dropdown-button">
+                Log Out
+              </button>
             </li>
           </>
         ) : (
           <>
-            <OpenModalMenuItem
-              itemText="Sign Up"
-              onItemClick={closeMenu}
-              modalComponent={<SignupFormModal />}
-            />
-            <OpenModalMenuItem
-              itemText="Log In"
-              onItemClick={closeMenu}
-              modalComponent={<LoginFormModal />}
-            />
+            <li className="dropdown-item">
+              <OpenModalMenuItem
+                itemText="Sign Up"
+                onItemClick={() => setShowMenu(false)}
+                modalComponent={<SignupFormModal />}
+              />
+            </li>
+            <li className="dropdown-item">
+              <OpenModalMenuItem
+                itemText="Log In"
+                onItemClick={() => setShowMenu(false)}
+                modalComponent={<LoginFormModal />}
+              />
+            </li>
           </>
         )}
       </ul>
