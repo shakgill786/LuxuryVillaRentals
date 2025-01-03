@@ -85,7 +85,6 @@ module.exports = {
           createdAt: new Date(),
           updatedAt: new Date(),
         },
-        // Additional spots
         {
           ownerId: 1,
           address: '101 Sunset Blvd',
