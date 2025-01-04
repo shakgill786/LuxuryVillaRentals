@@ -2,15 +2,22 @@
   background: #fff;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   overflow: hidden;
-  transition: transform 0.2s ease-in-out;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
   display: flex;
   flex-direction: column;
-  justify-content: space-between; /* Push content to bottom */
-  height: 350px; /* Set a consistent height */
+  justify-content: space-between;
+  height: 350px;
+  position: relative; /* For spotlight effect */
 }
 
 .spot-tile:hover {
-  transform: scale(1.02);
+  transform: scale(1.05);
+  z-index: 2;
+  box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.3);
+}
+
+.spot-tile:hover ~ .spot-tile {
+  opacity: 0.5; /* Dim other cards */
 }
 
 .spot-tile img {
