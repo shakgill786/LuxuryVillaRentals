@@ -1,4 +1,3 @@
-// frontend/src/App.jsx
 import { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { createBrowserRouter, RouterProvider, Outlet } from 'react-router-dom';
@@ -12,15 +11,12 @@ import ManageSpotsPage from './components/ManageSpotsPage/ManageSpotsPage';
 import UpdateSpotForm from "./components/UpdateSpotForm/UpdateSpotForm";
 import * as sessionActions from './store/session';
 
-
 function Layout() {
   const dispatch = useDispatch();
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
-    dispatch(sessionActions.restoreUser()).then(() => {
-      setIsLoaded(true)
-    });
+    dispatch(sessionActions.restoreUser()).then(() => setIsLoaded(true));
   }, [dispatch]);
 
   return (
@@ -32,39 +28,40 @@ function Layout() {
 }
 
 const router = createBrowserRouter([
-    {
-      element: <Layout />,
-      children: [
-        {
-          path: '/',
-          element: <LandingPage />
-        },
-        {
-          path: '/login',
-          element: <LoginFormPage />
-        },
-        { path: "/signup", 
-        element: <SignupFormPage /> },
-        {
-          path: "/spots/:spotId",
-          element: <SpotDetailsPage />,
-        },
-        {
-          path: '/spots/new',
-          element: <CreateSpotForm />
-        },
-        {
-          path: '/manage-spots',
-          element: <ManageSpotsPage />
-        },
-        {
-          path: '/spots/:spotId/edit',
-          element: <UpdateSpotForm />
-        },
-      ]
-    }
-  ]);
-
+  {
+    element: <Layout />,
+    children: [
+      {
+        path: '/',
+        element: <LandingPage />,
+      },
+      {
+        path: '/login',
+        element: <LoginFormPage />,
+      },
+      {
+        path: '/signup',
+        element: <SignupFormPage />,
+      },
+      {
+        path: '/spots/:spotId',
+        element: <SpotDetailsPage />,
+      },
+      {
+        path: '/spots/new',
+        element: <CreateSpotForm />,
+      },
+      {
+        path: '/manage-spots',
+        element: <ManageSpotsPage />,
+      },
+      {
+        path: '/spots/:spotId/edit',
+        element: <UpdateSpotForm />,
+      },
+    ],
+  },
+]);
 
 function App() {
   return <RouterProvider router={router} />;

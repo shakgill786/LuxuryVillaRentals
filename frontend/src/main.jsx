@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { Provider } from 'react-redux';
+import { ParallaxProvider } from 'react-scroll-parallax'; // Import ParallaxProvider
 import App from './App';
 import { Modal, ModalProvider } from './context/Modal'; // Import Modal
 import configureStore from './store/store';
@@ -22,10 +23,12 @@ if (import.meta.env.MODE !== 'production') {
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <Provider store={store}>
-      <ModalProvider>
-        <App />
-        <Modal /> {/* Add Modal here to render modal content */}
-      </ModalProvider>
+      <ParallaxProvider> {/* Parallax effects for the entire app */}
+        <ModalProvider> {/* Provides context for modals */}
+          <App />
+          <Modal /> {/* Renders modal content */}
+        </ModalProvider>
+      </ParallaxProvider>
     </Provider>
   </React.StrictMode>
 );

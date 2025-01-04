@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import Slider from 'react-slick';
+import { Parallax } from 'react-scroll-parallax'; // Parallax import
 import { fetchAllSpots } from '../../store/spots';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
@@ -30,6 +31,8 @@ const LandingPage = () => {
   return (
     <div className="landing-page">
       <h1>Choose Your Dream Pad</h1>
+
+      {/* Carousel Slider */}
       <Slider {...sliderSettings} className="spots-slider">
         {spots.map((spot) => (
           <div
@@ -54,6 +57,33 @@ const LandingPage = () => {
           </div>
         ))}
       </Slider>
+
+      {/* Parallax Grid */}
+      <div className="spots-grid">
+        {spots.map((spot, idx) => (
+          <Parallax key={idx} speed={10 * (idx % 2 === 0 ? 1 : -1)}>
+            <div
+              className="spot-card"
+              onClick={() => navigate(`/spots/${spot.id}`)}
+            >
+              <img
+                src={spot.previewImage || '/placeholder.jpg'}
+                alt={spot.name}
+                className="spot-image"
+              />
+              <div className="spot-info">
+                <div className="spot-header">
+                  <div className="spot-location">{`${spot.city}, ${spot.state}`}</div>
+                  <div className="spot-rating">
+                    {spot.avgRating ? `⭐ ${spot.avgRating.toFixed(1)}` : 'New'}
+                  </div>
+                </div>
+              </div>
+              <div className="spot-price">{`$${spot.price} / night`}</div>
+            </div>
+          </Parallax>
+        ))}
+      </div>
     </div>
   );
 };
