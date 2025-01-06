@@ -37,13 +37,13 @@ const LandingPage = () => {
         {spots.map((spot) => (
           <div
             key={spot.id}
-            className="spot-card"
+            className="spot-card-slider" // Custom class for slider spots
             onClick={() => navigate(`/spots/${spot.id}`)}
           >
             <img
               src={spot.previewImage || '/placeholder.jpg'}
               alt={spot.name}
-              className="spot-image"
+              className="spot-image-slider" // Custom image class for slider
             />
             <div className="spot-info">
               <div className="spot-header">
@@ -63,11 +63,11 @@ const LandingPage = () => {
         {spots.map((spot, idx) => (
           <Parallax
             key={idx}
-            speed={3 * (idx % 2 === 0 ? 1 : -1)} // Adjusted speed for smoother scrolling
-            className="parallax-container"
+            speed={5 * (idx % 2 === 0 ? 1 : -1)} // Adjust speed for smoother scrolling
+            translateY={[-20, 20]} // Constrain vertical movement to avoid overlap
           >
             <div
-              className="spot-card parallax-spot-card"
+              className="spot-card"
               onClick={() => navigate(`/spots/${spot.id}`)}
             >
               <img
