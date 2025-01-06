@@ -135,11 +135,17 @@ img.logo:hover {
 
 /* Spotlight Effect */
 .spots-grid:hover .spot-card {
-  opacity: 0.5;
+  opacity: 0.7; /* Adjusted opacity to prevent full dimming */
 }
 
 .spots-grid:hover .spot-card:hover {
   opacity: 1;
+}
+
+/* Parallax container styling */
+.parallax-container {
+  margin-bottom: 50px;
+  transition: opacity 0.3s ease;
 }
 
 /* Spot image */

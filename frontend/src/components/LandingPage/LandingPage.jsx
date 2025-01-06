@@ -61,9 +61,13 @@ const LandingPage = () => {
       {/* Parallax Grid */}
       <div className="spots-grid">
         {spots.map((spot, idx) => (
-          <Parallax key={idx} speed={10 * (idx % 2 === 0 ? 1 : -1)}>
+          <Parallax
+            key={idx}
+            speed={3 * (idx % 2 === 0 ? 1 : -1)} // Adjusted speed for smoother scrolling
+            className="parallax-container"
+          >
             <div
-              className="spot-card"
+              className="spot-card parallax-spot-card"
               onClick={() => navigate(`/spots/${spot.id}`)}
             >
               <img
