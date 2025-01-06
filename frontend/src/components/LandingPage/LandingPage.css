@@ -111,8 +111,9 @@ img.logo:hover {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   gap: 15px;
-  margin-top: 20px;
-  position: relative; /* For spotlight effect */
+  margin-top: 50px; /* Increased margin to avoid overlapping slider dots */
+  position: relative;
+  z-index: 1; /* Ensure it doesn’t cover other components */
 }
 
 /* Spot cards */
@@ -135,7 +136,7 @@ img.logo:hover {
 
 /* Spotlight Effect */
 .spots-grid:hover .spot-card {
-  opacity: 0.7; /* Adjusted opacity to prevent full dimming */
+  opacity: 0.8; /* Adjusted opacity to prevent full dimming */
 }
 
 .spots-grid:hover .spot-card:hover {
@@ -144,8 +145,9 @@ img.logo:hover {
 
 /* Parallax container styling */
 .parallax-container {
-  margin-bottom: 50px;
-  transition: opacity 0.3s ease;
+  margin-bottom: 70px; /* Add spacing between each parallax layer */
+  z-index: 1;
+  position: relative;
 }
 
 /* Spot image */
@@ -217,6 +219,7 @@ img.logo:hover {
   overflow: hidden;
   box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.2); /* Stronger shadow for emphasis */
   cursor: pointer;
+  margin: 0 10px; /* Add spacing between slider cards */
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
