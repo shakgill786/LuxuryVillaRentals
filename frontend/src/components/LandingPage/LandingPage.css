@@ -73,7 +73,7 @@ img.logo:hover {
   }
 }
 
-/* Center the heading with gradient effect */
+/* Center the heading with gradient and pulse effect */
 .landing-page h1 {
   font-family: 'Georgia', serif;
   background: linear-gradient(90deg, #ff3700, #ff6f61, #ffcc00);
@@ -82,7 +82,8 @@ img.logo:hover {
   text-align: center;
   margin-top: 20px;
   font-size: 2.5rem;
-  animation: gradient-text 5s infinite alternate;
+  animation: gradient-text 5s infinite alternate, pulse 2s infinite ease-in-out;
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
 }
 
 @keyframes gradient-text {
@@ -91,6 +92,17 @@ img.logo:hover {
   }
   100% {
     background-position: 100% 50%;
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 0.8;
   }
 }
 
