@@ -4,6 +4,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import Modal from 'react-modal';
 import { fetchSpotDetails } from '../../store/spots';
 import ReviewsSection from '../ReviewsSection/ReviewsSection';
+import Calendar from 'react-calendar'; // Assuming react-calendar is installed
+import 'react-calendar/dist/Calendar.css'; // Default calendar styles
 import './SpotDetailsPage.css';
 
 const SpotDetailsPage = () => {
@@ -13,6 +15,8 @@ const SpotDetailsPage = () => {
   const spot = useSelector((state) => state.spots.singleSpot);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [checkInDate, setCheckInDate] = useState(null);
+  const [checkOutDate, setCheckOutDate] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -26,8 +30,35 @@ const SpotDetailsPage = () => {
     fetchData();
   }, [dispatch, spotId]);
 
-  const openModal = () => setIsModalOpen(true);
-  const closeModal = () => setIsModalOpen(false);
+  const handleReserve = async () => {
+    if (!checkInDate || !checkOutDate) {
+      alert('Please select check-in and check-out dates.');
+      return;
+    }
+
+    try {
+      const response = await fetch(`/api/bookings`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          spotId,
+          startDate: checkInDate.toISOString().split('T')[0],
+          endDate: checkOutDate.toISOString().split('T')[0],
+        }),
+      });
+
+      if (response.ok) {
+        alert('Reservation successful!');
+        setCheckInDate(null);
+        setCheckOutDate(null);
+      } else {
+        const errorData = await response.json();
+        alert(`Reservation failed: ${errorData.message}`);
+      }
+    } catch (error) {
+      console.error('Error creating reservation:', error);
+    }
+  };
 
   if (isLoading) return <div>Loading...</div>;
   if (!spot) return <div>Spot not found!</div>;
@@ -35,17 +66,17 @@ const SpotDetailsPage = () => {
   return (
     <div className="spot-details-page">
       <header className="spot-header">
-        <h1 onClick={openModal}>{spot.name}</h1>
+        <h1 onClick={() => setIsModalOpen(true)}>{spot.name}</h1>
         <p>
           {spot.city}, {spot.state}, {spot.country}
         </p>
       </header>
 
-      <Modal isOpen={isModalOpen} onRequestClose={closeModal} className="spot-modal">
+      <Modal isOpen={isModalOpen} onRequestClose={() => setIsModalOpen(false)} className="spot-modal">
         <div className="modal-content">
           <h1>{spot.name}</h1>
           <p>{spot.description}</p>
-          <button onClick={closeModal} className="close-modal">
+          <button onClick={() => setIsModalOpen(false)} className="close-modal">
             Close
           </button>
         </div>
@@ -87,10 +118,14 @@ const SpotDetailsPage = () => {
               )}
             </p>
           </div>
-          <button
-            className="reserve-button"
-            onClick={() => alert('Feature Coming Soon')}
-          >
+          <Calendar
+            selectRange={true}
+            onChange={(dates) => {
+              setCheckInDate(dates[0]);
+              setCheckOutDate(dates[1]);
+            }}
+          />
+          <button className="reserve-button" onClick={handleReserve}>
             Reserve
           </button>
         </section>
