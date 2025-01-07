@@ -110,11 +110,11 @@ img.logo:hover {
 .spots-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  gap: 15px;
-  margin-top: 100px; /* Increased margin to avoid overlapping slider dots */
+  gap: 30px; /* Increased gap for more space between spot cards */
+  margin-top: 100px;
   margin-bottom: 100px;
   position: relative;
-  z-index: 1; /* Ensure it doesn’t cover other components */
+  z-index: 1;
 }
 
 /* Spot cards */
@@ -124,8 +124,6 @@ img.logo:hover {
   border-radius: 10px;
   overflow: hidden;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-  margin-top: 100px;
-  margin-bottom: 100px;
   cursor: pointer;
   transition: transform 0.3s ease, box-shadow 0.3s ease, opacity 0.3s ease;
 }
@@ -134,13 +132,12 @@ img.logo:hover {
   transform: translateY(-5px);
   box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.2);
   border-color: #ff6f61;
-  margin: 50px;
-  z-index: 2; /* Brings hovered card to the front */
+  z-index: 2;
 }
 
 /* Spotlight Effect */
 .spots-grid:hover .spot-card {
-  opacity: 0.8; /* Adjusted opacity to prevent full dimming */
+  opacity: 0.8;
 }
 
 .spots-grid:hover .spot-card:hover {
@@ -149,7 +146,7 @@ img.logo:hover {
 
 /* Parallax container styling */
 .parallax-container {
-  margin-bottom: 200px; /* Add spacing between each parallax layer */
+  margin-bottom: 70px; /* Add spacing between parallax sections */
   z-index: 1;
   position: relative;
 }
@@ -217,13 +214,13 @@ img.logo:hover {
 
 /* Spot cards in Slider */
 .spot-card-slider {
-  background: linear-gradient(135deg, #f8f9fa, #e6e6e6); /* Distinct gradient */
+  background: linear-gradient(135deg, #f8f9fa, #e6e6e6);
   border: 2px solid #ff6f61;
-  border-radius: 15px; /* Rounded corners */
+  border-radius: 15px;
   overflow: hidden;
-  box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.2); /* Stronger shadow for emphasis */
+  box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.2);
   cursor: pointer;
-  margin: 0 10px; /* Add spacing between slider cards */
+  margin: 0 10px;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
