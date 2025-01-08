@@ -10,7 +10,7 @@ import './SpotDetailsPage.css';
 
 const SpotDetailsPage = () => {
   const { spotId } = useParams();
-  const navigate = useNavigate(); // Added for navigation
+  const navigate = useNavigate(); // For navigation
   const dispatch = useDispatch();
   const loggedInUser = useSelector((state) => state.session.user);
   const spot = useSelector((state) => state.spots.singleSpot);
@@ -113,6 +113,11 @@ const SpotDetailsPage = () => {
               setCheckInDate(dates[0]);
               setCheckOutDate(dates[1]);
             }}
+            tileClassName={({ date, view }) =>
+              view === 'month' && new Date().toDateString() === date.toDateString()
+                ? 'highlight-today' // Add a custom class for today
+                : null
+            }
           />
           <button className="reserve-button" onClick={handleReserve}>
             Reserve
