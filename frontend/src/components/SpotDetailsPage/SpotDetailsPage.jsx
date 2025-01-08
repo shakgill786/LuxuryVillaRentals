@@ -1,16 +1,16 @@
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import Modal from 'react-modal';
 import { fetchSpotDetails } from '../../store/spots';
 import ReviewsSection from '../ReviewsSection/ReviewsSection';
 import Calendar from 'react-calendar'; // Assuming react-calendar is installed
-import { csrfFetch } from '../../store/csrf'; // Updated to use CSRF fetch
 import 'react-calendar/dist/Calendar.css'; // Default calendar styles
 import './SpotDetailsPage.css';
 
 const SpotDetailsPage = () => {
   const { spotId } = useParams();
+  const navigate = useNavigate(); // Added for navigation
   const dispatch = useDispatch();
   const loggedInUser = useSelector((state) => state.session.user);
   const spot = useSelector((state) => state.spots.singleSpot);
@@ -31,33 +31,22 @@ const SpotDetailsPage = () => {
     fetchData();
   }, [dispatch, spotId]);
 
-  const handleReserve = async () => {
+  const handleReserve = () => {
     if (!checkInDate || !checkOutDate) {
       alert('Please select check-in and check-out dates.');
       return;
     }
 
-    try {
-      const response = await csrfFetch(`/api/bookings`, {
-        method: 'POST',
-        body: JSON.stringify({
-          spotId,
-          startDate: checkInDate.toISOString().split('T')[0],
-          endDate: checkOutDate.toISOString().split('T')[0],
-        }),
-      });
-
-      if (response.ok) {
-        alert('Reservation successful!');
-        setCheckInDate(null);
-        setCheckOutDate(null);
-      } else {
-        const errorData = await response.json();
-        alert(`Reservation failed: ${errorData.message}`);
-      }
-    } catch (error) {
-      console.error('Error creating reservation:', error);
-    }
+    // Navigate to the reservation page with query parameters
+    navigate('/reserve', {
+      state: {
+        spotId,
+        checkInDate: checkInDate.toISOString().split('T')[0],
+        checkOutDate: checkOutDate.toISOString().split('T')[0],
+        spotName: spot.name,
+        spotPrice: spot.price,
+      },
+    });
   };
 
   if (isLoading) return <div>Loading...</div>;

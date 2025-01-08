@@ -7,6 +7,7 @@ const reviewsRouter = require('./reviews');
 const bookingsRouter = require('./bookings');
 const reviewImagesRouter = require('./review-images');
 const spotImagesRouter = require('./spot-images');
+const reservationsRouter = require('./reservations'); // Import reservations route
 
 const router = express.Router();
 
@@ -19,6 +20,7 @@ router.use('/reviews', reviewsRouter);
 router.use('/bookings', bookingsRouter);
 router.use('/review-images', reviewImagesRouter);
 router.use('/spot-images', spotImagesRouter);
+router.use('/reservations', reservationsRouter); // Use reservations route
 
 // CSRF Token Route
 router.get('/csrf/restore', (req, res) => {

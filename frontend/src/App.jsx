@@ -9,6 +9,7 @@ import SpotDetailsPage from './components/SpotDetailsPage/SpotDetailsPage';
 import CreateSpotForm from './components/CreateSpotForm/CreateSpotForm';
 import ManageSpotsPage from './components/ManageSpotsPage/ManageSpotsPage';
 import UpdateSpotForm from "./components/UpdateSpotForm/UpdateSpotForm";
+import ReservationPage from "./components/ReservationPage/ReservationPage"; // Import the reservation page
 import * as sessionActions from './store/session';
 
 function Layout() {
@@ -58,6 +59,10 @@ const router = createBrowserRouter([
       {
         path: '/spots/:spotId/edit',
         element: <UpdateSpotForm />,
+      },
+      {
+        path: '/reserve', // Add route for reservation page
+        element: <ReservationPage />,
       },
     ],
   },
