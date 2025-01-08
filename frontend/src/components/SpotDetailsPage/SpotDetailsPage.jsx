@@ -5,6 +5,7 @@ import Modal from 'react-modal';
 import { fetchSpotDetails } from '../../store/spots';
 import ReviewsSection from '../ReviewsSection/ReviewsSection';
 import Calendar from 'react-calendar'; // Assuming react-calendar is installed
+import { csrfFetch } from '../../store/csrf'; // Updated to use CSRF fetch
 import 'react-calendar/dist/Calendar.css'; // Default calendar styles
 import './SpotDetailsPage.css';
 
@@ -37,9 +38,8 @@ const SpotDetailsPage = () => {
     }
 
     try {
-      const response = await fetch(`/api/bookings`, {
+      const response = await csrfFetch(`/api/bookings`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           spotId,
           startDate: checkInDate.toISOString().split('T')[0],

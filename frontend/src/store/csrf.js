@@ -11,16 +11,17 @@ export async function csrfFetch(url, options = {}) {
     options.headers['XSRF-Token'] = Cookies.get('XSRF-TOKEN');
   }
 
-  options.credentials = "include";
+  options.credentials = 'include';
 
-  const res = await window.fetch(url, options);
+  const res = await fetch(url, options);
 
   if (res.status >= 400) throw res;
 
   return res;
 }
 
-// Restore the CSRF token
-export function restoreCSRF() {
-  return csrfFetch('/api/csrf/restore');
+// Restore CSRF Token
+export async function restoreCSRF() {
+  const res = await csrfFetch('/api/csrf/restore');
+  return res;
 }
