@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useLocation } from 'react-router-dom';
+import { csrfFetch } from '../../store/csrf'; // Use CSRF fetch
 import './ReservationPage.css';
 
 const ReservationPage = () => {
@@ -31,9 +32,8 @@ const ReservationPage = () => {
     e.preventDefault();
 
     try {
-      const response = await fetch('/api/reservations', {
+      const response = await csrfFetch('/api/reservations', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           ...formData,
           spotId,
