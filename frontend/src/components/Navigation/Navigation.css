@@ -42,7 +42,7 @@ body {
   left: 50%;
   transform: translateX(-50%); /* Adjust to truly center */
   font-family: 'Georgia', serif; /* Elegant serif font */
-  font-size: 3rem; /* Larger font size */
+  font-size: 2rem; /* Adjusted font size for better responsiveness */
   color: transparent; /* Gradient text effect */
   background: linear-gradient(135deg, #ff3700ce, #ff6f61); /* Gradient for text */
   -webkit-background-clip: text;
@@ -52,25 +52,31 @@ body {
   text-transform: uppercase; /* Make text all caps */
   animation: glow 3s infinite alternate, fadeIn 1.5s; /* Add glowing and fade-in effects */
   z-index: 2; /* Ensure it is on top of other elements */
+  white-space: nowrap; /* Prevent wrapping of text */
 }
 
-/* Glowing animation */
-@keyframes glow {
-  from {
-    text-shadow: 2px 2px 4px rgba(255, 215, 0, 0.5);
+/* Responsive Design for Navbar */
+@media (max-width: 768px) {
+  .navbar {
+    flex-direction: column; /* Stack elements vertically */
+    height: auto; /* Adjust height for content */
+    padding: 10px 15px;
   }
-  to {
-    text-shadow: 2px 2px 10px rgba(255, 215, 0, 1);
-  }
-}
 
-/* Fade-in animation */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
+  .navbar-title {
+    font-size: 1.5rem; /* Reduce font size on smaller screens */
+    position: static; /* Remove absolute positioning */
+    transform: none; /* Reset transform */
+    margin-bottom: 10px; /* Add spacing between title and other elements */
   }
-  to {
-    opacity: 1;
+
+  .profile-button-container {
+    justify-content: flex-start; /* Align buttons to the left */
+    margin-top: 10px; /* Add spacing above buttons */
+  }
+
+  .navbar-logo img.logo {
+    height: 60px; /* Reduce logo size */
   }
 }
 
@@ -160,6 +166,7 @@ ul.profile-dropdown li:hover {
 .navbar-links button:hover .dropdown-arrow {
   transform: rotate(180deg); /* Flip arrow on hover */
 }
+
 /* Create Spot Button */
 .create-spot-button {
   padding: 10px 15px;
