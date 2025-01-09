@@ -21,12 +21,12 @@ body {
 /* Navbar Logo */
 .navbar-logo {
   flex: 0 0 auto;
-  margin-bottom: 10px; /* Add space between the logo and the title */
+  margin-bottom: 10px;
 }
 
 img.logo {
   width: auto;
-  height: 120px; /* Increased logo size */
+  height: 120px;
   object-fit: contain;
   transition: transform 0.3s ease, filter 0.3s ease;
 }
@@ -40,12 +40,12 @@ img.logo:hover {
 .navbar-title {
   flex: 1 1 auto;
   text-align: center;
-  font-family: 'Dancing Script', cursive; /* Fancy font */
+  font-family: 'Dancing Script', cursive;
   font-size: 2.5rem;
   color: transparent;
   background: linear-gradient(135deg, #ff3700, #ff6f61, #ffcc00);
   background-clip: text;
-  -webkit-background-clip: text; /* Webkit-prefixed for compatibility */
+  -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   letter-spacing: 3px;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
@@ -79,23 +79,22 @@ img.logo:hover {
 /* Responsive Design for Navbar */
 @media (max-width: 768px) {
   .navbar {
-    flex-direction: column; /* Stack items vertically */
+    flex-direction: column;
     justify-content: center;
   }
 
   .navbar-logo {
     flex: 0 0 auto;
-    margin-bottom: 10px; /* Space between logo and title */
+    margin-bottom: 10px;
   }
 
   img.logo {
     width: auto;
-    height: 100px; /* Adjusted logo size for smaller screens */
-    object-fit: contain;
+    height: 100px;
   }
 
   .navbar-title {
-    font-size: 2rem; /* Adjust font size for smaller screens */
+    font-size: 2rem;
     margin-top: 5px;
   }
 }
@@ -104,8 +103,8 @@ img.logo:hover {
 .landing-page h1 {
   font-family: 'Georgia', serif;
   background: linear-gradient(90deg, #ff3700, #ff6f61, #ffcc00);
-  background-clip: text; /* Standard property */
-  -webkit-background-clip: text; /* Webkit-prefixed for compatibility */
+  background-clip: text;
+  -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   text-align: center;
   margin-top: 20px;
@@ -140,7 +139,7 @@ img.logo:hover {
 .spots-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  gap: 30px; /* Increased gap for more space between spot cards */
+  gap: 30px;
   margin-top: 100px;
   margin-bottom: 100px;
   position: relative;
@@ -240,13 +239,13 @@ img.logo:hover {
 }
 
 .slick-dots li.slick-active button:before {
-  color: #ffcc00;
+  color: #ffffff; /* Updated to white for active dots */
 }
 
 /* Spot cards in Slider */
 .spot-card-slider {
   background: linear-gradient(135deg, #f8f9fa, #e6e6e6);
-  border: 2px solid #ff6f61;
+  border: 2px solid white; /* Updated to white */
   border-radius: 15px;
   overflow: hidden;
   box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.2);
@@ -265,5 +264,6 @@ img.logo:hover {
   width: 100%;
   height: 200px;
   object-fit: cover;
-  border-bottom: 1px solid #ddd;
+  border: 4px solid white; /* Updated border to white */
+  border-radius: 15px;
 }
