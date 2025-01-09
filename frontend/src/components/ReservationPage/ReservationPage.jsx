@@ -1,7 +1,11 @@
 import { useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import './ReservationPage.css';
 
 const ReservationPage = () => {
+  const location = useLocation();
+  const { spotId, checkInDate, checkOutDate, spotName, spotPrice } = location.state || {};
+
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -11,7 +15,7 @@ const ReservationPage = () => {
     expirationDate: '',
     securityCode: '',
   });
-  const [progress, setProgress] = useState(0); // Progress for the progress bar
+  const [progress, setProgress] = useState(0);
   const [reservationSuccess, setReservationSuccess] = useState(false);
 
   const handleChange = (e) => {
@@ -20,7 +24,7 @@ const ReservationPage = () => {
       ...prevState,
       [name]: value,
     }));
-    setProgress((prevProgress) => Math.min(prevProgress + 10, 100)); // Increment progress
+    setProgress((prevProgress) => Math.min(prevProgress + 10, 100));
   };
 
   const handleSubmit = async (e) => {
@@ -30,11 +34,16 @@ const ReservationPage = () => {
       const response = await fetch('/api/reservations', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({
+          ...formData,
+          spotId,
+          checkInDate,
+          checkOutDate,
+        }),
       });
 
       if (response.ok) {
-        setReservationSuccess(true); // Show success message
+        setReservationSuccess(true);
       } else {
         const errorData = await response.json();
         alert(`Error: ${errorData.message}`);
@@ -50,17 +59,19 @@ const ReservationPage = () => {
       {reservationSuccess ? (
         <div className="success-message">
           <h1>🎉 Reservation Confirmed!</h1>
-          <p>Thank you for booking with us. You’ll receive a confirmation email shortly.</p>
+          <p>
+            Thank you for booking {spotName}! Your stay from {checkInDate} to {checkOutDate} is confirmed.
+          </p>
         </div>
       ) : (
         <>
           <div className="progress-bar">
-            <div
-              className="progress-bar-fill"
-              style={{ width: `${progress}%` }}
-            ></div>
+            <div className="progress-bar-fill" style={{ width: `${progress}%` }}></div>
           </div>
           <h1>Confirm Your Reservation</h1>
+          <p>
+            Booking for <strong>{spotName}</strong> at <strong>${spotPrice}/night</strong>
+          </p>
           <form onSubmit={handleSubmit} className="reservation-form">
             <div className="form-group">
               <label>Name</label>

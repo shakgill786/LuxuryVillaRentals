@@ -1,6 +1,5 @@
 import Cookies from 'js-cookie';
 
-// Custom CSRF fetch function
 export async function csrfFetch(url, options = {}) {
   options.method = options.method || 'GET';
   options.headers = options.headers || {};
@@ -20,7 +19,6 @@ export async function csrfFetch(url, options = {}) {
   return res;
 }
 
-// Restore CSRF Token
 export async function restoreCSRF() {
   const res = await csrfFetch('/api/csrf/restore');
   return res;

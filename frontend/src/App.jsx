@@ -61,7 +61,7 @@ const router = createBrowserRouter([
         element: <UpdateSpotForm />,
       },
       {
-        path: '/reserve', // Add route for reservation page
+        path: '/reserve',
         element: <ReservationPage />,
       },
     ],
