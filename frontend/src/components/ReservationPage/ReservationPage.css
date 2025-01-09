@@ -1,3 +1,4 @@
+/* General styling */
 .reservation-page {
   max-width: 600px;
   margin: 20px auto;
@@ -72,6 +73,20 @@
   outline: none;
 }
 
+/* Card Number Container */
+.card-number-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Card Logo Styling */
+.card-logo {
+  width: 40px;
+  height: auto;
+}
+
+/* Submit Button */
 .submit-button {
   background-color: #4caf50;
   color: white;
@@ -116,6 +131,23 @@
   font-size: 1.2em;
   color: #333;
   margin-top: 10px;
+}
+
+/* Close Button Styling */
+.close-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: transparent;
+  border: none;
+  font-size: 1.5rem;
+  color: #333;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.close-button:hover {
+  color: #ff6f61;
 }
 
 /* Keyframe Animation */

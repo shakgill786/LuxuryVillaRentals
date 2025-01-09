@@ -1,10 +1,33 @@
 import { useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { csrfFetch } from '../../store/csrf'; // Use CSRF fetch
 import './ReservationPage.css';
 
+const cardLogos = {
+  visa: '/path-to-visa-logo.png',
+  mastercard: '/path-to-mastercard-logo.png',
+  amex: '/path-to-amex-logo.png',
+  discover: '/path-to-discover-logo.png',
+};
+
+const getCardType = (number) => {
+  const patterns = {
+    visa: /^4/,
+    mastercard: /^5[1-5]/,
+    amex: /^3[47]/,
+    discover: /^6(?:011|5)/,
+  };
+
+  for (const [cardType, pattern] of Object.entries(patterns)) {
+    if (pattern.test(number)) return cardType;
+  }
+
+  return null;
+};
+
 const ReservationPage = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const { spotId, checkInDate, checkOutDate, spotName, spotPrice } = location.state || {};
 
   const [formData, setFormData] = useState({
@@ -16,6 +39,7 @@ const ReservationPage = () => {
     expirationDate: '',
     securityCode: '',
   });
+  const [cardType, setCardType] = useState(null);
   const [progress, setProgress] = useState(0);
   const [reservationSuccess, setReservationSuccess] = useState(false);
 
@@ -26,6 +50,10 @@ const ReservationPage = () => {
       [name]: value,
     }));
     setProgress((prevProgress) => Math.min(prevProgress + 10, 100));
+
+    if (name === 'cardNumber') {
+      setCardType(getCardType(value));
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -65,6 +93,12 @@ const ReservationPage = () => {
         </div>
       ) : (
         <>
+          <button
+            className="close-button"
+            onClick={() => navigate(`/spots/${spotId}`)}
+          >
+            ✖
+          </button>
           <div className="progress-bar">
             <div className="progress-bar-fill" style={{ width: `${progress}%` }}></div>
           </div>
@@ -115,13 +149,22 @@ const ReservationPage = () => {
             </div>
             <div className="form-group">
               <label>Credit Card Number</label>
-              <input
-                type="text"
-                name="cardNumber"
-                value={formData.cardNumber}
-                onChange={handleChange}
-                required
-              />
+              <div className="card-number-container">
+                <input
+                  type="text"
+                  name="cardNumber"
+                  value={formData.cardNumber}
+                  onChange={handleChange}
+                  required
+                />
+                {cardType && (
+                  <img
+                    src={cardLogos[cardType]}
+                    alt={`${cardType} logo`}
+                    className="card-logo"
+                  />
+                )}
+              </div>
             </div>
             <div className="form-group">
               <label>Expiration Date (MM/YY)</label>
