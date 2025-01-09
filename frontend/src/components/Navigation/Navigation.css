@@ -63,20 +63,27 @@ body {
     padding: 10px 15px;
   }
 
-  .navbar-title {
-    font-size: 1.5rem; /* Reduce font size on smaller screens */
-    position: static; /* Remove absolute positioning */
-    transform: none; /* Reset transform */
-    margin-bottom: 10px; /* Add spacing between title and other elements */
-  }
-
-  .profile-button-container {
-    justify-content: flex-start; /* Align buttons to the left */
-    margin-top: 10px; /* Add spacing above buttons */
+  .navbar-logo {
+    margin: 0 auto 10px; /* Center logo and add spacing below it */
+    display: flex;
+    justify-content: center;
   }
 
   .navbar-logo img.logo {
     height: 60px; /* Reduce logo size */
+  }
+
+  .navbar-title {
+    font-size: 1.5rem; /* Reduce font size on smaller screens */
+    position: static; /* Remove absolute positioning */
+    transform: none; /* Reset transform */
+    text-align: center; /* Center align text */
+    margin-bottom: 10px; /* Add spacing between title and other elements */
+  }
+
+  .profile-button-container {
+    justify-content: center; /* Center align buttons */
+    margin-top: 10px; /* Add spacing above buttons */
   }
 }
 
