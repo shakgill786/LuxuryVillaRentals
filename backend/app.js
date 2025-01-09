@@ -40,10 +40,16 @@ app.use(
 );
 
 app.use((req, res, next) => {
-  const csrfToken = req.csrfToken();
-  res.cookie('XSRF-TOKEN', csrfToken);
-  res.locals.csrfToken = csrfToken;
-  next();
+  try {
+    const csrfToken = req.csrfToken();
+    console.log('Generated CSRF Token:', csrfToken); // Debugging
+    res.cookie('XSRF-TOKEN', csrfToken);
+    res.locals.csrfToken = csrfToken;
+    next();
+  } catch (error) {
+    console.error('CSRF Middleware Error:', error); // Debugging
+    next(error);
+  }
 });
 
 // Restore user session
