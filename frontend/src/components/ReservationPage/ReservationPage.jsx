@@ -3,13 +3,16 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { csrfFetch } from '../../store/csrf'; // Use CSRF fetch
 import './ReservationPage.css';
 
+// Map card types to their respective logos
 const cardLogos = {
-  visa: '/path-to-visa-logo.png',
-  mastercard: '/path-to-mastercard-logo.png',
-  amex: '/path-to-amex-logo.png',
-  discover: '/path-to-discover-logo.png',
+  visa: '/visa.png',
+  mastercard: '/mastercard.png',
+  amex: '/amex.png',
+  discover: '/discover.png',
+  default: '/default.png',
 };
 
+// Function to detect card type based on the card number
 const getCardType = (number) => {
   const patterns = {
     visa: /^4/,
@@ -22,7 +25,7 @@ const getCardType = (number) => {
     if (pattern.test(number)) return cardType;
   }
 
-  return null;
+  return 'default'; // Fallback to default if no pattern matches
 };
 
 const ReservationPage = () => {
@@ -39,7 +42,7 @@ const ReservationPage = () => {
     expirationDate: '',
     securityCode: '',
   });
-  const [cardType, setCardType] = useState(null);
+  const [cardType, setCardType] = useState('default');
   const [progress, setProgress] = useState(0);
   const [reservationSuccess, setReservationSuccess] = useState(false);
 
@@ -157,13 +160,11 @@ const ReservationPage = () => {
                   onChange={handleChange}
                   required
                 />
-                {cardType && (
-                  <img
-                    src={cardLogos[cardType]}
-                    alt={`${cardType} logo`}
-                    className="card-logo"
-                  />
-                )}
+                <img
+                  src={cardLogos[cardType]}
+                  alt={`${cardType} logo`}
+                  className="card-logo"
+                />
               </div>
             </div>
             <div className="form-group">
