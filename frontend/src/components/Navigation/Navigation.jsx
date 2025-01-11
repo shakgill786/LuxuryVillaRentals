@@ -18,21 +18,15 @@ function Navigation({ isLoaded }) {
       {/* Centered Title */}
       <div className="navbar-title">Escape - Indulge - Relax</div>
 
-      {/* Profile Button */}
-      <ul className="navbar-links">
+      {/* Auth/User Buttons */}
+      <div className="navbar-auth">
         {sessionUser && (
-          <li>
-            <NavLink to="/spots/new" className="create-spot-button">
-              Create a New Spot
-            </NavLink>
-          </li>
+          <NavLink to="/spots/new" className="create-spot-button">
+            Create a New Spot
+          </NavLink>
         )}
-        {isLoaded && (
-          <li className="profile-button-container">
-            <ProfileButton user={sessionUser} />
-          </li>
-        )}
-      </ul>
+        {isLoaded && <ProfileButton user={sessionUser} />}
+      </div>
     </nav>
   );
 }
