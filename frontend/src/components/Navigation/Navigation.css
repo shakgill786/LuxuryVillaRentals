@@ -12,8 +12,7 @@ body {
   padding: 10px 20px;
   border-bottom: 2px solid #b79a6d; /* Stylish bottom border */
   position: relative; /* Allow absolute positioning for title */
-  height: auto; /* Adjust height for responsiveness */
-  flex-wrap: nowrap; /* Prevent wrapping on smaller screens */
+  flex-wrap: nowrap; /* Prevent stacking */
 }
 
 /* Logo */
@@ -58,7 +57,7 @@ body {
 .navbar-links {
   display: flex;
   align-items: center;
-  gap: 10px; /* Space between buttons */
+  gap: 15px; /* Space between buttons */
   margin-left: auto; /* Push to the far right */
 }
 
@@ -115,8 +114,8 @@ ul.profile-dropdown li:hover {
   background: linear-gradient(135deg, #ffcc00, #ff6f61); /* Gradient background */
   color: white; /* White text */
   border: none;
-  padding: 12px 20px;
-  border-radius: 25px; /* Rounded button for a modern look */
+  padding: 10px 20px; /* Adjust padding for size consistency */
+  border-radius: 25px; /* Rounded button */
   font-size: 16px;
   font-weight: bold;
   cursor: pointer;
@@ -126,14 +125,14 @@ ul.profile-dropdown li:hover {
 
 .navbar-links button:hover {
   background: linear-gradient(135deg, #ff6f61, #ffcc00); /* Reverse gradient */
-  transform: scale(1.15); /* More pronounced hover effect */
+  transform: scale(1.1); /* More pronounced hover effect */
   box-shadow: 0px 8px 15px rgba(255, 215, 0, 0.5); /* Bright glow effect */
 }
 
-/* Responsive Design for Navbar */
+/* Responsive Design */
 @media (max-width: 768px) {
   .navbar {
-    flex-wrap: nowrap; /* Prevent stacking */
+    padding: 10px 15px;
   }
 
   .navbar-logo img.logo {
@@ -141,15 +140,15 @@ ul.profile-dropdown li:hover {
   }
 
   .navbar-title {
-    font-size: 1.5rem; /* Adjust title size */
-    text-align: center;
+    font-size: 1.5rem; /* Smaller title font size */
   }
 
   .navbar-links {
-    justify-content: flex-end; /* Ensure buttons stay on the right */
-    gap: 10px;
+    flex: 0 0 auto; /* Prevent buttons from growing */
+    gap: 10px; /* Space out buttons */
   }
 }
+
 
 /* Create Spot Button */
 .create-spot-button {
@@ -167,6 +166,7 @@ ul.profile-dropdown li:hover {
   background-color: darkgoldenrod;
   transform: scale(1.1);
 }
+
 
 /* Keyframe Animations */
 @keyframes glow {
