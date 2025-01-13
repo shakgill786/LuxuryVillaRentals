@@ -19,13 +19,17 @@ function Navigation({ isLoaded }) {
       <div className="navbar-title">Escape - Indulge - Relax</div>
 
       {/* Auth/User Buttons */}
-      <div className="navbar-auth">
+      <div className="navbar-links">
         {sessionUser && (
           <NavLink to="/spots/new" className="create-spot-button">
             Create a New Spot
           </NavLink>
         )}
-        {isLoaded && <ProfileButton user={sessionUser} />}
+        {isLoaded && (
+          <div className="profile-button-container">
+            <ProfileButton user={sessionUser} />
+          </div>
+        )}
       </div>
     </nav>
   );

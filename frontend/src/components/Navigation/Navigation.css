@@ -6,12 +6,11 @@ body {
 /* Navbar Styling */
 .navbar {
   display: flex;
-  justify-content: space-between; /* Space between logo and buttons */
-  align-items: center; /* Vertically align items */
-  background-color: #192231; /* Navbar background */
+  justify-content: space-between; /* Keep logo on the left, buttons on the right */
+  align-items: center;
+  background-color: #192231;
   padding: 10px 20px;
-  border-bottom: 2px solid #b79a6d; /* Stylish bottom border */
-  position: relative; /* Allow absolute positioning for title */
+  border-bottom: 2px solid #b79a6d;
   flex-wrap: nowrap; /* Prevent stacking */
 }
 
@@ -21,53 +20,46 @@ body {
 }
 
 .navbar-logo img.logo {
-  height: 80px; /* Adjust logo size */
-  width: auto; /* Maintain aspect ratio */
+  height: 80px;
+  width: auto;
   cursor: pointer;
-  transition: all 0.3s ease-in-out;
-  border-radius: 50%; /* Rounded logo */
-  border: 2px solid #b79a6d; /* Border for logo */
+  transition: transform 0.3s ease, filter 0.3s ease;
+  border-radius: 50%;
+  border: 2px solid #b79a6d;
 }
 
 .navbar-logo img.logo:hover {
-  transform: scale(1.1); /* Slight zoom on hover */
-  border: 2px solid goldenrod; /* Highlighted border on hover */
-  box-shadow: 0px 4px 8px rgba(255, 215, 0, 0.5); /* Glow effect */
+  transform: scale(1.1);
+  border: 2px solid goldenrod;
+  box-shadow: 0px 4px 8px rgba(255, 215, 0, 0.5);
 }
 
 /* Centered Title */
 .navbar-title {
-  flex: 1; /* Allow the title to expand */
-  text-align: center; /* Center align text */
-  font-family: 'Georgia', serif; /* Elegant serif font */
-  font-size: 2rem; /* Adjusted font size for better responsiveness */
-  color: transparent; /* Gradient text effect */
-  background: linear-gradient(135deg, #ff3700ce, #ff6f61); /* Gradient for text */
+  flex-grow: 1; /* Push logo and buttons to opposite ends */
+  text-align: center;
+  font-family: 'Georgia', serif;
+  font-size: 2rem;
+  color: transparent;
+  background: linear-gradient(135deg, #ff3700ce, #ff6f61);
   -webkit-background-clip: text;
   background-clip: text;
-  letter-spacing: 2px; /* Spaced-out letters */
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Subtle shadow for emphasis */
-  text-transform: uppercase; /* Make text all caps */
-  animation: glow 3s infinite alternate, fadeIn 1.5s; /* Add glowing and fade-in effects */
-  z-index: 2; /* Ensure it is on top of other elements */
-  white-space: nowrap; /* Prevent wrapping of text */
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  text-transform: uppercase;
+  animation: glow 3s infinite alternate, fadeIn 1.5s;
+  white-space: nowrap;
 }
 
 /* Profile/Auth Buttons */
 .navbar-links {
   display: flex;
   align-items: center;
-  gap: 15px; /* Space between buttons */
-  margin-left: auto; /* Push to the far right */
+  gap: 15px;
+  flex: 0 0 auto; /* Prevent buttons from growing */
 }
 
-/* Profile Button Container */
 .profile-button-container {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end; /* Ensure it's aligned to the right */
-  position: relative; /* For dropdown positioning */
-  gap: 10px; /* Add spacing for possible additional items */
+  position: relative;
 }
 
 /* Profile Dropdown Styling */
@@ -81,74 +73,72 @@ ul.profile-dropdown {
   border-radius: 10px;
   padding: 15px;
   min-width: 180px;
-  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.2); /* Slightly stronger shadow */
-  z-index: 1000; /* Ensure dropdown appears above other content */
+  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
   opacity: 0;
   visibility: hidden;
-  transform: translateY(-10px); /* Slight animation for dropdown */
+  transform: translateY(-10px);
   transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
 }
 
 ul.profile-dropdown.visible {
   opacity: 1;
   visibility: visible;
-  transform: translateY(0); /* Slide-in effect */
+  transform: translateY(0);
 }
 
 ul.profile-dropdown li {
   margin: 10px 0;
   font-size: 15px;
   font-weight: bold;
-  color: #555; /* Subtle text color */
+  color: #555;
   text-align: left;
   transition: color 0.3s ease;
 }
 
 ul.profile-dropdown li:hover {
-  color: #ff6f61; /* Highlight color on hover */
-  cursor: pointer; /* Pointer cursor for interactive items */
+  color: #ff6f61;
+  cursor: pointer;
 }
 
 /* Profile Button Styling */
-.navbar-links button {
-  background: linear-gradient(135deg, #ffcc00, #ff6f61); /* Gradient background */
-  color: white; /* White text */
+.profile-button-container button {
+  background: linear-gradient(135deg, #ffcc00, #ff6f61);
+  color: white;
   border: none;
-  padding: 10px 20px; /* Adjust padding for size consistency */
-  border-radius: 25px; /* Rounded button */
+  padding: 10px 20px;
+  border-radius: 25px;
   font-size: 16px;
   font-weight: bold;
   cursor: pointer;
   transition: background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
-  box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.15); /* Dynamic shadow */
+  box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.15);
 }
 
-.navbar-links button:hover {
-  background: linear-gradient(135deg, #ff6f61, #ffcc00); /* Reverse gradient */
-  transform: scale(1.1); /* More pronounced hover effect */
-  box-shadow: 0px 8px 15px rgba(255, 215, 0, 0.5); /* Bright glow effect */
+.profile-button-container button:hover {
+  background: linear-gradient(135deg, #ff6f61, #ffcc00);
+  transform: scale(1.1);
+  box-shadow: 0px 8px 15px rgba(255, 215, 0, 0.5);
 }
 
 /* Responsive Design */
 @media (max-width: 768px) {
   .navbar {
-    padding: 10px 15px;
+    flex-wrap: nowrap; /* Keep elements in one row */
   }
 
   .navbar-logo img.logo {
-    height: 60px; /* Adjust logo size for smaller screens */
+    height: 60px;
   }
 
   .navbar-title {
-    font-size: 1.5rem; /* Smaller title font size */
+    font-size: 1.5rem;
   }
 
   .navbar-links {
-    flex: 0 0 auto; /* Prevent buttons from growing */
-    gap: 10px; /* Space out buttons */
+    gap: 10px;
   }
 }
-
 
 /* Create Spot Button */
 .create-spot-button {
@@ -166,7 +156,6 @@ ul.profile-dropdown li:hover {
   background-color: darkgoldenrod;
   transform: scale(1.1);
 }
-
 
 /* Keyframe Animations */
 @keyframes glow {
