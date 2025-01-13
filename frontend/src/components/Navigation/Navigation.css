@@ -6,14 +6,14 @@ body {
 /* Navbar Styling */
 .navbar {
   display: flex;
-  justify-content: space-between; /* Space between logo and auth buttons */
+  justify-content: space-between; /* Space between logo and buttons */
   align-items: center; /* Vertically align items */
   background-color: #192231; /* Navbar background */
   padding: 10px 20px;
   border-bottom: 2px solid #b79a6d; /* Stylish bottom border */
   position: relative; /* Allow absolute positioning for title */
   height: auto; /* Adjust height for responsiveness */
-  flex-wrap: wrap; /* Ensure wrapping on smaller screens */
+  flex-wrap: nowrap; /* Prevent wrapping on smaller screens */
 }
 
 /* Logo */
@@ -93,7 +93,7 @@ ul.profile-dropdown {
 ul.profile-dropdown.visible {
   opacity: 1;
   visibility: visible;
-  transform: translateY(0); /* Slide in effect */
+  transform: translateY(0); /* Slide-in effect */
 }
 
 ul.profile-dropdown li {
@@ -133,31 +133,21 @@ ul.profile-dropdown li:hover {
 /* Responsive Design for Navbar */
 @media (max-width: 768px) {
   .navbar {
-    flex-direction: column; /* Stack elements vertically */
-    height: auto; /* Adjust height dynamically */
-    padding: 10px 15px;
-  }
-
-  .navbar-logo {
-    margin-bottom: 10px;
-    display: flex;
-    justify-content: center; /* Center logo on smaller screens */
+    flex-wrap: nowrap; /* Prevent stacking */
   }
 
   .navbar-logo img.logo {
-    height: 60px; /* Smaller logo size */
+    height: 60px; /* Adjust logo size for smaller screens */
   }
 
   .navbar-title {
-    font-size: 1.5rem; /* Smaller title font size */
-    margin-bottom: 10px;
-    text-align: center; /* Center align title */
+    font-size: 1.5rem; /* Adjust title size */
+    text-align: center;
   }
 
   .navbar-links {
-    justify-content: center; /* Center profile/auth buttons */
-    margin-top: 10px; /* Add spacing above buttons */
-    gap: 15px; /* Adjust gap between buttons for better spacing */
+    justify-content: flex-end; /* Ensure buttons stay on the right */
+    gap: 10px;
   }
 }
 
