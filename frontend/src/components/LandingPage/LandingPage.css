@@ -1,7 +1,9 @@
 /* General styling */
 body {
   font-family: 'Georgia', serif;
-  background-color: #0e0d0e;
+  background: linear-gradient(to bottom, white, #f5f5dc, gold);
+  background-repeat: no-repeat;
+  background-attachment: fixed; /* Keeps the gradient fixed during scrolling */
   color: #333;
 }
 
@@ -13,7 +15,7 @@ body {
   align-items: center;
   padding: 20px;
   box-shadow: 4px 10px 24px rgba(0, 0, 0, 0.1);
-  background: linear-gradient(135deg, #742eae, #702a981b);
+  background: linear-gradient(135deg, #04030607, #702a981b);
   height: auto;
   position: relative;
 }
