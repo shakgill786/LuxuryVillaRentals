@@ -157,6 +157,7 @@ ul.profile-dropdown li:hover {
   .navbar-links {
     justify-content: center; /* Center profile/auth buttons */
     margin-top: 10px; /* Add spacing above buttons */
+    gap: 15px; /* Adjust gap between buttons for better spacing */
   }
 }
 
