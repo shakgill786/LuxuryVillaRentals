@@ -30,50 +30,23 @@ const LandingPage = () => {
 
   return (
     <div className="landing-page">
-      <h1>Choose Your Dream Pad</h1>
+      <header className="landing-page-header">
+        <h1>Choose Your Dream Pad</h1>
+      </header>
 
       {/* Carousel Slider */}
-      <Slider {...sliderSettings} className="spots-slider">
-        {spots.map((spot) => (
-          <div
-            key={spot.id}
-            className="spot-card-slider" // Custom class for slider spots
-            onClick={() => navigate(`/spots/${spot.id}`)}
-          >
-            <img
-              src={spot.previewImage || '/placeholder.jpg'}
-              alt={spot.name}
-              className="spot-image-slider" // Custom image class for slider
-            />
-            <div className="spot-info">
-              <div className="spot-header">
-                <div className="spot-location">{`${spot.city}, ${spot.state}`}</div>
-                <div className="spot-rating">
-                  {spot.avgRating ? `⭐ ${spot.avgRating.toFixed(1)}` : 'New'}
-                </div>
-              </div>
-            </div>
-            <div className="spot-price">{`$${spot.price} / night`}</div>
-          </div>
-        ))}
-      </Slider>
-
-      {/* Parallax Grid */}
-      <div className="spots-grid">
-        {spots.map((spot, idx) => (
-          <Parallax
-            key={idx}
-            speed={5 * (idx % 2 === 0 ? 1 : -1)} // Adjust speed for smoother scrolling
-            translateY={[-20, 20]} // Constrain vertical movement to avoid overlap
-          >
+      <section className="spots-slider-container">
+        <Slider {...sliderSettings} className="spots-slider">
+          {spots.map((spot) => (
             <div
-              className="spot-card"
+              key={spot.id}
+              className="spot-card-slider"
               onClick={() => navigate(`/spots/${spot.id}`)}
             >
               <img
                 src={spot.previewImage || '/placeholder.jpg'}
                 alt={spot.name}
-                className="spot-image"
+                className="spot-image-slider"
               />
               <div className="spot-info">
                 <div className="spot-header">
@@ -85,9 +58,42 @@ const LandingPage = () => {
               </div>
               <div className="spot-price">{`$${spot.price} / night`}</div>
             </div>
-          </Parallax>
-        ))}
-      </div>
+          ))}
+        </Slider>
+      </section>
+
+      {/* Parallax Grid */}
+      <section className="spots-grid-container">
+        <div className="spots-grid">
+          {spots.map((spot, idx) => (
+            <Parallax
+              key={idx}
+              speed={5 * (idx % 2 === 0 ? 1 : -1)}
+              translateY={[-20, 20]}
+            >
+              <div
+                className="spot-card"
+                onClick={() => navigate(`/spots/${spot.id}`)}
+              >
+                <img
+                  src={spot.previewImage || '/placeholder.jpg'}
+                  alt={spot.name}
+                  className="spot-image"
+                />
+                <div className="spot-info">
+                  <div className="spot-header">
+                    <div className="spot-location">{`${spot.city}, ${spot.state}`}</div>
+                    <div className="spot-rating">
+                      {spot.avgRating ? `⭐ ${spot.avgRating.toFixed(1)}` : 'New'}
+                    </div>
+                  </div>
+                </div>
+                <div className="spot-price">{`$${spot.price} / night`}</div>
+              </div>
+            </Parallax>
+          ))}
+        </div>
+      </section>
     </div>
   );
 };
