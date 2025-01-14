@@ -1,80 +1,103 @@
 .signup-modal {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    max-width: 400px;
-    margin: auto;
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
-    border-radius: 15px;
-    box-shadow: 0 15px 25px rgba(0, 0, 0, 0.1);
-    color: white;
-    text-align: center;
-  }
-  
-  .signup-modal h1 {
-    margin-bottom: 30px;
-    color: white;
-    font-size: 2em;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-  }
-  
-  .signup-modal form {
-    display: flex;
-    flex-direction: column;
-    max-width: 400px;
-    margin: auto;
-  }
-  
-  .signup-modal label {
-    margin-bottom: 8px;
-    font-weight: bold;
-    color: white;
-  }
-  
-  .signup-modal input {
-    margin-bottom: 16px;
-    padding: 8px;
-    font-size: 16px;
-    width: 100%;
-    background: rgba(255, 255, 255, 0.2);
-    border: none;
-    border-radius: 5px;
-    color: white;
-  }
-  
-  .signup-modal input::placeholder {
-    color: rgba(255, 255, 255, 0.7);
-  }
-  
-  .signup-modal input:focus {
-    outline: none;
-    background: rgba(255, 255, 255, 0.3);
-  }
-  
-  .signup-modal button {
-    width: 100%;
-    padding: 10px;
-    margin-top: 10px;
-    background: goldenrod;
-    border: none;
-    border-radius: 5px;
-    color: white;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background 0.3s ease, transform 0.2s ease;
-  }
-  
-  .signup-modal button:hover {
-    transform: scale(1.05);
-  }
-  
-  .signup-modal .error {
-    color: #ff6b6b;
-    font-size: 14px;
-    text-align: left;
-    margin-bottom: 10px;
-  }
-  
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  max-width: 400px;
+  margin: auto;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border-radius: 15px;
+  box-shadow: 0 15px 25px rgba(0, 0, 0, 0.1);
+  color: white;
+  text-align: center;
+  position: relative;
+}
+
+.signup-modal h1 {
+  margin-bottom: 30px;
+  color: white;
+  font-size: 2em;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.signup-modal form {
+  display: flex;
+  flex-direction: column;
+  max-width: 400px;
+  margin: auto;
+}
+
+.signup-modal label {
+  margin-bottom: 8px;
+  font-weight: bold;
+  color: white;
+}
+
+.signup-modal input {
+  margin-bottom: 16px;
+  padding: 8px;
+  font-size: 16px;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  border-radius: 5px;
+  color: white;
+}
+
+.signup-modal input::placeholder {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.signup-modal input:focus {
+  outline: none;
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.signup-modal button {
+  width: 100%;
+  padding: 10px;
+  margin-top: 10px;
+  background: goldenrod;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.signup-modal button:disabled {
+  background: #d3d3d3; /* Disabled button background */
+  cursor: not-allowed;
+}
+
+.signup-modal button:hover:not(:disabled) {
+  transform: scale(1.05);
+}
+
+.signup-modal .error {
+  color: #ff6b6b;
+  font-size: 14px;
+  text-align: left;
+  margin-bottom: 10px;
+}
+
+/* Close Button */
+.close-modal-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 20px;
+  cursor: pointer;
+  z-index: 1000;
+}
+
+.close-modal-button:hover {
+  color: goldenrod;
+  transform: scale(1.1);
+}

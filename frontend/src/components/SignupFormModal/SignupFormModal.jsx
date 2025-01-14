@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
-import * as sessionActions from '../../store/session'; 
+import * as sessionActions from '../../store/session';
 import { useModal } from '../../context/Modal';
 import './SignupFormModal.css';
 
@@ -86,6 +86,7 @@ function SignupFormModal() {
   return (
     <div className="signup-modal-wrapper">
       <div className="signup-modal" ref={modalRef}>
+        {/* Close Modal Button */}
         <button
           className="close-modal-button"
           onClick={() => {
@@ -95,6 +96,7 @@ function SignupFormModal() {
         >
           ✖
         </button>
+
         <h1>Sign Up</h1>
         <form onSubmit={handleSubmit}>
           <label>
@@ -161,7 +163,9 @@ function SignupFormModal() {
               required
             />
           </label>
-          {errors.confirmPassword && <p className="error">{errors.confirmPassword}</p>}
+          {errors.confirmPassword && (
+            <p className="error">{errors.confirmPassword}</p>
+          )}
 
           <button type="submit" disabled={isDisabled}>
             Sign Up
