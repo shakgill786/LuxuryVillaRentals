@@ -1,50 +1,69 @@
 import { useState, useEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
-import * as sessionActions from '../../store/session'; // Adjust the path to your Redux session actions
+import * as sessionActions from '../../store/session'; 
 import { useModal } from '../../context/Modal';
 import './SignupFormModal.css';
 
 function SignupFormModal() {
   const dispatch = useDispatch();
-  const { closeModal } = useModal(); // Close modal on successful signup
+  const { closeModal } = useModal();
   const [email, setEmail] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [firstName, setFirstName] = useState(''); // New state for First Name
-  const [lastName, setLastName] = useState(''); // New state for Last Name
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
   const [errors, setErrors] = useState({});
-  
-  // Ref to track modal content
+  const [isDisabled, setIsDisabled] = useState(true);
+
   const modalRef = useRef(null);
 
   useEffect(() => {
-    // Function to handle clicks outside the modal
+    // Handle clicking outside the modal to close it
     const handleClickOutside = (event) => {
       if (modalRef.current && !modalRef.current.contains(event.target)) {
+        resetForm();
         closeModal();
       }
     };
 
-    // Add event listener for clicks
     document.addEventListener('mousedown', handleClickOutside);
-    
-    return () => {
-      // Clean up the event listener
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
+
+    return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [closeModal]);
+
+  // Reset fields and errors when the modal closes
+  const resetForm = () => {
+    setEmail('');
+    setUsername('');
+    setPassword('');
+    setConfirmPassword('');
+    setFirstName('');
+    setLastName('');
+    setErrors({});
+  };
+
+  // Disable the button if validation fails
+  useEffect(() => {
+    const isFormValid =
+      email &&
+      username.length >= 4 &&
+      password.length >= 6 &&
+      password === confirmPassword &&
+      firstName &&
+      lastName;
+    setIsDisabled(!isFormValid);
+  }, [email, username, password, confirmPassword, firstName, lastName]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // Validate password confirmation
+    setErrors({});
+
     if (password !== confirmPassword) {
       return setErrors({ confirmPassword: 'Passwords do not match' });
     }
-    setErrors({}); // Clear any previous errors
 
     try {
-      // Dispatch signup action
       await dispatch(
         sessionActions.signup({
           email,
@@ -54,9 +73,9 @@ function SignupFormModal() {
           lastName,
         })
       );
-      closeModal(); // Close the modal on success
+      resetForm();
+      closeModal();
     } catch (err) {
-      // Handle errors from the backend
       const data = await err.json();
       if (data && data.errors) {
         setErrors(data.errors);
@@ -66,8 +85,16 @@ function SignupFormModal() {
 
   return (
     <div className="signup-modal-wrapper">
-      {/* Modal background */}
       <div className="signup-modal" ref={modalRef}>
+        <button
+          className="close-modal-button"
+          onClick={() => {
+            resetForm();
+            closeModal();
+          }}
+        >
+          ✖
+        </button>
         <h1>Sign Up</h1>
         <form onSubmit={handleSubmit}>
           <label>
@@ -84,7 +111,7 @@ function SignupFormModal() {
           <label>
             <input
               type="text"
-              placeholder="Username"
+              placeholder="Username (min. 4 characters)"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               required
@@ -117,7 +144,7 @@ function SignupFormModal() {
           <label>
             <input
               type="password"
-              placeholder="Password"
+              placeholder="Password (min. 6 characters)"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
@@ -136,7 +163,9 @@ function SignupFormModal() {
           </label>
           {errors.confirmPassword && <p className="error">{errors.confirmPassword}</p>}
 
-          <button type="submit">Sign Up</button>
+          <button type="submit" disabled={isDisabled}>
+            Sign Up
+          </button>
         </form>
       </div>
     </div>
