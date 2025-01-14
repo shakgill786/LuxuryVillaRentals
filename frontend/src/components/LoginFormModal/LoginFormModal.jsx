@@ -10,8 +10,14 @@ function LoginFormModal() {
   const [credential, setCredential] = useState('');
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState('');
+  const [isButtonDisabled, setIsButtonDisabled] = useState(true); // State for button disable
 
   const modalRef = useRef(null);
+
+  useEffect(() => {
+    // Disable button if username or password doesn't meet the criteria
+    setIsButtonDisabled(credential.length < 4 || password.length < 6);
+  }, [credential, password]);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -79,7 +85,11 @@ function LoginFormModal() {
             onChange={(e) => setPassword(e.target.value)}
             required
           />
-          <button className="login-modal-button" type="submit">
+          <button
+            className="login-modal-button"
+            type="submit"
+            disabled={isButtonDisabled} // Disable button dynamically
+          >
             Log In
           </button>
         </form>

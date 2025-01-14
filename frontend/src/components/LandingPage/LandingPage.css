@@ -45,7 +45,7 @@ img.logo:hover {
   font-family: 'Playfair Display', serif;
   font-size: 2.5rem;
   color: transparent;
-  background: linear-gradient(135deg, #ff3700, #ff6f61, #ffcc00);
+  background: linear-gradient(135deg, #1c1a19, #52572fac, #8a7c46);
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -104,7 +104,7 @@ img.logo:hover {
 /* Center the heading with gradient and pulse effect */
 .landing-page h1 {
   font-family: 'Cinzel', serif;
-  background: linear-gradient(135deg, #ff3700, #ff6f61, #ffcc00);
+  background: linear-gradient(135deg, #1c1a19, #52572fac, #8a7c46);
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
