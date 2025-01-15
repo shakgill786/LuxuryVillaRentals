@@ -19,7 +19,6 @@ function SignupFormModal() {
   const modalRef = useRef(null);
 
   useEffect(() => {
-    // Handle clicking outside the modal to close it
     const handleClickOutside = (event) => {
       if (modalRef.current && !modalRef.current.contains(event.target)) {
         resetForm();
@@ -32,7 +31,6 @@ function SignupFormModal() {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [closeModal]);
 
-  // Reset fields and errors when the modal closes
   const resetForm = () => {
     setEmail('');
     setUsername('');
@@ -43,7 +41,6 @@ function SignupFormModal() {
     setErrors({});
   };
 
-  // Disable the button if validation fails
   useEffect(() => {
     const isFormValid =
       email &&
@@ -86,18 +83,19 @@ function SignupFormModal() {
   return (
     <div className="signup-modal-wrapper">
       <div className="signup-modal" ref={modalRef}>
-        {/* Close Modal Button */}
-        <button
-          className="close-modal-button"
-          onClick={() => {
-            resetForm();
-            closeModal();
-          }}
-        >
-          ✖
-        </button>
-
-        <h1>Sign Up</h1>
+        {/* Place the close button outside the modal content area */}
+        <div className="modal-header">
+          <button
+            className="close-modal-button"
+            onClick={() => {
+              resetForm();
+              closeModal();
+            }}
+          >
+            ✖
+          </button>
+          <h1>Sign Up</h1>
+        </div>
         <form onSubmit={handleSubmit}>
           <label>
             <input
