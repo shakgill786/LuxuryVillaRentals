@@ -6,14 +6,14 @@
   justify-content: center;
   max-width: 400px;
   margin: auto;
-  padding: 40px 20px; /* Added padding to prevent overlap with the close button */
+  padding: 40px 20px; /* Ensure enough padding to avoid overlap */
   background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(10px);
   border-radius: 15px;
   box-shadow: 0 15px 25px rgba(0, 0, 0, 0.1);
   color: white;
   text-align: center;
-  position: relative; /* Ensures the close button aligns relative to this container */
+  position: relative; /* Ensure close button positions relative to this container */
 }
 
 /* Modal Header */
@@ -23,6 +23,7 @@
   font-size: 2em;
   text-transform: uppercase;
   letter-spacing: 1px;
+  z-index: 1; /* Ensure it's above background elements */
 }
 
 /* Form Styles */
@@ -93,13 +94,14 @@
 /* Close Modal Button */
 .close-modal-button {
   position: absolute;
-  top: 10px; /* Position the button at the top */
-  right: 10px; /* Align it to the right */
+  top: 15px; /* Adjust the vertical position */
+  right: 15px; /* Adjust the horizontal position */
   background: none;
   border: none;
-  font-size: 20px; /* Adjust size of the 'X' */
-  color: white; /* Match the modal's text color */
+  font-size: 18px; /* Adjust size of the 'X' */
+  color: white; /* Match modal text color */
   cursor: pointer;
+  z-index: 2; /* Ensure it's above all other elements */
   transition: transform 0.3s ease, color 0.3s ease;
 }
 
@@ -119,6 +121,6 @@
   }
 
   .close-modal-button {
-    font-size: 18px; /* Adjust button size for small screens */
+    font-size: 16px; /* Adjust button size for small screens */
   }
 }
