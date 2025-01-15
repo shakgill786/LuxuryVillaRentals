@@ -1,19 +1,19 @@
 /* Modal Container */
 .signup-modal {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   max-width: 400px;
   margin: auto;
-  padding: 40px 20px; /* Ensure enough padding to avoid overlap */
+  padding: 40px 20px;
   background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(10px);
   border-radius: 15px;
   box-shadow: 0 15px 25px rgba(0, 0, 0, 0.1);
   color: white;
   text-align: center;
-  position: relative; /* Ensure close button positions relative to this container */
 }
 
 /* Modal Header */
