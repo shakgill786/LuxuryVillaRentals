@@ -1,3 +1,4 @@
+/* Modal Container */
 .signup-modal {
   display: flex;
   flex-direction: column;
@@ -5,15 +6,17 @@
   justify-content: center;
   max-width: 400px;
   margin: auto;
+  padding: 40px 20px; /* Added padding to prevent overlap with the close button */
   background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(10px);
   border-radius: 15px;
   box-shadow: 0 15px 25px rgba(0, 0, 0, 0.1);
   color: white;
   text-align: center;
-  position: relative;
+  position: relative; /* Ensures the close button aligns relative to this container */
 }
 
+/* Modal Header */
 .signup-modal h1 {
   margin-bottom: 30px;
   color: white;
@@ -22,6 +25,7 @@
   letter-spacing: 1px;
 }
 
+/* Form Styles */
 .signup-modal form {
   display: flex;
   flex-direction: column;
@@ -55,6 +59,7 @@
   background: rgba(255, 255, 255, 0.3);
 }
 
+/* Button Styles */
 .signup-modal button {
   width: 100%;
   padding: 10px;
@@ -77,6 +82,7 @@
   transform: scale(1.05);
 }
 
+/* Error Messages */
 .signup-modal .error {
   color: #ff6b6b;
   font-size: 14px;
@@ -87,12 +93,12 @@
 /* Close Modal Button */
 .close-modal-button {
   position: absolute;
-  top: 10px; /* Distance from the top */
-  right: 10px; /* Distance from the right */
+  top: 10px; /* Position the button at the top */
+  right: 10px; /* Align it to the right */
   background: none;
   border: none;
-  font-size: 20px; /* Adjust the size of the 'X' */
-  color: white; /* Matches the modal's text color */
+  font-size: 20px; /* Adjust size of the 'X' */
+  color: white; /* Match the modal's text color */
   cursor: pointer;
   transition: transform 0.3s ease, color 0.3s ease;
 }
@@ -100,4 +106,19 @@
 .close-modal-button:hover {
   color: goldenrod; /* Change color on hover for better visibility */
   transform: scale(1.2); /* Slight zoom on hover */
+}
+
+/* Responsive Design */
+@media (max-width: 480px) {
+  .signup-modal {
+    padding: 30px 15px; /* Adjust padding for smaller screens */
+  }
+
+  .signup-modal h1 {
+    font-size: 1.8em; /* Slightly smaller heading size */
+  }
+
+  .close-modal-button {
+    font-size: 18px; /* Adjust button size for small screens */
+  }
 }
