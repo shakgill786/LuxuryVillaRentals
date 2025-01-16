@@ -26,6 +26,25 @@
   z-index: 1;
 }
 
+/* Close Modal Button */
+.close-modal-button {
+  position: absolute;
+  top: 15px; /* Distance from the top */
+  right: 15px; /* Distance from the right */
+  background: none;
+  border: none;
+  font-size: 18px;
+  color: white;
+  cursor: pointer;
+  z-index: 2; /* Ensure it's above all other elements */
+  transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.close-modal-button:hover {
+  color: goldenrod; /* Change color on hover for better visibility */
+  transform: scale(1.2); /* Slight zoom on hover */
+}
+
 /* Form Styles */
 .signup-modal form {
   display: flex;
@@ -34,6 +53,7 @@
   margin: auto;
 }
 
+/* Other styles remain unchanged */
 .signup-modal label {
   margin-bottom: 8px;
   font-weight: bold;
@@ -60,7 +80,6 @@
   background: rgba(255, 255, 255, 0.3);
 }
 
-/* Button Styles */
 .signup-modal button {
   width: 100%;
   padding: 10px;
@@ -83,21 +102,9 @@
   transform: scale(1.05);
 }
 
-/* Error Messages */
 .signup-modal .error {
   color: #ff6b6b;
   font-size: 14px;
   text-align: left;
   margin-bottom: 10px;
-}
-
-/* Responsive Design */
-@media (max-width: 480px) {
-  .signup-modal {
-    padding: 30px 15px;
-  }
-
-  .signup-modal h1 {
-    font-size: 1.8em;
-  }
 }
