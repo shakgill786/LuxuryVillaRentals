@@ -83,16 +83,6 @@ function SignupFormModal() {
   return (
     <div className="signup-modal-wrapper">
       <div className="signup-modal" ref={modalRef}>
-        {/* Close button placed properly */}
-        <button
-          className="close-modal-button"
-          onClick={() => {
-            resetForm();
-            closeModal();
-          }}
-        >
-          ✖
-        </button>
         <h1>Sign Up</h1>
         <form onSubmit={handleSubmit}>
           <label>

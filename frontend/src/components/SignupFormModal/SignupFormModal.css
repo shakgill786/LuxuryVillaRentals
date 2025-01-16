@@ -91,25 +91,6 @@
   margin-bottom: 10px;
 }
 
-/* Close Modal Button */
-.close-modal-button {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  background: none;
-  border: none;
-  font-size: 18px;
-  color: white;
-  cursor: pointer;
-  z-index: 2;
-  transition: transform 0.3s ease, color 0.3s ease;
-}
-
-.close-modal-button:hover {
-  color: goldenrod;
-  transform: scale(1.2);
-}
-
 /* Responsive Design */
 @media (max-width: 480px) {
   .signup-modal {
@@ -118,9 +99,5 @@
 
   .signup-modal h1 {
     font-size: 1.8em;
-  }
-
-  .close-modal-button {
-    font-size: 16px;
   }
 }
