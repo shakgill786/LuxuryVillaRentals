@@ -42,6 +42,7 @@ const LandingPage = () => {
               key={spot.id}
               className="spot-card-slider"
               onClick={() => navigate(`/spots/${spot.id}`)}
+              title={spot.name} // Tooltip for spot name
             >
               <img
                 src={spot.previewImage || '/placeholder.jpg'}
@@ -74,6 +75,7 @@ const LandingPage = () => {
               <div
                 className="spot-card"
                 onClick={() => navigate(`/spots/${spot.id}`)}
+                title={spot.name} // Tooltip for spot name
               >
                 <img
                   src={spot.previewImage || '/placeholder.jpg'}
