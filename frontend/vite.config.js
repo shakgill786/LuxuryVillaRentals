@@ -8,20 +8,12 @@ export default defineConfig(({ mode }) => ({
     react(),
     eslint({
       lintOnStart: true,
-      failOnError: mode === 'production',
-    }),
+      failOnError: mode === "production"
+    })
   ],
   server: {
     proxy: {
       '/api': 'http://localhost:8000', // Proxy all requests starting with `/api` to the backend server
-    },
-  },
-  build: {
-    rollupOptions: {
-      external: [
-        'slick-carousel/slick/slick.css',
-        'slick-carousel/slick/slick-theme.css',
-      ],
     },
   },
 }));
