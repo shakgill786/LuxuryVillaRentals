@@ -29,7 +29,9 @@
     "per-env": "^1.0.2",
     "pg": "^8.13.0",
     "react-datepicker": "^7.6.0",
-    "sequelize": "^6.37.5"
+    "react-tooltip": "^5.28.0",
+    "sequelize": "^6.37.5",
+    "slick-carousel": "^1.8.1"
   },
   "devDependencies": {
     "dotenv-cli": "^7.4.2",
