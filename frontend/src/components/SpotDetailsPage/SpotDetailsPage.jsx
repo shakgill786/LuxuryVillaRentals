@@ -4,20 +4,16 @@ import { useSelector, useDispatch } from 'react-redux';
 import Modal from 'react-modal';
 import { fetchSpotDetails } from '../../store/spots';
 import ReviewsSection from '../ReviewsSection/ReviewsSection';
-import Calendar from 'react-calendar'; // Assuming react-calendar is installed
-import 'react-calendar/dist/Calendar.css'; // Default calendar styles
 import './SpotDetailsPage.css';
 
 const SpotDetailsPage = () => {
   const { spotId } = useParams();
-  const navigate = useNavigate(); // For navigation
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const loggedInUser = useSelector((state) => state.session.user);
   const spot = useSelector((state) => state.spots.singleSpot);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-  const [checkInDate, setCheckInDate] = useState(null);
-  const [checkOutDate, setCheckOutDate] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -32,17 +28,9 @@ const SpotDetailsPage = () => {
   }, [dispatch, spotId]);
 
   const handleReserve = () => {
-    if (!checkInDate || !checkOutDate) {
-      alert('Please select check-in and check-out dates.');
-      return;
-    }
-
-    // Navigate to the reservation page with query parameters
     navigate('/reserve', {
       state: {
         spotId,
-        checkInDate: checkInDate.toISOString().split('T')[0],
-        checkOutDate: checkOutDate.toISOString().split('T')[0],
         spotName: spot.name,
         spotPrice: spot.price,
       },
@@ -107,18 +95,6 @@ const SpotDetailsPage = () => {
               )}
             </p>
           </div>
-          <Calendar
-            selectRange={true}
-            onChange={(dates) => {
-              setCheckInDate(dates[0]);
-              setCheckOutDate(dates[1]);
-            }}
-            tileClassName={({ date, view }) =>
-              view === 'month' && new Date().toDateString() === date.toDateString()
-                ? 'highlight-today' // Add a custom class for today
-                : null
-            }
-          />
           <button className="reserve-button" onClick={handleReserve}>
             Reserve
           </button>

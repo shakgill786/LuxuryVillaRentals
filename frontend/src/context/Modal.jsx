@@ -2,7 +2,6 @@ import { useRef, useState, useContext, createContext } from 'react';
 import ReactDOM from 'react-dom';
 import './Modal.css';
 
-
 const ModalContext = createContext();
 
 export function ModalProvider({ children }) {
@@ -23,7 +22,7 @@ export function ModalProvider({ children }) {
     modalContent,
     setModalContent,
     setOnModalClose,
-    closeModal, 
+    closeModal,
   };
 
   return (
@@ -44,7 +43,10 @@ export function Modal() {
   return ReactDOM.createPortal(
     <div id="modal">
       <div id="modal-background" onClick={closeModal} />
-      <div id="modal-content">{modalContent}</div>
+      <div id="modal-content">
+        {/* Modal content is passed dynamically */}
+        {modalContent}
+      </div>
     </div>,
     modalRef.current
   );

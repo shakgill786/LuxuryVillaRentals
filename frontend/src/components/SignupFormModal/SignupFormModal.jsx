@@ -81,21 +81,25 @@ function SignupFormModal() {
   };
 
   return (
-    <div className="signup-modal-wrapper">
-      <div className="signup-modal" ref={modalRef}>
-        {/* Place the close button outside the modal content area */}
-        <div className="modal-header">
-          <button
-            className="close-modal-button"
-            onClick={() => {
-              resetForm();
-              closeModal();
-            }}
-          >
-            ✖
-          </button>
+    <div className="signup-modal-wrapper" ref={modalRef}>
+      {/* Close button */}
+      <button
+        className="close-modal-button"
+        onClick={() => {
+          resetForm();
+          closeModal();
+        }}
+      >
+        ✖
+      </button>
+
+      <div className="signup-modal">
+        {/* Modal Header */}
+        <header className="modal-header">
           <h1>Sign Up</h1>
-        </div>
+        </header>
+
+        {/* Form */}
         <form onSubmit={handleSubmit}>
           <label>
             <input

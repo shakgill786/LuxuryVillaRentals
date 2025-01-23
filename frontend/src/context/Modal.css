@@ -1,3 +1,4 @@
+/* Modal Container */
 #modal {
   position: fixed;
   top: 0;
@@ -10,24 +11,31 @@
   z-index: 9999;
 }
 
+/* Modal Background */
 #modal-background {
-  position: fixed;
-  background-color: #192231;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.6); /* Semi-transparent overlay */
 }
 
+/* Modal Content */
 #modal-content {
-  position: relative;
+  position: relative; /* Allows absolute positioning of children */
   background: #192231;
   backdrop-filter: blur(10px);
-  padding: 10px;
-  margin-top: 20px;
+  padding: 20px; /* Increased padding for better spacing */
   border-radius: 15px;
   max-width: 500px;
   width: 60%;
-  box-shadow: 0 15px 25px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 15px 25px rgba(0, 0, 0, 0.2);
   color: white;
+  z-index: 2;
 }
 
+/* Modal Title */
 #modal-content .login-title {
   text-align: center;
   color: white;
@@ -35,4 +43,23 @@
   font-size: 1.8em;
   text-transform: uppercase;
   letter-spacing: 1px;
+}
+
+/* Close Modal Button */
+.close-modal-button {
+  position: absolute; /* Absolute to #modal-content */
+  top: 10px; /* Top-right corner */
+  right: 10px;
+  background: none;
+  border: none;
+  font-size: 18px;
+  color: white; /* Matches modal text color */
+  cursor: pointer;
+  z-index: 3; /* Above all other elements inside modal */
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.close-modal-button:hover {
+  color: goldenrod; /* Highlight on hover */
+  transform: scale(1.2); /* Slight zoom effect */
 }

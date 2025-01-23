@@ -1,7 +1,9 @@
+// LuxuryVillaServices/backend/routes/api/reservations.js
+
 const express = require('express');
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
-
+const { Reservation } = require('../../db/models'); // Assuming you have a Reservation model
 const router = express.Router();
 
 // Validation middleware
@@ -18,11 +20,11 @@ const validateReservation = [
 
 // POST /api/reservations
 router.post('/', validateReservation, async (req, res) => {
-  const { name, email, phone, cardName, cardNumber, expirationDate, securityCode } = req.body;
+  const { name, email, phone, cardName, cardNumber, expirationDate, securityCode, spotId, checkInDate, checkOutDate } = req.body;
 
   try {
-    // Simulate storing reservation or processing payment
-    console.log('Reservation received:', {
+    // Create a reservation in the database (replace with your ORM or DB logic)
+    const reservation = await Reservation.create({
       name,
       email,
       phone,
@@ -30,9 +32,12 @@ router.post('/', validateReservation, async (req, res) => {
       cardNumber,
       expirationDate,
       securityCode,
+      spotId,
+      checkInDate,
+      checkOutDate,
     });
 
-    res.status(201).json({ message: 'Reservation confirmed!' });
+    res.status(201).json({ message: 'Reservation confirmed!', reservation });
   } catch (error) {
     console.error('Error processing reservation:', error);
     res.status(500).json({ message: 'Internal server error.' });

@@ -1,13 +1,18 @@
 /* Modal Container */
-.signup-modal {
+.signup-modal-wrapper {
   position: relative;
+  max-width: 400px;
+  margin: auto;
+}
+.signup-modal {
+  position: relative; /* Important for absolute positioning */
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   max-width: 400px;
   margin: auto;
-  padding: 40px 20px;
+  padding: 60px 20px 20px; /* Increased top padding */
   background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(10px);
   border-radius: 15px;
@@ -15,15 +20,20 @@
   color: white;
   text-align: center;
 }
-
 /* Modal Header */
-.signup-modal h1 {
-  margin-bottom: 30px;
+.modal-header {
+  width: 100%; /* Span the full width of the modal */
+  text-align: center;
+}
+
+.modal-header h1 {
+  margin: 0; /* Remove default margin */
+  
+  margin-bottom: 20px; /* Optional: Add space below the header */
   color: white;
   font-size: 2em;
   text-transform: uppercase;
   letter-spacing: 1px;
-  z-index: 1; /* Ensure it's above background elements */
 }
 
 /* Form Styles */
@@ -91,18 +101,19 @@
   margin-bottom: 10px;
 }
 
-/* Close Modal Button */
 .close-modal-button {
-  position: absolute;
-  top: 15px; /* Adjust the vertical position */
-  right: 15px; /* Adjust the horizontal position */
+  position: absolute; /* Absolute positioning relative to .signup-modal */
+  top: 15px; /* Spacing from the top */
+  right: 15px; /* Spacing from the right */
   background: none;
   border: none;
-  font-size: 18px; /* Adjust size of the 'X' */
-  color: white; /* Match modal text color */
+  outline: none;
+  box-shadow: none;
+  font-size: 18px; /* Adjust size */
+  color: white;
   cursor: pointer;
-  z-index: 2; /* Ensure it's above all other elements */
-  transition: transform 0.3s ease, color 0.3s ease;
+  z-index: 3; /* Ensure it's on top */
+  transition: transform 0.2s ease, color 0.2s ease;
 }
 
 .close-modal-button:hover {
