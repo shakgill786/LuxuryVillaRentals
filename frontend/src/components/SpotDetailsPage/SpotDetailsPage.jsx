@@ -1,14 +1,13 @@
-import { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
-import Modal from 'react-modal';
-import { fetchSpotDetails } from '../../store/spots';
-import ReviewsSection from '../ReviewsSection/ReviewsSection';
-import './SpotDetailsPage.css';
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import Modal from "react-modal";
+import { fetchSpotDetails } from "../../store/spots";
+import ReviewsSection from "../ReviewsSection/ReviewsSection";
+import "./SpotDetailsPage.css";
 
 const SpotDetailsPage = () => {
   const { spotId } = useParams();
-  const navigate = useNavigate();
   const dispatch = useDispatch();
   const loggedInUser = useSelector((state) => state.session.user);
   const spot = useSelector((state) => state.spots.singleSpot);
@@ -21,20 +20,14 @@ const SpotDetailsPage = () => {
         await dispatch(fetchSpotDetails(spotId));
         setIsLoading(false);
       } catch (error) {
-        console.error('Error fetching spot details:', error);
+        console.error("Error fetching spot details:", error);
       }
     };
     fetchData();
   }, [dispatch, spotId]);
 
   const handleReserve = () => {
-    navigate('/reserve', {
-      state: {
-        spotId,
-        spotName: spot.name,
-        spotPrice: spot.price,
-      },
-    });
+    alert("Feature coming soon");
   };
 
   if (isLoading) return <div>Loading...</div>;
@@ -49,7 +42,11 @@ const SpotDetailsPage = () => {
         </p>
       </header>
 
-      <Modal isOpen={isModalOpen} onRequestClose={() => setIsModalOpen(false)} className="spot-modal">
+      <Modal
+        isOpen={isModalOpen}
+        onRequestClose={() => setIsModalOpen(false)}
+        className="spot-modal"
+      >
         <div className="modal-content">
           <h1>{spot.name}</h1>
           <p>{spot.description}</p>
@@ -61,7 +58,10 @@ const SpotDetailsPage = () => {
 
       <section className="image-gallery">
         <div className="main-image">
-          <img src={spot.SpotImages[0]?.url || '/placeholder.jpg'} alt={spot.name} />
+          <img
+            src={spot.SpotImages[0]?.url || "/placeholder.jpg"}
+            alt={spot.name}
+          />
         </div>
         <div className="thumbnail-images">
           {spot.SpotImages.slice(1, 5).map((image, idx) => (
@@ -83,13 +83,16 @@ const SpotDetailsPage = () => {
             <p>${spot.price} / night</p>
             <p>
               <span>
-                ⭐ {spot.avgStarRating ? spot.avgStarRating.toFixed(1) : 'New'}
+                ⭐{" "}
+                {spot.avgStarRating ? spot.avgStarRating.toFixed(1) : "New"}
               </span>
               {spot.numReviews > 0 && (
                 <>
-                  {' '}·{' '}
+                  {" "}
+                  ·{" "}
                   <span>
-                    {spot.numReviews} {spot.numReviews === 1 ? 'review' : 'reviews'}
+                    {spot.numReviews}{" "}
+                    {spot.numReviews === 1 ? "review" : "reviews"}
                   </span>
                 </>
               )}

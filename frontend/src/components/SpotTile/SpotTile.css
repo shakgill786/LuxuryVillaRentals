@@ -33,16 +33,20 @@
   position: absolute;
   top: -35px; /* Position above the image */
   left: 50%;
-  transform: translateX(-50%);
-  background-color: rgba(0, 0, 0, 0.8); /* Dark background */
+  transform: translateX(-50%) translateY(10px); /* Start below */
+  background: linear-gradient(135deg, #ff7e5f, #feb47b); /* Gradient background */
   color: white; /* Tooltip text color */
-  padding: 5px 10px;
-  border-radius: 5px;
-  font-size: 12px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-family: "Georgia", serif;
   white-space: nowrap; /* Prevent wrapping */
   opacity: 0; /* Hidden by default */
   visibility: hidden; /* Hidden by default */
-  transition: opacity 0.3s ease, visibility 0.3s ease;
+  transition: 
+    opacity 0.2s ease-out,
+    visibility 0.2s ease-out,
+    transform 0.3s ease-out;
   z-index: 10;
 }
 
@@ -50,6 +54,31 @@
 .tooltip-wrapper:hover .tooltip {
   opacity: 1;
   visibility: visible;
+  transform: translateX(-50%) translateY(0); /* Slide up */
+  animation: tooltip-bounce 0.3s ease-out;
+}
+
+/* Add Keyframes for Bounce Effect */
+@keyframes tooltip-bounce {
+  0%, 100% {
+    transform: translateX(-50%) translateY(0);
+  }
+  50% {
+    transform: translateX(-50%) translateY(-5px);
+  }
+}
+
+/* Optional: Typewriter Effect for Text */
+.tooltip::after {
+  content: "|";
+  margin-left: 5px;
+  animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
 }
 
 /* Image Styling */
