@@ -4,7 +4,7 @@ import { fetchReviews, deleteReview } from "../../store/reviews";
 import CreateReviewButton from "../CreateReviewModal/CreateReviewButton";
 import DeleteReviewModal from "../DeleteReviewModal/DeleteReviewModal";
 
-const ReviewsSection = ({ spotId, loggedInUser }) => {
+const ReviewsSection = ({ spotId, loggedInUser, isSpotOwner }) => {
   const dispatch = useDispatch();
   const reviews = useSelector((state) => Object.values(state.reviews.spotReviews || {}));
 
@@ -22,7 +22,7 @@ const ReviewsSection = ({ spotId, loggedInUser }) => {
     };
 
     fetchReviewsData();
-  }, [dispatch, spotId, reviews]);
+  }, [dispatch, spotId]);
 
   const handleDeleteReview = async (reviewId) => {
     try {
@@ -45,9 +45,13 @@ const ReviewsSection = ({ spotId, loggedInUser }) => {
   };
 
   // Safely get average rating or default to "New"
-  const avgStarRating = reviews.length > 0 && reviews[0].spot?.avgStarRating
-    ? reviews[0].spot.avgStarRating.toFixed(1)
-    : "New";
+  const avgStarRating =
+    reviews.length > 0 && reviews[0].spot?.avgStarRating
+      ? reviews[0].spot.avgStarRating.toFixed(1)
+      : "New";
+
+  // Check if the user can post the first review
+  const canPostFirstReview = loggedInUser && !isSpotOwner && reviews.length === 0;
 
   return (
     <section className="reviews">
@@ -70,7 +74,7 @@ const ReviewsSection = ({ spotId, loggedInUser }) => {
         </div>
       )}
 
-      {/* Render Reviews */}
+      {/* Render Reviews or Prompt to Post the First Review */}
       {reviews.length > 0 ? (
         <ul className="review-list">
           {reviews
@@ -96,6 +100,8 @@ const ReviewsSection = ({ spotId, loggedInUser }) => {
               </li>
             ))}
         </ul>
+      ) : canPostFirstReview ? (
+        <p className="first-review-prompt">Be the first to post a review!</p>
       ) : (
         <p>No reviews yet.</p>
       )}
