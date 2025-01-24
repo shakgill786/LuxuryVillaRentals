@@ -1,3 +1,4 @@
+/* Spot Tile Base */
 .spot-tile {
   background: #fff;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -7,7 +8,8 @@
   flex-direction: column;
   justify-content: space-between;
   height: 350px;
-  position: relative; /* For spotlight effect */
+  position: relative; /* Required for spotlight and tooltip */
+  cursor: pointer;
 }
 
 .spot-tile:hover {
@@ -20,12 +22,45 @@
   opacity: 0.5; /* Dim other cards */
 }
 
-.spot-tile img {
+/* Tooltip Wrapper */
+.tooltip-wrapper {
+  position: relative;
+  overflow: visible;
+}
+
+/* Tooltip Styles */
+.tooltip {
+  position: absolute;
+  top: -35px; /* Position above the image */
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(0, 0, 0, 0.8); /* Dark background */
+  color: white; /* Tooltip text color */
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 12px;
+  white-space: nowrap; /* Prevent wrapping */
+  opacity: 0; /* Hidden by default */
+  visibility: hidden; /* Hidden by default */
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  z-index: 10;
+}
+
+/* Show Tooltip on Hover */
+.tooltip-wrapper:hover .tooltip {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Image Styling */
+.spot-image {
   width: 100%;
   height: 200px;
   object-fit: cover;
+  border-radius: 5px;
 }
 
+/* Spot Info */
 .spot-info {
   padding: 10px;
   font-size: 14px;
@@ -34,9 +69,9 @@
 
 .spot-header {
   display: flex;
-  justify-content: space-between; /* Pushes content to opposite ends */
-  align-items: center; /* Align vertically centered */
-  margin-bottom: 5px; /* Space below header */
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 5px;
 }
 
 .spot-location {
@@ -45,28 +80,24 @@
 
 .spot-rating {
   font-size: 14px;
-  color: #ffcc00; /* Optional: Gold color for the star */
+  color: #ffcc00;
 }
 
 .spot-price {
   font-size: 14px;
   font-weight: bold;
-  margin-top: 5px; /* Add slight spacing above price */
+  margin-top: 5px;
 }
 
-.spot-actions {
-  gap: 20px;
-  margin-bottom: 10px; /* Space at bottom */
-}
-
+/* Button Styling */
 .update-button,
 .delete-button {
-  margin: 0 5px; /* Add small horizontal margin between buttons */
-  padding: 8px 15px;
-  border: none;
+  margin: 5px;
+  padding: 8px 12px;
   border-radius: 5px;
+  border: none;
   cursor: pointer;
-  font-size: 14px;
+  transition: background 0.3s ease;
 }
 
 .update-button {

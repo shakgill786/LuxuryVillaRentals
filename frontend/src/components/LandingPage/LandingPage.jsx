@@ -1,17 +1,20 @@
-import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import Slider from 'react-slick';
-import { Parallax } from 'react-scroll-parallax'; // Parallax import
-import { fetchAllSpots } from '../../store/spots';
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
-import './LandingPage.css';
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import Slider from "react-slick";
+import { Parallax } from "react-scroll-parallax"; // Parallax import
+import { fetchAllSpots } from "../../store/spots";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import "./LandingPage.css";
 
 const LandingPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const spots = useSelector((state) => Object.values(state.spots.allSpots));
+
+  // Debugging: Log the fetched spots to verify their data
+  console.log("Fetched Spots:", spots);
 
   useEffect(() => {
     dispatch(fetchAllSpots());
@@ -41,22 +44,25 @@ const LandingPage = () => {
             <div
               key={spot.id}
               className="spot-card-slider"
+              title={spot.name} // Tooltip with spot name
               onClick={() => navigate(`/spots/${spot.id}`)}
             >
               <img
-                src={spot.previewImage || '/placeholder.jpg'}
-                alt={spot.name}
+                src={spot.previewImage || "/placeholder.jpg"}
+                alt={spot.name || "Unnamed Spot"}
                 className="spot-image-slider"
               />
               <div className="spot-info">
                 <div className="spot-header">
-                  <div className="spot-location">{`${spot.city}, ${spot.state}`}</div>
+                  <div className="spot-location">{`${spot.city || "Unknown City"}, ${
+                    spot.state || "Unknown State"
+                  }`}</div>
                   <div className="spot-rating">
-                    {spot.avgRating ? `⭐ ${spot.avgRating.toFixed(1)}` : 'New'}
+                    {spot.avgRating ? `⭐ ${spot.avgRating.toFixed(1)}` : "New"}
                   </div>
                 </div>
               </div>
-              <div className="spot-price">{`$${spot.price} / night`}</div>
+              <div className="spot-price">{`$${spot.price || 0} / night`}</div>
             </div>
           ))}
         </Slider>
@@ -73,22 +79,25 @@ const LandingPage = () => {
             >
               <div
                 className="spot-card"
+                title={spot.name} // Tooltip with spot name
                 onClick={() => navigate(`/spots/${spot.id}`)}
               >
                 <img
-                  src={spot.previewImage || '/placeholder.jpg'}
-                  alt={spot.name}
+                  src={spot.previewImage || "/placeholder.jpg"}
+                  alt={spot.name || "Unnamed Spot"}
                   className="spot-image"
                 />
                 <div className="spot-info">
                   <div className="spot-header">
-                    <div className="spot-location">{`${spot.city}, ${spot.state}`}</div>
+                    <div className="spot-location">{`${spot.city || "Unknown City"}, ${
+                      spot.state || "Unknown State"
+                    }`}</div>
                     <div className="spot-rating">
-                      {spot.avgRating ? `⭐ ${spot.avgRating.toFixed(1)}` : 'New'}
+                      {spot.avgRating ? `⭐ ${spot.avgRating.toFixed(1)}` : "New"}
                     </div>
                   </div>
                 </div>
-                <div className="spot-price">{`$${spot.price} / night`}</div>
+                <div className="spot-price">{`$${spot.price || 0} / night`}</div>
               </div>
             </Parallax>
           ))}
