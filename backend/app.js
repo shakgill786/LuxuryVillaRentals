@@ -47,13 +47,7 @@ app.use(
 // ✅ Restore User Middleware (Ensures Authentication Works)
 app.use(restoreUser);
 
-// ✅ Debug Restored User Info
-app.use((req, res, next) => {
-  console.log("👤 Restored User:", req.user ? req.user.toJSON() : "No user logged in");
-  next();
-});
-
-// ✅ CSRF Protection Middleware (Fix CSRF Issues)
+// ✅ CSRF Protection Middleware (Must be after restoreUser)
 app.use(
   csurf({
     cookie: {

@@ -1,10 +1,10 @@
-import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
-import Modal from 'react-modal';
-import { fetchSpotDetails } from '../../store/spots';
-import ReviewsSection from '../ReviewsSection/ReviewsSection';
-import './SpotDetailsPage.css';
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import Modal from "react-modal";
+import { fetchSpotDetails } from "../../store/spots";
+import ReviewsSection from "../ReviewsSection/ReviewsSection";
+import "./SpotDetailsPage.css";
 
 const SpotDetailsPage = () => {
   const { spotId } = useParams();
@@ -13,25 +13,34 @@ const SpotDetailsPage = () => {
   const spot = useSelector((state) => state.spots.singleSpot);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         await dispatch(fetchSpotDetails(spotId));
         setIsLoading(false);
-      } catch (error) {
-        console.error('Error fetching spot details:', error);
+      } catch (err) {
+        console.error("❌ Error fetching spot details:", err);
+        setError("Failed to load spot details. Please try again.");
+        setIsLoading(false);
       }
     };
     fetchData();
   }, [dispatch, spotId]);
 
   const handleReserve = () => {
-    alert('Feature coming soon');
+    alert("Feature coming soon!");
   };
 
   if (isLoading) return <div>Loading...</div>;
-  if (!spot) return <div>Spot not found!</div>;
+  if (error) return <div className="error-message">{error}</div>;
+  if (!spot || Object.keys(spot).length === 0) return <div>Spot not found!</div>;
+
+  // ✅ Handle avgStarRating safely
+  const avgRating = spot.avgStarRating && !isNaN(spot.avgStarRating)
+    ? Number(spot.avgStarRating).toFixed(1)
+    : "New";
 
   return (
     <div className="spot-details-page">
@@ -42,6 +51,7 @@ const SpotDetailsPage = () => {
         </p>
       </header>
 
+      {/* ✅ Modal for Spot Details */}
       <Modal isOpen={isModalOpen} onRequestClose={() => setIsModalOpen(false)} className="spot-modal">
         <div className="modal-content">
           <h1>{spot.name}</h1>
@@ -52,18 +62,23 @@ const SpotDetailsPage = () => {
         </div>
       </Modal>
 
+      {/* ✅ Image Gallery */}
       <section className="image-gallery">
         <div className="main-image">
-          <img src={spot.SpotImages[0]?.url || '/placeholder.jpg'} alt={spot.name} />
+          <img
+            src={spot.SpotImages?.[0]?.url || "/placeholder.jpg"}
+            alt={spot.name}
+          />
         </div>
         <div className="thumbnail-images">
-          {spot.SpotImages.slice(1, 5).map((image, idx) => (
+          {spot.SpotImages?.slice(1, 5).map((image, idx) => (
             <img key={idx} src={image.url} alt={`Thumbnail ${idx + 1}`} />
           ))}
         </div>
       </section>
 
       <div className="Details-body">
+        {/* ✅ Host Info */}
         <section className="host-info">
           <h2>
             Hosted by {spot.Owner?.firstName} {spot.Owner?.lastName}
@@ -71,18 +86,17 @@ const SpotDetailsPage = () => {
           <p>{spot.description}</p>
         </section>
 
+        {/* ✅ Pricing & Reserve Section */}
         <section className="pricing-reserve">
           <div className="pricing">
             <p>${spot.price} / night</p>
             <p>
-              <span>
-                ⭐ {spot.avgStarRating ? spot.avgStarRating.toFixed(1) : 'New'}
-              </span>
+              <span>⭐ {avgRating}</span>
               {spot.numReviews > 0 && (
                 <>
-                  {' '}·{' '}
+                  {" "}·{" "}
                   <span>
-                    {spot.numReviews} {spot.numReviews === 1 ? 'review' : 'reviews'}
+                    {spot.numReviews} {spot.numReviews === 1 ? "review" : "reviews"}
                   </span>
                 </>
               )}
@@ -96,6 +110,7 @@ const SpotDetailsPage = () => {
 
       <hr className="section-divider" />
 
+      {/* ✅ Reviews Section */}
       <ReviewsSection spotId={spotId} loggedInUser={loggedInUser} />
     </div>
   );

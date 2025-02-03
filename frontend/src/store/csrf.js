@@ -1,5 +1,3 @@
-// LuxuryVillaServices/frontend/src/store/csrf.js
-
 import Cookies from "js-cookie";
 
 export async function csrfFetch(url, options = {}) {
@@ -9,11 +7,18 @@ export async function csrfFetch(url, options = {}) {
   if (options.method.toUpperCase() !== "GET") {
     options.headers["Content-Type"] =
       options.headers["Content-Type"] || "application/json";
-    options.headers["XSRF-Token"] = Cookies.get("XSRF-TOKEN");
-    console.log("🔒 Sending XSRF-Token:", Cookies.get("XSRF-TOKEN")); // Debugging
+    
+    // ✅ Ensure CSRF Token is included in every non-GET request
+    const csrfToken = Cookies.get("XSRF-TOKEN");
+    if (csrfToken) {
+      options.headers["XSRF-Token"] = csrfToken;
+      console.log("🔒 Sending XSRF-Token:", csrfToken);
+    } else {
+      console.warn("⚠️ No CSRF token found in cookies!");
+    }
   }
 
-  options.credentials = "include"; // Ensure cookies are sent
+  options.credentials = "include";
 
   const res = await fetch(url, options);
 
