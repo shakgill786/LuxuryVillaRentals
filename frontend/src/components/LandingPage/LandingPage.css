@@ -1,4 +1,4 @@
-/* General styling */
+/* General Styling */
 body {
   font-family: 'Georgia', serif;
   background: linear-gradient(to bottom, white, #f5f5dc, rgb(255, 252, 237));
@@ -7,7 +7,7 @@ body {
   color: #333;
 }
 
-/* Navbar styling */
+/* Navbar Styling */
 .navbar {
   display: flex;
   flex-wrap: wrap;
@@ -56,6 +56,30 @@ img.logo:hover {
   animation: fancy-text-glow 3s infinite alternate ease-in-out, fade-in 2s ease-in;
 }
 
+/* Landing Page Header (Fixed Alignment) */
+.landing-page-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  width: 100%;
+  margin-top: 20px;
+}
+
+/* Heading Styling */
+.landing-page h1 {
+  font-family: 'Cinzel', serif;
+  background: linear-gradient(135deg, #1c1a19, #52572fac, #8a7c46);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-size: 2.5rem;
+  text-align: center;
+  letter-spacing: 2px;
+  animation: gradient-text 5s infinite alternate, pulse 2s infinite ease-in-out;
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+}
+
 /* Keyframes for glowing effect */
 @keyframes fancy-text-glow {
   0% {
@@ -76,43 +100,6 @@ img.logo:hover {
   100% {
     opacity: 1;
   }
-}
-
-/* Responsive Design for Navbar */
-@media (max-width: 768px) {
-  .navbar {
-    flex-direction: column;
-    justify-content: center;
-  }
-
-  .navbar-logo {
-    flex: 0 0 auto;
-    margin-bottom: 10px;
-  }
-
-  img.logo {
-    width: auto;
-    height: 100px;
-  }
-
-  .navbar-title {
-    font-size: 2rem;
-    margin-top: 5px;
-  }
-}
-
-/* Center the heading with gradient and pulse effect */
-.landing-page h1 {
-  font-family: 'Cinzel', serif;
-  background: linear-gradient(135deg, #1c1a19, #52572fac, #8a7c46);
-  background-clip: text;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  text-align: center;
-  margin-top: 20px;
-  font-size: 2.5rem;
-  animation: gradient-text 5s infinite alternate, pulse 2s infinite ease-in-out;
-  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
 }
 
 /* Keyframes for gradient-text animation */
@@ -137,7 +124,7 @@ img.logo:hover {
   }
 }
 
-/* Spots grid */
+/* Spots Grid */
 .spots-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
@@ -148,7 +135,7 @@ img.logo:hover {
   z-index: 1;
 }
 
-/* Spot cards */
+/* Spot Cards */
 .spot-card {
   background: #fff;
   border: 1px solid #ddd;
@@ -182,7 +169,7 @@ img.logo:hover {
   position: relative;
 }
 
-/* Spot image */
+/* Spot Image */
 .spot-image {
   position: relative;
   width: 100%;
@@ -191,7 +178,7 @@ img.logo:hover {
   border-radius: 10px;
 }
 
-/* Spot info */
+/* Spot Info */
 .spot-info {
   padding: 10px;
 }
@@ -216,56 +203,25 @@ img.logo:hover {
   font-weight: bold;
 }
 
-/* Carousel Slider */
-.slick-slider {
-  margin: 20px 0;
-}
+/* Responsive Design for Navbar */
+@media (max-width: 768px) {
+  .navbar {
+    flex-direction: column;
+    justify-content: center;
+  }
 
-.slick-arrow {
-  background: #742eae;
-  color: white;
-  border: none;
-  padding: 10px;
-  border-radius: 50%;
-  cursor: pointer;
-  transition: transform 0.2s ease, background 0.3s ease;
-}
+  .navbar-logo {
+    flex: 0 0 auto;
+    margin-bottom: 10px;
+  }
 
-.slick-arrow:hover {
-  background: #ffcc00;
-  transform: scale(1.2);
-}
+  img.logo {
+    width: auto;
+    height: 100px;
+  }
 
-.slick-dots li button:before {
-  color: white;
-}
-
-.slick-dots li.slick-active button:before {
-  color: #ffffff;
-}
-
-/* Spot cards in Slider */
-.spot-card-slider {
-  background: linear-gradient(135deg, #f8f9fa, #e6e6e6);
-  border: 2px solid white;
-  border-radius: 15px;
-  overflow: hidden;
-  box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.2);
-  cursor: pointer;
-  margin: 0 10px;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.spot-card-slider:hover {
-  transform: translateY(-10px);
-  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.3);
-}
-
-/* Spot image in Slider */
-.spot-image-slider {
-  width: 100%;
-  height: 200px;
-  object-fit: cover;
-  border: 4px solid white;
-  border-radius: 15px;
+  .navbar-title {
+    font-size: 2rem;
+    margin-top: 5px;
+  }
 }

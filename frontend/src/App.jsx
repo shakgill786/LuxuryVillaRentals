@@ -1,24 +1,29 @@
-import { useState, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import { createBrowserRouter, RouterProvider, Outlet } from 'react-router-dom';
+import { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux"; // ✅ Add useSelector
+import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
+import * as sessionActions from "./store/session";
+
 import LoginFormPage from "./components/LoginFormModal/LoginFormModal";
 import SignupFormPage from "./components/SignupFormModal/SignupFormModal";
-import Navigation from './components/Navigation/Navigation';
-import LandingPage from './components/LandingPage/LandingPage';
-import SpotDetailsPage from './components/SpotDetailsPage/SpotDetailsPage';
-import CreateSpotForm from './components/CreateSpotForm/CreateSpotForm';
-import ManageSpotsPage from './components/ManageSpotsPage/ManageSpotsPage';
+import Navigation from "./components/Navigation/Navigation";
+import LandingPage from "./components/LandingPage/LandingPage";
+import SpotDetailsPage from "./components/SpotDetailsPage/SpotDetailsPage";
+import CreateSpotForm from "./components/CreateSpotForm/CreateSpotForm";
+import ManageSpotsPage from "./components/ManageSpotsPage/ManageSpotsPage";
 import UpdateSpotForm from "./components/UpdateSpotForm/UpdateSpotForm";
-import ReservationPage from "./components/ReservationPage/ReservationPage"; // Import the reservation page
-import * as sessionActions from './store/session';
+import ReservationPage from "./components/ReservationPage/ReservationPage"; 
 
 function Layout() {
   const dispatch = useDispatch();
   const [isLoaded, setIsLoaded] = useState(false);
+  const sessionUser = useSelector((state) => state.session.user); // ✅ Define sessionUser
 
   useEffect(() => {
-    dispatch(sessionActions.restoreUser()).then(() => setIsLoaded(true));
-  }, [dispatch]);
+    dispatch(sessionActions.restoreUser()).then(() => {
+      console.log("✅ User restored:", sessionUser);
+      setIsLoaded(true);
+    });
+  }, [dispatch, sessionUser]); // ✅ Include sessionUser in dependencies
 
   return (
     <>
@@ -28,42 +33,19 @@ function Layout() {
   );
 }
 
+// ✅ Define Routes Properly
 const router = createBrowserRouter([
   {
     element: <Layout />,
     children: [
-      {
-        path: '/',
-        element: <LandingPage />,
-      },
-      {
-        path: '/login',
-        element: <LoginFormPage />,
-      },
-      {
-        path: '/signup',
-        element: <SignupFormPage />,
-      },
-      {
-        path: '/spots/:spotId',
-        element: <SpotDetailsPage />,
-      },
-      {
-        path: '/spots/new',
-        element: <CreateSpotForm />,
-      },
-      {
-        path: '/manage-spots',
-        element: <ManageSpotsPage />,
-      },
-      {
-        path: '/spots/:spotId/edit',
-        element: <UpdateSpotForm />,
-      },
-      {
-        path: '/reserve',
-        element: <ReservationPage />,
-      },
+      { path: "/", element: <LandingPage /> },
+      { path: "/login", element: <LoginFormPage /> },
+      { path: "/signup", element: <SignupFormPage /> },
+      { path: "/spots/:spotId", element: <SpotDetailsPage /> },
+      { path: "/spots/new", element: <CreateSpotForm /> },
+      { path: "/manage-spots", element: <ManageSpotsPage /> },
+      { path: "/spots/:spotId/edit", element: <UpdateSpotForm /> },
+      { path: "/reserve", element: <ReservationPage /> },
     ],
   },
 ]);

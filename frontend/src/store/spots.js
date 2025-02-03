@@ -2,22 +2,15 @@ import { csrfFetch } from './csrf';
 
 // Action Types
 const LOAD_SPOTS = 'spots/LOAD_SPOTS';
-const FETCH_ERROR = 'spots/FETCH_ERROR';
 const LOAD_SINGLE_SPOT = 'spots/LOAD_SINGLE_SPOT';
-const LOAD_REVIEWS = 'spots/LOAD_REVIEWS';
-const ADD_REVIEW = 'spots/ADD_REVIEW';
 const CREATE_SPOT = 'spots/CREATE_SPOT';
 const DELETE_SPOT = 'spots/DELETE_SPOT';
-const UPDATE_SPOT = "spots/UPDATE_SPOT";
-
-
+const UPDATE_SPOT = 'spots/UPDATE_SPOT';
+const LOAD_REVIEWS = 'spots/LOAD_REVIEWS';
+const ADD_REVIEW = 'spots/ADD_REVIEW';
+const FETCH_ERROR = 'spots/FETCH_ERROR';
 
 // Action Creators
-const updateSpot = (spot) => ({
-  type: UPDATE_SPOT,
-  payload: spot,
-});
-
 const loadSpots = (spots, page, size) => ({
   type: LOAD_SPOTS,
   spots,
@@ -30,9 +23,19 @@ const loadSingleSpot = (spot) => ({
   spot,
 });
 
-const fetchError = (error) => ({
-  type: FETCH_ERROR,
-  error,
+const createSpot = (spot) => ({
+  type: CREATE_SPOT,
+  spot,
+});
+
+const deleteSpotAction = (spotId) => ({
+  type: DELETE_SPOT,
+  spotId,
+});
+
+const updateSpot = (spot) => ({
+  type: UPDATE_SPOT,
+  payload: spot,
 });
 
 const loadReviews = (reviews) => ({
@@ -45,29 +48,12 @@ const addReview = (review) => ({
   review,
 });
 
-export const createSpot = (spot) => ({
-  type: CREATE_SPOT,
-  spot,
-});
-
-const deleteSpotAction = (spotId) => ({
-  type: DELETE_SPOT,
-  spotId,
+const fetchError = (error) => ({
+  type: FETCH_ERROR,
+  error,
 });
 
 // Thunk Actions
-
-export const updateSpotThunk = (spotId, updatedSpotData) => async (dispatch) => {
-  const response = await csrfFetch(`/api/spots/${spotId}`, {
-    method: 'PUT',
-    body: JSON.stringify(updatedSpotData),
-  });
-
-  const updatedSpot = await response.json();
-  dispatch(updateSpot(updatedSpot));
-  return updatedSpot;
-};
-
 export const fetchAllSpots = (page = 1, size = 20) => async (dispatch) => {
   try {
     const response = await csrfFetch(`/api/spots?page=${page}&size=${size}`);
@@ -76,7 +62,7 @@ export const fetchAllSpots = (page = 1, size = 20) => async (dispatch) => {
       dispatch(loadSpots(spots, page, size));
     }
   } catch (err) {
-    console.error('Fetch Error:', err);
+    console.error('Fetch Spots Error:', err);
     dispatch(fetchError(err));
   }
 };
@@ -89,54 +75,16 @@ export const fetchSpotDetails = (spotId) => async (dispatch) => {
       dispatch(loadSingleSpot(spotDetails));
     }
   } catch (err) {
-    console.error('Fetch Error:', err);
+    console.error('Fetch Spot Details Error:', err);
     dispatch(fetchError(err));
   }
 };
-
-export const fetchReviews = (spotId) => async (dispatch) => {
-  try {
-    const response = await csrfFetch(`/api/spots/${spotId}/reviews`);
-    if (response.ok) {
-      const reviews = await response.json();
-      dispatch(loadReviews(reviews.Reviews)); // Only pass Reviews array
-    }
-  } catch (err) {
-    console.error('Fetch Error:', err);
-    dispatch(fetchError(err));
-  }
-};
-
-export const postReview = (spotId, reviewData) => async (dispatch) => {
-  try {
-    const response = await csrfFetch(`/api/spots/${spotId}/reviews`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(reviewData),
-    });
-    if (response.ok) {
-      const newReview = await response.json();
-      dispatch(addReview(newReview)); // Dispatch addReview to update Redux state
-      dispatch(fetchSpotDetails(spotId)); // Optional: Refresh spot details (e.g., avg rating)
-      return newReview;
-    } else {
-      const error = await response.json();
-      throw error;
-    }
-  } catch (err) {
-    console.error('Post Review Error:', err);
-    throw err;
-  }
-};
-
 
 export const createSpotThunk = (spotData) => async (dispatch) => {
   try {
     const response = await csrfFetch('/api/spots', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(spotData),
     });
 
@@ -154,6 +102,28 @@ export const createSpotThunk = (spotData) => async (dispatch) => {
   }
 };
 
+export const updateSpotThunk = (spotId, updatedSpotData) => async (dispatch) => {
+  try {
+    const response = await csrfFetch(`/api/spots/${spotId}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(updatedSpotData),
+    });
+
+    if (response.ok) {
+      const updatedSpot = await response.json();
+      dispatch(updateSpot(updatedSpot));
+      return updatedSpot;
+    } else {
+      const error = await response.json();
+      throw error;
+    }
+  } catch (err) {
+    console.error('Update Spot Error:', err);
+    throw err;
+  }
+};
+
 export const deleteSpot = (spotId) => async (dispatch) => {
   try {
     const response = await csrfFetch(`/api/spots/${spotId}`, {
@@ -161,7 +131,7 @@ export const deleteSpot = (spotId) => async (dispatch) => {
     });
 
     if (response.ok) {
-      dispatch(deleteSpotAction(spotId)); // Dispatch delete action to update Redux store
+      dispatch(deleteSpotAction(spotId));
     } else {
       const error = await response.json();
       throw error;
@@ -172,19 +142,52 @@ export const deleteSpot = (spotId) => async (dispatch) => {
   }
 };
 
+// ✅ Fetch reviews for a spot
+export const fetchReviews = (spotId) => async (dispatch) => {
+  try {
+    const response = await csrfFetch(`/api/spots/${spotId}/reviews`);
+    if (response.ok) {
+      const reviews = await response.json();
+      dispatch(loadReviews(reviews.Reviews)); // Ensure we're only passing the reviews array
+    }
+  } catch (err) {
+    console.error('Fetch Reviews Error:', err);
+    dispatch(fetchError(err));
+  }
+};
+
+// ✅ Post a new review for a spot
+export const postReview = (spotId, reviewData) => async (dispatch) => {
+  try {
+    const response = await csrfFetch(`/api/spots/${spotId}/reviews`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(reviewData),
+    });
+
+    if (response.ok) {
+      const newReview = await response.json();
+      dispatch(addReview(newReview));
+      dispatch(fetchReviews(spotId)); // Refresh reviews after posting
+      return newReview;
+    } else {
+      const error = await response.json();
+      throw error;
+    }
+  } catch (err) {
+    console.error('Post Review Error:', err);
+    throw err;
+  }
+};
 
 // Initial State
 const initialState = {
   allSpots: {},
-  pagination: {
-    page: 1,
-    size: 20,
-  },
+  pagination: { page: 1, size: 20 },
   singleSpot: null,
-  spotReviews: {}, // Keep reviews for a single spot here
+  spotReviews: {}, // ✅ Added spot reviews state
   error: null,
 };
-
 
 // Reducer
 const spotsReducer = (state = initialState, action) => {
@@ -195,38 +198,12 @@ const spotsReducer = (state = initialState, action) => {
       action.spots.Spots.forEach((spot) => {
         newState.allSpots[spot.id] = spot;
       });
-      newState.pagination = {
-        page: action.page,
-        size: action.size,
-      };
+      newState.pagination = { page: action.page, size: action.size };
       return newState;
     }
 
     case LOAD_SINGLE_SPOT:
       return { ...state, singleSpot: action.spot };
-
-    case FETCH_ERROR:
-      return { ...state, error: action.error };
-
-    case LOAD_REVIEWS: {
-      const newState = { ...state };
-      const spotReviews = {};
-      action.reviews.forEach((review) => {
-        spotReviews[review.id] = review;
-      });
-      newState.spotReviews = spotReviews;
-      return newState;
-    }
-
-    case ADD_REVIEW: {
-      return {
-        ...state,
-        spotReviews: {
-          ...state.spotReviews,
-          [action.review.id]: action.review, // Add new review dynamically
-        },
-      };
-    }
 
     case CREATE_SPOT:
       return {
@@ -239,29 +216,44 @@ const spotsReducer = (state = initialState, action) => {
 
     case DELETE_SPOT: {
       const newState = { ...state, allSpots: { ...state.allSpots } };
-      delete newState.allSpots[action.spotId]; // Remove the spot by its ID
+      delete newState.allSpots[action.spotId];
       return newState;
     }
 
-    case UPDATE_SPOT: {
-      const updatedSpot = action.payload; // Spot data from the action
+    case UPDATE_SPOT:
       return {
         ...state,
         allSpots: {
           ...state.allSpots,
-          [updatedSpot.id]: updatedSpot, // Update the specific spot in allSpots
+          [action.payload.id]: action.payload,
         },
-        singleSpot:
-          state.singleSpot && state.singleSpot.id === updatedSpot.id
-            ? updatedSpot
-            : state.singleSpot, // Update singleSpot only if it's the one being updated
+      };
+
+    case LOAD_REVIEWS: {
+      return {
+        ...state,
+        spotReviews: action.reviews.reduce((acc, review) => {
+          acc[review.id] = review;
+          return acc;
+        }, {}),
       };
     }
+
+    case ADD_REVIEW:
+      return {
+        ...state,
+        spotReviews: {
+          ...state.spotReviews,
+          [action.review.id]: action.review,
+        },
+      };
+
+    case FETCH_ERROR:
+      return { ...state, error: action.error };
 
     default:
       return state;
   }
 };
-
 
 export default spotsReducer;

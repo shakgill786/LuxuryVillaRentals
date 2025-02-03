@@ -1,3 +1,4 @@
+/* General Form Styling */
 .create-spot-form {
   max-width: 600px;
   margin: auto;
@@ -5,6 +6,7 @@
   font-family: Arial, sans-serif;
 }
 
+/* Main Heading */
 .create-spot-form h1 {
   margin-bottom: 20px;
   font-size: 2rem;
@@ -12,23 +14,26 @@
   text-align: center;
 }
 
+/* Section Titles */
 .create-spot-form h2 {
   margin-bottom: 10px;
   font-size: 1.5rem;
-  color: black; /* Ensure the subheader text is black */
+  color: black;
 }
 
+/* Description Text */
 .create-spot-form p {
   margin-bottom: 10px;
   color: gray;
   font-size: 0.9rem;
 }
 
+/* Input Fields */
 .create-spot-form label {
   display: block;
   margin-bottom: 10px;
   font-size: 1rem;
-  color: #333; /* Label text color */
+  color: #333;
 }
 
 .create-spot-form input,
@@ -42,11 +47,13 @@
   box-sizing: border-box;
 }
 
+/* Ensure text area has a fixed height */
 .create-spot-form textarea {
-  resize: none; /* Prevent resizing of the textarea */
-  height: 150px; /* Set a fixed height for the textarea */
+  resize: none;
+  height: 150px;
 }
 
+/* Submit Button */
 .create-spot-form button {
   width: 100%;
   padding: 10px;
@@ -63,18 +70,18 @@
   background: darkgoldenrod;
 }
 
-/* Error messages */
+/* Error Messages */
 .create-spot-form .error {
-  color: red !important; /* Ensure error messages are red */
+  color: red !important;
   font-size: 0.9rem;
   margin-top: -5px;
   margin-bottom: 10px;
 }
 
-/* Styling for the location inputs */
+/* Location Inputs */
 .location-inputs {
   display: flex;
-  gap: 20px; /* Space between inputs */
+  gap: 20px;
   margin-bottom: 20px;
 }
 
@@ -95,15 +102,7 @@
   box-sizing: border-box;
 }
 
-.location-inputs .comma {
-  align-self: center;
-  justify-self: left;
-  margin-top: 15px; /* Adjusts the position lower */
-  font-size: 1.2rem;
-  color: black; /* Color of the comma between inputs */
-}
-
-/* Price Input Section */
+/* Price Input */
 .price-input-container {
   display: flex;
   align-items: center;
@@ -111,13 +110,13 @@
 }
 
 .price-input-container .dollar-sign {
-  margin-right: 10px; /* Space between dollar sign and input */
-  font-size: 1.2rem; /* Adjust size of the dollar sign */
-  color: black; /* Optional: dollar sign color */
+  margin-right: 10px;
+  font-size: 1.2rem;
+  color: black;
 }
 
 .price-input-container input {
-  width: 100%; /* Ensure input spans the full container width */
+  width: 100%;
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 5px;
@@ -125,11 +124,11 @@
   box-sizing: border-box;
 }
 
-/* Responsive design */
+/* Responsive Design */
 @media (max-width: 768px) {
   .location-inputs {
-    flex-direction: column; /* Single column for smaller screens */
-    gap: 10px; /* Adjust spacing for smaller layout */
+    flex-direction: column;
+    gap: 10px;
   }
 
   .create-spot-form button {
@@ -143,10 +142,10 @@
   }
 
   .price-input-container {
-    flex-direction: column; /* Stack elements for smaller screens */
+    flex-direction: column;
   }
 
   .price-input-container .dollar-sign {
-    margin-bottom: 5px; /* Add spacing below the dollar sign */
+    margin-bottom: 5px;
   }
 }
