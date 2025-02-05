@@ -4,34 +4,24 @@ import { fetchReviews, deleteReview } from "../../store/reviews";
 import CreateReviewButton from "../CreateReviewModal/CreateReviewButton";
 import DeleteReviewModal from "../DeleteReviewModal/DeleteReviewModal";
 
-const ReviewsSection = ({ spotId, loggedInUser, isSpotOwner }) => {
+const ReviewsSection = ({ spotId, loggedInUser }) => {
   const dispatch = useDispatch();
+  
+  // Fetch reviews & spot details from Redux
   const reviews = useSelector((state) => Object.values(state.reviews.spotReviews || {}));
+  const spot = useSelector((state) => state.spots.singleSpot);
 
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [reviewToDelete, setReviewToDelete] = useState(null);
 
-  // Fetch reviews on mount
   useEffect(() => {
-    const fetchReviewsData = async () => {
-      try {
-        await dispatch(fetchReviews(spotId));
-      } catch (error) {
-        console.error("Error fetching reviews:", error);
-      }
-    };
-
-    fetchReviewsData();
+    dispatch(fetchReviews(spotId));
   }, [dispatch, spotId]);
 
   const handleDeleteReview = async (reviewId) => {
-    try {
-      await dispatch(deleteReview(reviewId)); // Dispatch delete action
-      await dispatch(fetchReviews(spotId)); // Re-fetch reviews
-      closeDeleteModal(); // Close the modal
-    } catch (error) {
-      console.error("Error deleting review:", error);
-    }
+    await dispatch(deleteReview(reviewId));
+    await dispatch(fetchReviews(spotId));
+    closeDeleteModal();
   };
 
   const openDeleteModal = (reviewId) => {
@@ -44,14 +34,20 @@ const ReviewsSection = ({ spotId, loggedInUser, isSpotOwner }) => {
     setIsDeleteModalOpen(false);
   };
 
-  // Safely get average rating or default to "New"
-  const avgStarRating =
-    reviews.length > 0 && reviews[0].spot?.avgStarRating
-      ? reviews[0].spot.avgStarRating.toFixed(1)
-      : "New";
+  // ✅ Check if the logged-in user is the owner of the spot
+  const isSpotOwner = loggedInUser?.id === spot?.ownerId;
 
-  // Check if the user can post the first review
-  const canPostFirstReview = loggedInUser && !isSpotOwner && reviews.length === 0;
+  // ✅ Check if the logged-in user has already posted a review
+  const hasUserReviewed = reviews.some((review) => review.userId === loggedInUser?.id);
+
+  // ✅ Hide "Post Your Review" button if user is owner or has already reviewed
+  const shouldShowReviewButton = loggedInUser && !isSpotOwner && !hasUserReviewed;
+
+  // Get the average star rating or default to "New"
+  const avgStarRating =
+    reviews.length > 0 && spot?.avgStarRating
+      ? spot.avgStarRating.toFixed(1)
+      : "New";
 
   return (
     <section className="reviews">
@@ -67,14 +63,14 @@ const ReviewsSection = ({ spotId, loggedInUser, isSpotOwner }) => {
         )}
       </h3>
 
-      {/* Create Review Button */}
-      {loggedInUser && (
+      {/* ✅ Only show "Post Your Review" button if conditions allow */}
+      {shouldShowReviewButton && (
         <div className="write-review-button">
           <CreateReviewButton spotId={spotId} />
         </div>
       )}
 
-      {/* Render Reviews or Prompt to Post the First Review */}
+      {/* Render Reviews */}
       {reviews.length > 0 ? (
         <ul className="review-list">
           {reviews
@@ -89,7 +85,9 @@ const ReviewsSection = ({ spotId, loggedInUser, isSpotOwner }) => {
                   })}
                 </p>
                 <p>{review.review}</p>
-                {loggedInUser && loggedInUser.id === review.userId && (
+
+                {/* ✅ Show delete button only if user is the owner of the review */}
+                {loggedInUser?.id === review.userId && (
                   <button
                     className="delete-review-button"
                     onClick={() => openDeleteModal(review.id)}
@@ -100,8 +98,6 @@ const ReviewsSection = ({ spotId, loggedInUser, isSpotOwner }) => {
               </li>
             ))}
         </ul>
-      ) : canPostFirstReview ? (
-        <p className="first-review-prompt">Be the first to post a review!</p>
       ) : (
         <p>No reviews yet.</p>
       )}
