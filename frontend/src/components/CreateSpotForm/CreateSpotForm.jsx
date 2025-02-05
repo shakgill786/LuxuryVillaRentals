@@ -25,6 +25,7 @@ function CreateSpotForm() {
   const [formErrors, setFormErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  // ✅ Handle Input Changes
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -35,14 +36,17 @@ function CreateSpotForm() {
     setImageUrls(updatedUrls);
   };
 
+  // ✅ Form Submission
   const handleSubmit = async (e) => {
     e.preventDefault();
     setFormErrors({});
     setIsSubmitting(true);
 
-    const { country, address, city, state, lat, lng, description, name, price, previewImage } = formData;
+    console.log("🔄 Submitting Form Data:", formData);
 
+    const { country, address, city, state, lat, lng, description, name, price, previewImage } = formData;
     const newErrors = {};
+
     if (!country) newErrors.country = "Country is required";
     if (!address) newErrors.address = "Street address is required";
     if (!city) newErrors.city = "City is required";
@@ -61,15 +65,18 @@ function CreateSpotForm() {
     }
 
     try {
+      console.log("🚀 Dispatching createSpotThunk...");
       const newSpot = await dispatch(
         createSpotThunk({
           ...formData,
           images: [previewImage, ...imageUrls.filter((url) => url.trim() !== "")],
         })
       );
+
+      console.log("✅ Spot Created Successfully:", newSpot);
       navigate(`/spots/${newSpot.id}`);
     } catch (error) {
-      console.error("Error creating spot:", error);
+      console.error("❌ Error creating spot:", error);
       setFormErrors({ api: "Failed to create spot. Please try again." });
       setIsSubmitting(false);
     }
@@ -98,8 +105,7 @@ function CreateSpotForm() {
     <div className="create-spot-form">
       <h1>Create a New Spot</h1>
       <form onSubmit={handleSubmit}>
-
-        {/* Section 1: Location */}
+        {/* 🌎 Section 1: Location */}
         <h2>Where&apos;s your place located?</h2>
         <p>Guests will only get your exact address once they&apos;ve booked a reservation.</p>
 
@@ -143,28 +149,25 @@ function CreateSpotForm() {
           </label>
         </div>
 
-        {/* Section 2: Description */}
+        {/* 📝 Section 2: Description */}
         <h2>Describe your place to guests</h2>
-        <p>
-          Mention the best features of your space, any special amenities like fast Wi-Fi or parking,
-          and what you love about the neighborhood.
-        </p>
+        <p>Mention special amenities like Wi-Fi, parking, and what you love about the neighborhood.</p>
         <textarea name="description" value={formData.description} onChange={handleChange} placeholder="Please write at least 30 characters"></textarea>
         {formErrors.description && <p className="error">{formErrors.description}</p>}
 
-        {/* Section 3: Title */}
+        {/* 🏡 Section 3: Title */}
         <h2>Create a title for your spot</h2>
-        <p>Catch guests&apos; attention with a spot title that highlights what makes your place special.</p>
+        <p>Catch guests&apos; attention with a title that highlights what makes your place special.</p>
         <input type="text" name="name" value={formData.name} onChange={handleChange} placeholder="Name of your spot" />
         {formErrors.name && <p className="error">{formErrors.name}</p>}
 
-        {/* Section 4: Price */}
+        {/* 💲 Section 4: Price */}
         <h2>Set a base price for your spot</h2>
-        <p>Competitive pricing can help your listing stand out and rank higher in search results.</p>
+        <p>Competitive pricing can help your listing stand out.</p>
         <input type="number" name="price" value={formData.price} onChange={handleChange} placeholder="Price per night (USD)" />
         {formErrors.price && <p className="error">{formErrors.price}</p>}
 
-        {/* Section 5: Images */}
+        {/* 📸 Section 5: Images */}
         <h2>Liven up your spot with photos</h2>
         <p>Submit a link to at least one photo to publish your spot.</p>
         <input type="text" name="previewImage" value={formData.previewImage} onChange={handleChange} placeholder="Preview Image URL" />
@@ -176,7 +179,9 @@ function CreateSpotForm() {
 
         {formErrors.api && <p className="error">{formErrors.api}</p>}
 
-        <button type="submit" disabled={isSubmitting}>{isSubmitting ? "Creating..." : "Create a Spot"}</button>
+        <button type="submit" disabled={isSubmitting}>
+          {isSubmitting ? "Creating..." : "Create a Spot"}
+        </button>
       </form>
     </div>
   );

@@ -81,24 +81,30 @@ export const fetchSpotDetails = (spotId) => async (dispatch) => {
 };
 
 export const createSpotThunk = (spotData) => async (dispatch) => {
-  try {
-    const response = await csrfFetch('/api/spots', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(spotData),
-    });
+  console.log("🚀 Dispatching createSpotThunk with:", spotData);
 
-    if (response.ok) {
-      const newSpot = await response.json();
-      dispatch(createSpot(newSpot));
-      return newSpot;
-    } else {
-      const error = await response.json();
-      throw error;
-    }
+  try {
+      const response = await csrfFetch('/api/spots', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(spotData),
+      });
+
+      console.log("📡 Response from API:", response);
+
+      if (response.ok) {
+          const newSpot = await response.json();
+          console.log("✅ Successfully created spot:", newSpot);
+          dispatch(createSpot(newSpot));
+          return newSpot;
+      } else {
+          const error = await response.json();
+          console.error("❌ API Error Response:", error);
+          throw error;
+      }
   } catch (err) {
-    console.error('Create Spot Error:', err);
-    throw err;
+      console.error("🚨 Create Spot Error:", err);
+      throw err;
   }
 };
 
