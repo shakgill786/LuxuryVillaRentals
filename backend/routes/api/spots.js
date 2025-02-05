@@ -3,7 +3,7 @@ const { Op } = require('sequelize');
 const { Spot, SpotImage, Review, User, ReviewImage, Booking } = require('../../db/models');
 const { requireAuth } = require('../../utils/auth');
 const { check } = require('express-validator');
-const { handleValidationErrors } = require('../../utils/validation');
+const { validationResult } = require('express-validator');
 const { sequelize } = require("../../db/models"); // ✅ Import sequelize
 
 const router = express.Router();
