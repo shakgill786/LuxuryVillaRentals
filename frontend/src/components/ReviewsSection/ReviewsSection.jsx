@@ -4,14 +4,14 @@ import { fetchReviews, deleteReview } from "../../store/reviews";
 import CreateReviewButton from "../CreateReviewModal/CreateReviewButton";
 import DeleteReviewModal from "../DeleteReviewModal/DeleteReviewModal";
 
-const ReviewsSection = ({ spotId, loggedInUser, isSpotOwner }) => {
+const ReviewsSection = ({ spotId, loggedInUser }) => {
   const dispatch = useDispatch();
   const reviews = useSelector((state) => Object.values(state.reviews.spotReviews || {}));
+  const spot = useSelector((state) => state.spots.singleSpot); // Get spot details
 
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [reviewToDelete, setReviewToDelete] = useState(null);
 
-  // Fetch reviews on mount
   useEffect(() => {
     const fetchReviewsData = async () => {
       try {
@@ -26,9 +26,9 @@ const ReviewsSection = ({ spotId, loggedInUser, isSpotOwner }) => {
 
   const handleDeleteReview = async (reviewId) => {
     try {
-      await dispatch(deleteReview(reviewId)); // Dispatch delete action
-      await dispatch(fetchReviews(spotId)); // Re-fetch reviews
-      closeDeleteModal(); // Close the modal
+      await dispatch(deleteReview(reviewId));
+      await dispatch(fetchReviews(spotId));
+      closeDeleteModal();
     } catch (error) {
       console.error("Error deleting review:", error);
     }
@@ -44,14 +44,11 @@ const ReviewsSection = ({ spotId, loggedInUser, isSpotOwner }) => {
     setIsDeleteModalOpen(false);
   };
 
-  // Safely get average rating or default to "New"
-  const avgStarRating =
-    reviews.length > 0 && reviews[0].spot?.avgStarRating
-      ? reviews[0].spot.avgStarRating.toFixed(1)
-      : "New";
-
-  // ✅ Check if logged-in user has already posted a review
+  // ✅ Check if the logged-in user has already posted a review
   const userHasReviewed = reviews.some((review) => review.userId === loggedInUser?.id);
+
+  // ✅ Check if the logged-in user is the **owner** of the spot
+  const isSpotOwner = loggedInUser && spot?.ownerId === loggedInUser.id;
 
   // ✅ Conditions for hiding the "Post Your Review" button
   const shouldShowReviewButton = loggedInUser && !isSpotOwner && !userHasReviewed;
@@ -59,7 +56,7 @@ const ReviewsSection = ({ spotId, loggedInUser, isSpotOwner }) => {
   return (
     <section className="reviews">
       <h3>
-        ⭐ {avgStarRating}
+        ⭐ {spot?.avgStarRating ? spot.avgStarRating.toFixed(1) : "New"}
         {reviews.length > 0 && (
           <>
             <span> · </span>
@@ -77,7 +74,7 @@ const ReviewsSection = ({ spotId, loggedInUser, isSpotOwner }) => {
         </div>
       )}
 
-      {/* Render Reviews or Prompt to Post the First Review */}
+      {/* Render Reviews */}
       {reviews.length > 0 ? (
         <ul className="review-list">
           {reviews
