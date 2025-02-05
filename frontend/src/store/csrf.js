@@ -9,10 +9,10 @@ export async function csrfFetch(url, options = {}) {
 
     const csrfToken = Cookies.get("XSRF-TOKEN");
     if (csrfToken) {
+      console.log("🔒 CSRF Token Sent:", csrfToken);
       options.headers["XSRF-Token"] = csrfToken;
-      console.log("🔒 Sending CSRF Token:", csrfToken);
     } else {
-      console.warn("⚠️ No CSRF token found in cookies!");
+      console.warn("⚠️ No CSRF token found!");
     }
   }
 

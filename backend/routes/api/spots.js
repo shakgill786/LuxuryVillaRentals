@@ -264,10 +264,12 @@ router.get("/:spotId", async (req, res) => {
   }
 });
 
-// ✅ Create a Spot (Now Fetching Created Spot)
 router.post("/", requireAuth, validateSpot, async (req, res) => {
+  console.log("📥 Incoming Create Spot Request:", req.body); // Log request body
+
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
+    console.log("❌ Validation Errors:", errors.mapped());
     return res.status(400).json({ errors: errors.mapped() });
   }
 
@@ -289,8 +291,11 @@ router.post("/", requireAuth, validateSpot, async (req, res) => {
       price,
     });
 
+    console.log("✅ New Spot Created:", newSpot.toJSON());
+
     // Handle images (if provided)
     if (images && images.length > 0) {
+      console.log("📸 Adding Images:", images);
       const spotImages = images.map((url, index) => ({
         spotId: newSpot.id,
         url,
@@ -305,9 +310,11 @@ router.post("/", requireAuth, validateSpot, async (req, res) => {
     });
 
     if (!createdSpot) {
+      console.error("🚨 Failed to fetch created spot!");
       return res.status(500).json({ message: "Failed to fetch created spot" });
     }
 
+    console.log("✅ Spot Successfully Created & Returned:", createdSpot.toJSON());
     res.status(201).json(createdSpot);
   } catch (error) {
     console.error("🚨 Error creating spot:", error);
