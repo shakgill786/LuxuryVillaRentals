@@ -135,41 +135,24 @@ function CreateSpotForm() {
           </label>
         </div>
 
-        <div className="location-inputs">
-          <label>
-            Latitude
-            <input type="number" name="lat" value={formData.lat} onChange={handleChange} placeholder="Latitude" />
-            {formErrors.lat && <p className="error">{formErrors.lat}</p>}
-          </label>
-
-          <label>
-            Longitude
-            <input type="number" name="lng" value={formData.lng} onChange={handleChange} placeholder="Longitude" />
-            {formErrors.lng && <p className="error">{formErrors.lng}</p>}
-          </label>
-        </div>
-
-        {/* 📝 Section 2: Description */}
+        {/* 📝 Description */}
         <h2>Describe your place to guests</h2>
         <p>Mention special amenities like Wi-Fi, parking, and what you love about the neighborhood.</p>
         <textarea name="description" value={formData.description} onChange={handleChange} placeholder="Please write at least 30 characters"></textarea>
         {formErrors.description && <p className="error">{formErrors.description}</p>}
 
-        {/* 🏡 Section 3: Title */}
+        {/* 🏡 Title */}
         <h2>Create a title for your spot</h2>
-        <p>Catch guests&apos; attention with a title that highlights what makes your place special.</p>
         <input type="text" name="name" value={formData.name} onChange={handleChange} placeholder="Name of your spot" />
         {formErrors.name && <p className="error">{formErrors.name}</p>}
 
-        {/* 💲 Section 4: Price */}
+        {/* 💲 Price */}
         <h2>Set a base price for your spot</h2>
-        <p>Competitive pricing can help your listing stand out.</p>
         <input type="number" name="price" value={formData.price} onChange={handleChange} placeholder="Price per night (USD)" />
         {formErrors.price && <p className="error">{formErrors.price}</p>}
 
-        {/* 📸 Section 5: Images */}
+        {/* 📸 Images */}
         <h2>Liven up your spot with photos</h2>
-        <p>Submit a link to at least one photo to publish your spot.</p>
         <input type="text" name="previewImage" value={formData.previewImage} onChange={handleChange} placeholder="Preview Image URL" />
         {formErrors.previewImage && <p className="error">{formErrors.previewImage}</p>}
 

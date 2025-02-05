@@ -5,14 +5,12 @@ export async function csrfFetch(url, options = {}) {
   options.headers = options.headers || {};
 
   if (options.method.toUpperCase() !== "GET") {
-    options.headers["Content-Type"] =
-      options.headers["Content-Type"] || "application/json";
-    
-    // ✅ Ensure CSRF Token is included in every non-GET request
+    options.headers["Content-Type"] = "application/json";
+
     const csrfToken = Cookies.get("XSRF-TOKEN");
     if (csrfToken) {
       options.headers["XSRF-Token"] = csrfToken;
-      console.log("🔒 Sending XSRF-Token:", csrfToken);
+      console.log("🔒 Sending CSRF Token:", csrfToken);
     } else {
       console.warn("⚠️ No CSRF token found in cookies!");
     }
@@ -30,7 +28,6 @@ export async function csrfFetch(url, options = {}) {
   return res;
 }
 
-// ✅ Restore CSRF Token
 export async function restoreCSRF() {
   console.log("🔄 Restoring CSRF Token...");
   return csrfFetch("/api/csrf/restore");
