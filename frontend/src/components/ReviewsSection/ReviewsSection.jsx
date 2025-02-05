@@ -4,24 +4,34 @@ import { fetchReviews, deleteReview } from "../../store/reviews";
 import CreateReviewButton from "../CreateReviewModal/CreateReviewButton";
 import DeleteReviewModal from "../DeleteReviewModal/DeleteReviewModal";
 
-const ReviewsSection = ({ spotId, loggedInUser }) => {
+const ReviewsSection = ({ spotId, loggedInUser, isSpotOwner }) => {
   const dispatch = useDispatch();
-  
-  // Fetch reviews & spot details from Redux
   const reviews = useSelector((state) => Object.values(state.reviews.spotReviews || {}));
-  const spot = useSelector((state) => state.spots.singleSpot);
 
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [reviewToDelete, setReviewToDelete] = useState(null);
 
+  // Fetch reviews on mount
   useEffect(() => {
-    dispatch(fetchReviews(spotId));
+    const fetchReviewsData = async () => {
+      try {
+        await dispatch(fetchReviews(spotId));
+      } catch (error) {
+        console.error("Error fetching reviews:", error);
+      }
+    };
+
+    fetchReviewsData();
   }, [dispatch, spotId]);
 
   const handleDeleteReview = async (reviewId) => {
-    await dispatch(deleteReview(reviewId));
-    await dispatch(fetchReviews(spotId));
-    closeDeleteModal();
+    try {
+      await dispatch(deleteReview(reviewId)); // Dispatch delete action
+      await dispatch(fetchReviews(spotId)); // Re-fetch reviews
+      closeDeleteModal(); // Close the modal
+    } catch (error) {
+      console.error("Error deleting review:", error);
+    }
   };
 
   const openDeleteModal = (reviewId) => {
@@ -34,20 +44,17 @@ const ReviewsSection = ({ spotId, loggedInUser }) => {
     setIsDeleteModalOpen(false);
   };
 
-  // ✅ Check if the logged-in user is the owner of the spot
-  const isSpotOwner = loggedInUser?.id === spot?.ownerId;
-
-  // ✅ Check if the logged-in user has already posted a review
-  const hasUserReviewed = reviews.some((review) => review.userId === loggedInUser?.id);
-
-  // ✅ Hide "Post Your Review" button if user is owner or has already reviewed
-  const shouldShowReviewButton = loggedInUser && !isSpotOwner && !hasUserReviewed;
-
-  // Get the average star rating or default to "New"
+  // Safely get average rating or default to "New"
   const avgStarRating =
-    reviews.length > 0 && spot?.avgStarRating
-      ? spot.avgStarRating.toFixed(1)
+    reviews.length > 0 && reviews[0].spot?.avgStarRating
+      ? reviews[0].spot.avgStarRating.toFixed(1)
       : "New";
+
+  // ✅ Check if logged-in user has already posted a review
+  const userHasReviewed = reviews.some((review) => review.userId === loggedInUser?.id);
+
+  // ✅ Conditions for hiding the "Post Your Review" button
+  const shouldShowReviewButton = loggedInUser && !isSpotOwner && !userHasReviewed;
 
   return (
     <section className="reviews">
@@ -63,14 +70,14 @@ const ReviewsSection = ({ spotId, loggedInUser }) => {
         )}
       </h3>
 
-      {/* ✅ Only show "Post Your Review" button if conditions allow */}
+      {/* ✅ Show "Post Your Review" button only if user is NOT owner and hasn't reviewed */}
       {shouldShowReviewButton && (
         <div className="write-review-button">
           <CreateReviewButton spotId={spotId} />
         </div>
       )}
 
-      {/* Render Reviews */}
+      {/* Render Reviews or Prompt to Post the First Review */}
       {reviews.length > 0 ? (
         <ul className="review-list">
           {reviews
@@ -85,9 +92,7 @@ const ReviewsSection = ({ spotId, loggedInUser }) => {
                   })}
                 </p>
                 <p>{review.review}</p>
-
-                {/* ✅ Show delete button only if user is the owner of the review */}
-                {loggedInUser?.id === review.userId && (
+                {loggedInUser && loggedInUser.id === review.userId && (
                   <button
                     className="delete-review-button"
                     onClick={() => openDeleteModal(review.id)}
@@ -99,7 +104,7 @@ const ReviewsSection = ({ spotId, loggedInUser }) => {
             ))}
         </ul>
       ) : (
-        <p>No reviews yet.</p>
+        <p className="first-review-prompt">Be the first to post a review!</p>
       )}
 
       {/* Delete Review Modal */}
