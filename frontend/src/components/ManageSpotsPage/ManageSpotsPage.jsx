@@ -1,25 +1,27 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom"; // Updated to useNavigate
+import { useNavigate } from "react-router-dom";
 import { fetchAllSpots, deleteSpot } from "../../store/spots";
 import SpotTile from "../SpotTile/SpotTile";
 import "./ManageSpotsPage.css";
 
 const ManageSpotsPage = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate(); // Replaced useHistory with useNavigate
+  const navigate = useNavigate();
   const user = useSelector((state) => state.session.user);
-
-  // Filter spots to include only the ones owned by the logged-in user
+  
   const spots = useSelector((state) =>
     Object.values(state.spots.allSpots).filter(
       (spot) => spot.ownerId === user?.id
     )
   );
 
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [spotToDelete, setSpotToDelete] = useState(null);
+
   useEffect(() => {
     if (user) {
-      dispatch(fetchAllSpots()); // Fetch user's spots
+      dispatch(fetchAllSpots());
     }
   }, [dispatch, user]);
 
@@ -28,11 +30,24 @@ const ManageSpotsPage = () => {
     navigate(`/spots/${spotId}/edit`);
   };
 
+  // Open delete modal
+  const openDeleteModal = (spotId) => {
+    setSpotToDelete(spotId);
+    setIsDeleteModalOpen(true);
+  };
+
+  // Close delete modal
+  const closeDeleteModal = () => {
+    setSpotToDelete(null);
+    setIsDeleteModalOpen(false);
+  };
+
   // Handle spot deletion
-  const handleDelete = async (spotId) => {
-    if (window.confirm("Are you sure you want to delete this spot?")) {
-      await dispatch(deleteSpot(spotId)); // Remove spot dynamically
-      dispatch(fetchAllSpots()); // Re-fetch spots to reflect changes
+  const handleDelete = async () => {
+    if (spotToDelete) {
+      await dispatch(deleteSpot(spotToDelete));
+      dispatch(fetchAllSpots()); // Refresh the spots list
+      closeDeleteModal();
     }
   };
 
@@ -60,10 +75,28 @@ const ManageSpotsPage = () => {
               key={spot.id}
               spot={spot}
               onUpdate={handleUpdate}
-              onDelete={handleDelete}
+              onDelete={() => openDeleteModal(spot.id)}
             />
           ))}
         </ul>
+      )}
+
+      {/* Delete Confirmation Modal */}
+      {isDeleteModalOpen && (
+        <div className="modal-overlay">
+          <div className="delete-modal">
+            <h2>Confirm Delete</h2>
+            <p>Are you sure you want to remove this spot?</p>
+            <div className="modal-buttons">
+              <button className="delete-button" onClick={handleDelete}>
+                Yes (Delete Spot)
+              </button>
+              <button className="cancel-button" onClick={closeDeleteModal}>
+                No (Keep Spot)
+              </button>
+            </div>
+          </div>
+        </div>
       )}
     </div>
   );
