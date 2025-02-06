@@ -7,9 +7,12 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: 350px;
-  position: relative; /* Required for spotlight and tooltip */
+  height: 350px; /* Ensure a consistent height */
+  width: 100%;  
+  max-width: 300px; /* Prevent excessive stretching */
+  position: relative;
   cursor: pointer;
+  align-items: center; /* Keeps content centered */
 }
 
 .spot-tile:hover {
@@ -87,6 +90,7 @@
   height: 200px;
   object-fit: cover;
   border-radius: 5px;
+  display: block;
 }
 
 /* Spot Info */
