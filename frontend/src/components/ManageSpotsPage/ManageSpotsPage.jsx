@@ -25,11 +25,6 @@ const ManageSpotsPage = () => {
     }
   }, [dispatch, user]);
 
-  // Navigate to update spot page
-  const handleUpdate = (spotId) => {
-    navigate(`/spots/${spotId}/edit`);
-  };
-
   // Open delete modal
   const openDeleteModal = (spotId) => {
     setSpotToDelete(spotId);
@@ -51,17 +46,12 @@ const ManageSpotsPage = () => {
     }
   };
 
-  // Navigate to create new spot page
-  const handleCreateNewSpot = () => {
-    navigate("/spots/new");
-  };
-
   return (
     <div className="manage-spots-page">
       <h1>Manage Spots</h1>
 
       {/* Create New Spot Button */}
-      <button onClick={handleCreateNewSpot} className="create-new-spot-button">
+      <button onClick={() => navigate("/spots/new")} className="create-new-spot-button">
         Create a New Spot
       </button>
 
@@ -74,7 +64,7 @@ const ManageSpotsPage = () => {
             <SpotTile
               key={spot.id}
               spot={spot}
-              onUpdate={handleUpdate}
+              onUpdate={() => navigate(`/spots/${spot.id}/edit`)}
               onDelete={() => openDeleteModal(spot.id)}
             />
           ))}
