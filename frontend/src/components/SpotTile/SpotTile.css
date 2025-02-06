@@ -1,3 +1,4 @@
+/* Spot Tile Base */
 .spot-tile {
   background: #fff;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -6,11 +7,12 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: auto; /* Allow content to define height */
-  width: 100%;
-  max-width: 300px;
+  height: auto; /* Auto height to prevent stretching */
+  width: 100%;  
+  max-width: 300px; /* Prevents excessive stretching */
   position: relative;
   cursor: pointer;
+  align-items: center; /* Keeps content centered */
 }
 
 .spot-tile:hover {
@@ -23,43 +25,45 @@
   opacity: 0.5; /* Dim other cards */
 }
 
+/* Spot Tile List Alignment */
+.spot-tile-list .spot-tile {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
 /* Tooltip Wrapper */
 .tooltip-wrapper {
   position: relative;
   overflow: visible;
 }
 
-/* Tooltip Styles */
+/* Tooltip */
 .tooltip {
   position: absolute;
-  top: -35px; /* Position above the image */
+  top: -35px;
   left: 50%;
-  transform: translateX(-50%) translateY(10px); /* Start below */
-  background: linear-gradient(135deg, #ff7e5f, #feb47b); /* Gradient background */
-  color: white; /* Tooltip text color */
+  transform: translateX(-50%) translateY(10px);
+  background: linear-gradient(135deg, #ff7e5f, #feb47b);
+  color: white;
   padding: 8px 12px;
   border-radius: 8px;
   font-size: 14px;
   font-family: "Georgia", serif;
-  white-space: nowrap; /* Prevent wrapping */
-  opacity: 0; /* Hidden by default */
-  visibility: hidden; /* Hidden by default */
-  transition: 
-    opacity 0.2s ease-out,
-    visibility 0.2s ease-out,
-    transform 0.3s ease-out;
+  white-space: nowrap;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s ease-out, visibility 0.2s ease-out, transform 0.3s ease-out;
   z-index: 10;
 }
 
-/* Show Tooltip on Hover */
 .tooltip-wrapper:hover .tooltip {
   opacity: 1;
   visibility: visible;
-  transform: translateX(-50%) translateY(0); /* Slide up */
+  transform: translateX(-50%) translateY(0);
   animation: tooltip-bounce 0.3s ease-out;
 }
 
-/* Add Keyframes for Bounce Effect */
 @keyframes tooltip-bounce {
   0%, 100% {
     transform: translateX(-50%) translateY(0);
@@ -69,20 +73,7 @@
   }
 }
 
-/* Optional: Typewriter Effect for Text */
-.tooltip::after {
-  content: "|";
-  margin-left: 5px;
-  animation: blink 1s step-end infinite;
-}
-
-@keyframes blink {
-  50% {
-    opacity: 0;
-  }
-}
-
-/* Image Styling */
+/* Spot Image */
 .spot-image {
   width: 100%;
   height: 200px;
@@ -98,6 +89,7 @@
   text-align: left;
 }
 
+/* Spot Header */
 .spot-header {
   display: flex;
   justify-content: space-between;
@@ -120,7 +112,7 @@
   margin-top: 5px;
 }
 
-/* Button Styling */
+/* Buttons */
 .update-button,
 .delete-button {
   margin: 5px;
