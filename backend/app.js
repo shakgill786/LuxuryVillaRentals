@@ -31,7 +31,9 @@ app.use((req, res, next) => {
 // ✅ CORS (Allow Frontend to Access Backend)
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: isProduction
+      ? "https://luxuryvillarentals.onrender.com" // Deployed frontend origin
+      : "http://localhost:5173", // Local development
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE"],
   })
@@ -58,16 +60,15 @@ app.use(
   })
 );
 
-// ✅ Set CSRF Token in Cookies & Headers
 app.use((req, res, next) => {
   try {
     const csrfToken = req.csrfToken();
     console.log("✅ Generated CSRF Token:", csrfToken);
-
+    
     res.cookie("XSRF-TOKEN", csrfToken, {
       secure: isProduction,
       sameSite: "Lax",
-      httpOnly: false,
+      httpOnly: false, // Must be false to access it in the browser
     });
 
     res.setHeader("XSRF-TOKEN", csrfToken);
