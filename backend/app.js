@@ -5,6 +5,9 @@ const cors = require("cors");
 const csurf = require("csurf");
 const helmet = require("helmet");
 const cookieParser = require("cookie-parser");
+const session = require("express-session"); // ✅ Add session
+const SequelizeStore = require("connect-session-sequelize")(session.Store);
+const { sequelize } = require("./db/models"); // ✅ Import Sequelize instance
 const { restoreUser } = require("./utils/auth");
 const { ValidationError } = require("sequelize");
 const { environment } = require("./config");
@@ -36,16 +39,34 @@ app.use(
   })
 );
 
-// ✅ Restore User Middleware (Ensures Authentication Works) – **Move this ABOVE CSRF**
+// ✅ Initialize Session Middleware **BEFORE CSRF**
+
+// Your session configuration
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET || "fallbackSecretKey",
+    store: new SequelizeStore({ db: sequelize }),
+    saveUninitialized: true, // Temporarily set to true for debugging
+    resave: true, // Resave session even if it's not modified
+    proxy: isProduction,
+    cookie: {
+      secure: isProduction,
+      sameSite: "Lax",
+      httpOnly: true,
+    },
+  })
+);
+
+// ✅ Restore User Middleware (Ensures Authentication Works)
 app.use(restoreUser);
 
-// ✅ CSRF Protection Middleware – **AFTER restoreUser**
+// ✅ CSRF Protection Middleware – AFTER restoreUser
 app.use(
   csurf({
     cookie: {
       secure: isProduction,
       sameSite: "Lax", // ✅ Keep "Lax" for CSRF to work across subdomains
-      httpOnly: false, // ✅ This must be false so frontend can read it
+      httpOnly: false, // ✅ Must be false so frontend can read it
     },
   })
 );
@@ -59,7 +80,7 @@ app.use((req, res, next) => {
     res.cookie("XSRF-TOKEN", csrfToken, {
       secure: isProduction,
       sameSite: "Lax",
-      httpOnly: false, // ✅ Must be false so the frontend can read it
+      httpOnly: false, // ✅ Must be false so frontend can read it
     });
 
     res.setHeader("XSRF-TOKEN", csrfToken);
