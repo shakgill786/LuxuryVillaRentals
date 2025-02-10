@@ -1,5 +1,6 @@
+import { restoreCSRF } from "./store/csrf";
 import { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux"; // ✅ Add useSelector
+import { useDispatch } from "react-redux"; // ✅ Add useSelector
 import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
 import * as sessionActions from "./store/session";
 
@@ -16,8 +17,7 @@ import ReservationPage from "./components/ReservationPage/ReservationPage";
 function Layout() {
   const dispatch = useDispatch();
   const [isLoaded, setIsLoaded] = useState(false);
-  const sessionUser = useSelector((state) => state.session.user); // ✅ Define sessionUser
-
+  
   useEffect(() => {
     dispatch(sessionActions.restoreUser()).then(() => {
       restoreCSRF(); // ✅ Fetch CSRF token ONCE when the app loads
