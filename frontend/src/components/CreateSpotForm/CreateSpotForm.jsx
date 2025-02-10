@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { createSpotThunk } from "../../store/spots";
@@ -79,7 +79,7 @@ function CreateSpotForm() {
     <div className="create-spot-form">
       <h1>Create a New Spot</h1>
       <form onSubmit={handleSubmit}>
-        <h2>Where's your place located?</h2>
+        <h2>Where&apos;s your place located?</h2>
         <label>
           Country
           <input type="text" name="country" value={formData.country} onChange={handleChange} placeholder="Country" />
@@ -108,18 +108,35 @@ function CreateSpotForm() {
         <div className="coordinates-inputs">
           <label>
             Latitude
-            <input type="number" name="lat" value={formData.lat} onChange={handleChange} placeholder="Latitude (-90 to 90)" />
+            <input
+              type="number"
+              name="lat"
+              value={formData.lat}
+              onChange={handleChange}
+              placeholder="Latitude (-90 to 90)"
+            />
             {formErrors.lat && <p className="error">{formErrors.lat}</p>}
           </label>
           <label>
             Longitude
-            <input type="number" name="lng" value={formData.lng} onChange={handleChange} placeholder="Longitude (-180 to 180)" />
+            <input
+              type="number"
+              name="lng"
+              value={formData.lng}
+              onChange={handleChange}
+              placeholder="Longitude (-180 to 180)"
+            />
             {formErrors.lng && <p className="error">{formErrors.lng}</p>}
           </label>
         </div>
 
         <h2>Describe your place to guests</h2>
-        <textarea name="description" value={formData.description} onChange={handleChange} placeholder="Please write at least 30 characters"></textarea>
+        <textarea
+          name="description"
+          value={formData.description}
+          onChange={handleChange}
+          placeholder="Please write at least 30 characters"
+        />
         {formErrors.description && <p className="error">{formErrors.description}</p>}
 
         <h2>Create a title for your spot</h2>
@@ -127,15 +144,33 @@ function CreateSpotForm() {
         {formErrors.name && <p className="error">{formErrors.name}</p>}
 
         <h2>Set a base price for your spot</h2>
-        <input type="number" name="price" value={formData.price} onChange={handleChange} placeholder="Price per night (USD)" />
+        <input
+          type="number"
+          name="price"
+          value={formData.price}
+          onChange={handleChange}
+          placeholder="Price per night (USD)"
+        />
         {formErrors.price && <p className="error">{formErrors.price}</p>}
 
         <h2>Liven up your spot with photos</h2>
-        <input type="text" name="previewImage" value={formData.previewImage} onChange={handleChange} placeholder="Preview Image URL" />
+        <input
+          type="text"
+          name="previewImage"
+          value={formData.previewImage}
+          onChange={handleChange}
+          placeholder="Preview Image URL"
+        />
         {formErrors.previewImage && <p className="error">{formErrors.previewImage}</p>}
 
         {imageUrls.map((url, index) => (
-          <input key={index} type="text" value={url} onChange={(e) => handleImageChange(e, index)} placeholder={`Image URL ${index + 1}`} />
+          <input
+            key={index}
+            type="text"
+            value={url}
+            onChange={(e) => handleImageChange(e, index)}
+            placeholder={`Image URL ${index + 1}`}
+          />
         ))}
 
         {formErrors.api && <p className="error">{formErrors.api}</p>}
