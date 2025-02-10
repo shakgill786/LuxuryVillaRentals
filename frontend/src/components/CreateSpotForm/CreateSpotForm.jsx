@@ -25,7 +25,6 @@ function CreateSpotForm() {
   const [formErrors, setFormErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // ✅ Handle Input Changes
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -36,13 +35,10 @@ function CreateSpotForm() {
     setImageUrls(updatedUrls);
   };
 
-  // ✅ Form Submission
   const handleSubmit = async (e) => {
     e.preventDefault();
     setFormErrors({});
     setIsSubmitting(true);
-
-    console.log("🔄 Submitting Form Data:", formData);
 
     const { country, address, city, state, lat, lng, description, name, price, previewImage } = formData;
     const newErrors = {};
@@ -65,19 +61,16 @@ function CreateSpotForm() {
     }
 
     try {
-      console.log("🚀 Dispatching createSpotThunk...");
       const newSpot = await dispatch(
         createSpotThunk({
           ...formData,
           images: [previewImage, ...imageUrls.filter((url) => url.trim() !== "")],
         })
       );
-
-      console.log("✅ Spot Created Successfully:", newSpot);
       navigate(`/spots/${newSpot.id}`);
     } catch (error) {
-      console.error("❌ Error creating spot:", error);
       setFormErrors({ api: "Failed to create spot. Please try again." });
+    } finally {
       setIsSubmitting(false);
     }
   };
@@ -105,10 +98,7 @@ function CreateSpotForm() {
     <div className="create-spot-form">
       <h1>Create a New Spot</h1>
       <form onSubmit={handleSubmit}>
-        {/* 🌎 Section 1: Location */}
-        <h2>Where&apos;s your place located?</h2>
-        <p>Guests will only get your exact address once they&apos;ve booked a reservation.</p>
-
+        <h2>Where's your place located?</h2>
         <label>
           Country
           <input type="text" name="country" value={formData.country} onChange={handleChange} placeholder="Country" />
@@ -127,31 +117,35 @@ function CreateSpotForm() {
             <input type="text" name="city" value={formData.city} onChange={handleChange} placeholder="City" />
             {formErrors.city && <p className="error">{formErrors.city}</p>}
           </label>
-
           <label>
             State
             <input type="text" name="state" value={formData.state} onChange={handleChange} placeholder="State" />
             {formErrors.state && <p className="error">{formErrors.state}</p>}
           </label>
+          <label>
+            Latitude
+            <input type="number" name="lat" value={formData.lat} onChange={handleChange} placeholder="Latitude (-90 to 90)" />
+            {formErrors.lat && <p className="error">{formErrors.lat}</p>}
+          </label>
+          <label>
+            Longitude
+            <input type="number" name="lng" value={formData.lng} onChange={handleChange} placeholder="Longitude (-180 to 180)" />
+            {formErrors.lng && <p className="error">{formErrors.lng}</p>}
+          </label>
         </div>
 
-        {/* 📝 Description */}
         <h2>Describe your place to guests</h2>
-        <p>Mention special amenities like Wi-Fi, parking, and what you love about the neighborhood.</p>
         <textarea name="description" value={formData.description} onChange={handleChange} placeholder="Please write at least 30 characters"></textarea>
         {formErrors.description && <p className="error">{formErrors.description}</p>}
 
-        {/* 🏡 Title */}
         <h2>Create a title for your spot</h2>
         <input type="text" name="name" value={formData.name} onChange={handleChange} placeholder="Name of your spot" />
         {formErrors.name && <p className="error">{formErrors.name}</p>}
 
-        {/* 💲 Price */}
         <h2>Set a base price for your spot</h2>
         <input type="number" name="price" value={formData.price} onChange={handleChange} placeholder="Price per night (USD)" />
         {formErrors.price && <p className="error">{formErrors.price}</p>}
 
-        {/* 📸 Images */}
         <h2>Liven up your spot with photos</h2>
         <input type="text" name="previewImage" value={formData.previewImage} onChange={handleChange} placeholder="Preview Image URL" />
         {formErrors.previewImage && <p className="error">{formErrors.previewImage}</p>}
