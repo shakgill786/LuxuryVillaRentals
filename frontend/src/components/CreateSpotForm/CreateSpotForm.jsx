@@ -75,25 +75,6 @@ function CreateSpotForm() {
     }
   };
 
-  useEffect(() => {
-    return () => {
-      setFormData({
-        country: "",
-        address: "",
-        city: "",
-        state: "",
-        lat: "",
-        lng: "",
-        description: "",
-        name: "",
-        price: "",
-        previewImage: "",
-      });
-      setImageUrls(["", "", "", ""]);
-      setFormErrors({});
-    };
-  }, []);
-
   return (
     <div className="create-spot-form">
       <h1>Create a New Spot</h1>
@@ -122,6 +103,9 @@ function CreateSpotForm() {
             <input type="text" name="state" value={formData.state} onChange={handleChange} placeholder="State" />
             {formErrors.state && <p className="error">{formErrors.state}</p>}
           </label>
+        </div>
+
+        <div className="coordinates-inputs">
           <label>
             Latitude
             <input type="number" name="lat" value={formData.lat} onChange={handleChange} placeholder="Latitude (-90 to 90)" />
