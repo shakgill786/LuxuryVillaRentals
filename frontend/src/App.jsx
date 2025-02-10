@@ -20,10 +20,10 @@ function Layout() {
 
   useEffect(() => {
     dispatch(sessionActions.restoreUser()).then(() => {
-      console.log("✅ User restored:", sessionUser);
+      restoreCSRF(); // ✅ Fetch CSRF token ONCE when the app loads
       setIsLoaded(true);
     });
-  }, [dispatch, sessionUser]); // ✅ Include sessionUser in dependencies
+  }, [dispatch]); // ✅ Remove `sessionUser` dependency
 
   return (
     <>

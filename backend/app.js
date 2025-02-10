@@ -18,21 +18,11 @@ app.use(morgan("dev"));
 app.use(cookieParser());
 app.use(express.json());
 
-// ✅ Debugging Incoming Requests
-app.use((req, res, next) => {
-  console.log("🔍 Incoming Request:");
-  console.log("➡️ Method:", req.method);
-  console.log("➡️ URL:", req.url);
-  console.log("➡️ Headers:", req.headers);
-  console.log("➡️ Cookies:", req.cookies);
-  next();
-});
-
 // ✅ CORS (Allow Frontend to Access Backend)
 app.use(
   cors({
     origin: isProduction
-      ? "https://luxuryvillarentals.onrender.com" // Deployed frontend origin
+      ? "https://luxuryvillarentals.onrender.com" // Deployed frontend
       : "http://localhost:5173", // Local development
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE"],
@@ -46,29 +36,30 @@ app.use(
   })
 );
 
-// ✅ Restore User Middleware (Ensures Authentication Works)
+// ✅ Restore User Middleware (Ensures Authentication Works) – **Move this ABOVE CSRF**
 app.use(restoreUser);
 
-// ✅ CSRF Protection Middleware (Must be after restoreUser)
+// ✅ CSRF Protection Middleware – **AFTER restoreUser**
 app.use(
   csurf({
     cookie: {
       secure: isProduction,
-      sameSite: "Lax",
-      httpOnly: false,
+      sameSite: "Lax", // ✅ Keep "Lax" for CSRF to work across subdomains
+      httpOnly: false, // ✅ This must be false so frontend can read it
     },
   })
 );
 
+// ✅ Middleware to Set CSRF Token in Cookies & Headers
 app.use((req, res, next) => {
   try {
     const csrfToken = req.csrfToken();
     console.log("✅ Generated CSRF Token:", csrfToken);
-    
+
     res.cookie("XSRF-TOKEN", csrfToken, {
       secure: isProduction,
       sameSite: "Lax",
-      httpOnly: false, // Must be false to access it in the browser
+      httpOnly: false, // ✅ Must be false so the frontend can read it
     });
 
     res.setHeader("XSRF-TOKEN", csrfToken);
@@ -83,32 +74,9 @@ app.use((req, res, next) => {
 // ✅ Routes
 app.use(routes);
 
-// ✅ 404 Error Handler
-app.use((_req, _res, next) => {
-  const err = new Error("The requested resource couldn't be found.");
-  err.title = "Resource Not Found";
-  err.errors = { message: "The requested resource couldn't be found." };
-  err.status = 404;
-  next(err);
-});
-
-// ✅ Sequelize Validation Error Handler
-app.use((err, _req, _res, next) => {
-  if (err instanceof ValidationError) {
-    const errors = {};
-    err.errors.forEach((error) => {
-      errors[error.path] = error.message;
-    });
-    err.title = "Validation Error";
-    err.errors = errors;
-  }
-  next(err);
-});
-
-// ✅ Error Formatter
+// ✅ Error Handling Middleware
 app.use((err, _req, res, _next) => {
   console.error("🚨 Error Handler:", err);
-
   res.status(err.status || 500).json({
     title: err.title || "Server Error",
     message: err.message,
