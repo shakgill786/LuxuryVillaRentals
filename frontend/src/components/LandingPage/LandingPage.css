@@ -127,32 +127,27 @@ img.logo:hover {
 /* Spots Grid */
 .spots-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  grid-template-columns: repeat(1, 1fr); /* Default to 1 column */
   gap: 30px;
-  margin-top: 100px;
-  margin-bottom: 100px;
-  position: relative;
-  z-index: 1;
-  max-width: 1200px; /* Set a max width to limit the number of items */
-  margin-left: auto;
-  margin-right: auto;
+  margin: 50px auto;
+  max-width: 1400px; /* Cap the total width */
 }
 
-@media (max-width: 1200px) {
+@media (min-width: 600px) {
   .spots-grid {
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    grid-template-columns: repeat(2, 1fr); /* 2 columns for medium screens */
   }
 }
 
-@media (max-width: 768px) {
+@media (min-width: 900px) {
   .spots-grid {
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-columns: repeat(3, 1fr); /* 3 columns for larger screens */
   }
 }
 
-@media (max-width: 480px) {
+@media (min-width: 1200px) {
   .spots-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(4, 1fr); /* Max 4 columns for wide screens */
   }
 }
 
