@@ -2,20 +2,20 @@ import { useState, useEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import * as sessionActions from '../../store/session';
 import { useModal } from '../../context/Modal';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate
 import './LoginFormModal.css';
 
 function LoginFormModal() {
   const dispatch = useDispatch();
   const { closeModal } = useModal();
-  const navigate = useNavigate(); // Initialize useNavigate
   const [credential, setCredential] = useState('');
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState('');
-  const [isButtonDisabled, setIsButtonDisabled] = useState(true);
+  const [isButtonDisabled, setIsButtonDisabled] = useState(true); // State for button disable
+
   const modalRef = useRef(null);
 
   useEffect(() => {
+    // Disable button if username or password doesn't meet the criteria
     setIsButtonDisabled(credential.length < 4 || password.length < 6);
   }, [credential, password]);
 
@@ -27,6 +27,7 @@ function LoginFormModal() {
     };
 
     document.addEventListener('mousedown', handleClickOutside);
+
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
@@ -39,11 +40,6 @@ function LoginFormModal() {
     try {
       await dispatch(sessionActions.login({ credential, password }));
       closeModal();
-
-      // Add a short delay to ensure the modal closes before navigating
-      setTimeout(() => {
-        navigate('/');
-      }, 100);
     } catch (err) {
       const data = await err.json();
       if (data && data.message === 'Invalid credentials') {
@@ -58,10 +54,6 @@ function LoginFormModal() {
     try {
       await dispatch(sessionActions.login({ credential: 'Demo-lition', password: 'password' }));
       closeModal();
-
-      setTimeout(() => {
-        navigate('/');
-      }, 100);
     } catch (err) {
       const data = await err.json();
       if (data && data.message === 'Invalid credentials') {
@@ -93,7 +85,11 @@ function LoginFormModal() {
             onChange={(e) => setPassword(e.target.value)}
             required
           />
-          <button className="login-modal-button" type="submit" disabled={isButtonDisabled}>
+          <button
+            className="login-modal-button"
+            type="submit"
+            disabled={isButtonDisabled} // Disable button dynamically
+          >
             Log In
           </button>
         </form>
