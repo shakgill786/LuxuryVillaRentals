@@ -39,7 +39,11 @@ function LoginFormModal() {
     try {
       await dispatch(sessionActions.login({ credential, password }));
       closeModal();
-      navigate('/'); // Navigate to home page after successful login
+
+      // Add a short delay to ensure the modal closes before navigating
+      setTimeout(() => {
+        navigate('/');
+      }, 100);
     } catch (err) {
       const data = await err.json();
       if (data && data.message === 'Invalid credentials') {
@@ -54,7 +58,10 @@ function LoginFormModal() {
     try {
       await dispatch(sessionActions.login({ credential: 'Demo-lition', password: 'password' }));
       closeModal();
-      navigate('/'); // Navigate to home page after demo login
+
+      setTimeout(() => {
+        navigate('/');
+      }, 100);
     } catch (err) {
       const data = await err.json();
       if (data && data.message === 'Invalid credentials') {
