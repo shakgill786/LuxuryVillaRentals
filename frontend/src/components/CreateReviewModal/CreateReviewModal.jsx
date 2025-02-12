@@ -7,13 +7,12 @@ function CreateReviewModal({ spotId, closeModal }) {
   const dispatch = useDispatch();
   const [review, setReview] = useState("");
   const [stars, setStars] = useState(0);
+  const [hoveredStars, setHoveredStars] = useState(0); // For hover state
   const [errors, setErrors] = useState({});
 
-  // Ref to the modal content
   const modalRef = useRef(null);
 
   useEffect(() => {
-    // Close modal if clicked outside
     const handleClickOutside = (event) => {
       if (modalRef.current && !modalRef.current.contains(event.target)) {
         closeModal();
@@ -38,7 +37,7 @@ function CreateReviewModal({ spotId, closeModal }) {
     try {
       await dispatch(postReview(spotId, reviewData));
       setReview("");
-      setStars(5);
+      setStars(0);
       closeModal();
       await dispatch(fetchReviews(spotId));
     } catch (error) {
@@ -64,18 +63,17 @@ function CreateReviewModal({ spotId, closeModal }) {
               <button
                 type="button"
                 key={index}
-                className={stars > index ? "star filled" : "star"}
-                onClick={() => setStars(index + 1)}
+                className={`star ${index + 1 <= (hoveredStars || stars) ? "filled" : ""}`}
+                onClick={() => setStars(index + 1)} // Set the clicked star rating
+                onMouseEnter={() => setHoveredStars(index + 1)} // Show hover effect
+                onMouseLeave={() => setHoveredStars(0)} // Remove hover effect
               >
                 ★
               </button>
             ))}
-            <span>Stars</span>
+            <span>{stars > 0 ? `${stars} Stars` : "Stars"}</span>
           </div>
-          <button
-            type="submit"
-            disabled={review.length < 10 || stars === 0}
-          >
+          <button type="submit" disabled={review.length < 10 || stars === 0}>
             Submit Your Review
           </button>
         </form>

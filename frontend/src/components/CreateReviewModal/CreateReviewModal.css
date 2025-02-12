@@ -92,6 +92,7 @@ textarea {
   color: #ccc;
   cursor: pointer;
   margin-right: 5px;
+  transition: color 0.3s ease;
 }
 
 .star.filled {
@@ -103,6 +104,11 @@ textarea {
   font-size: 1rem;
   color: white;
 }
+
+.star:hover {
+  color: gold;
+}
+
 
 button[type="submit"] {
   background: goldenrod;
