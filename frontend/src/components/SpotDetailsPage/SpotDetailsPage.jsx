@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import Modal from "react-modal";
 import { fetchSpotDetails } from "../../store/spots";
 import ReviewsSection from "../ReviewsSection/ReviewsSection";
+import CreateReviewModal from "../CreateReviewModal/CreateReviewModal"; // Import the modal
 import "./SpotDetailsPage.css";
 
 const SpotDetailsPage = () => {
@@ -12,6 +13,7 @@ const SpotDetailsPage = () => {
   const loggedInUser = useSelector((state) => state.session.user);
   const spot = useSelector((state) => state.spots.singleSpot);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -37,15 +39,15 @@ const SpotDetailsPage = () => {
   if (error) return <div className="error-message">{error}</div>;
   if (!spot || Object.keys(spot).length === 0) return <div>Spot not found!</div>;
 
-  // ✅ Handle avgStarRating safely
-  const avgRating = spot.avgStarRating && !isNaN(spot.avgStarRating)
-    ? Number(spot.avgStarRating).toFixed(1)
-    : "New";
+  const avgRating =
+    spot.avgStarRating && !isNaN(spot.avgStarRating)
+      ? Number(spot.avgStarRating).toFixed(1)
+      : "New";
 
   return (
     <div className="spot-details-page">
       <header className="spot-header">
-        <h1 onClick={() => setIsModalOpen(true)}>{spot.name}</h1>
+        <h1>{spot.name}</h1>
         <p>
           {spot.city}, {spot.state}, {spot.country}
         </p>
@@ -65,10 +67,7 @@ const SpotDetailsPage = () => {
       {/* ✅ Image Gallery */}
       <section className="image-gallery">
         <div className="main-image">
-          <img
-            src={spot.SpotImages?.[0]?.url || "/placeholder.jpg"}
-            alt={spot.name}
-          />
+          <img src={spot.SpotImages?.[0]?.url || "/placeholder.jpg"} alt={spot.name} />
         </div>
         <div className="thumbnail-images">
           {spot.SpotImages?.slice(1, 5).map((image, idx) => (
@@ -111,7 +110,25 @@ const SpotDetailsPage = () => {
       <hr className="section-divider" />
 
       {/* ✅ Reviews Section */}
-      <ReviewsSection spotId={spotId} loggedInUser={loggedInUser} />
+      <section className="reviews-section">
+        <h2>Reviews</h2>
+        {loggedInUser && (
+          <button className="write-review-button" onClick={() => setIsReviewModalOpen(true)}>
+            Write a Review
+          </button>
+        )}
+
+        <ReviewsSection spotId={spotId} loggedInUser={loggedInUser} />
+
+        {/* ✅ Create Review Modal */}
+        {isReviewModalOpen && (
+          <CreateReviewModal
+            spotId={spotId}
+            spotName={spot.name}  // Pass the spot name
+            closeModal={() => setIsReviewModalOpen(false)}
+          />
+        )}
+      </section>
     </div>
   );
 };
