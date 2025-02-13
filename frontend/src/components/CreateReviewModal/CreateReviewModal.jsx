@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { postReview, fetchReviews } from "../../store/spots";
 import "./CreateReviewModal.css";
 
-function CreateReviewModal({ spotId, closeModal }) {
+function CreateReviewModal({ spotId, spotName, closeModal }) { // Accept spotName as a prop
   const dispatch = useDispatch();
   const [review, setReview] = useState("");
   const [stars, setStars] = useState(0);
@@ -48,7 +48,7 @@ function CreateReviewModal({ spotId, closeModal }) {
   return (
     <div className="create-review-modal">
       <div className="modal-content" ref={modalRef}>
-        <h2>How was your stay?</h2>
+        <h2>How was your stay at <span className="spot-name">{spotName}</span>?</h2>
         {errors.api && <p className="error">{errors.api}</p>}
         <form onSubmit={handleSubmit}>
           <textarea
