@@ -1,6 +1,6 @@
 import { restoreCSRF } from "./store/csrf";
 import { useState, useEffect } from "react";
-import { useDispatch } from "react-redux"; // ✅ Add useSelector
+import { useDispatch } from "react-redux";
 import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
 import * as sessionActions from "./store/session";
 
@@ -12,18 +12,19 @@ import SpotDetailsPage from "./components/SpotDetailsPage/SpotDetailsPage";
 import CreateSpotForm from "./components/CreateSpotForm/CreateSpotForm";
 import ManageSpotsPage from "./components/ManageSpotsPage/ManageSpotsPage";
 import UpdateSpotForm from "./components/UpdateSpotForm/UpdateSpotForm";
-import ReservationPage from "./components/ReservationPage/ReservationPage"; 
+import ReservationPage from "./components/ReservationPage/ReservationPage";
+import ManageReviewsPage from "./components/ManageReviewsPage/ManageReviewsPage"; // Import ManageReviewsPage
 
 function Layout() {
   const dispatch = useDispatch();
   const [isLoaded, setIsLoaded] = useState(false);
-  
+
   useEffect(() => {
     dispatch(sessionActions.restoreUser()).then(() => {
-      restoreCSRF(); // ✅ Fetch CSRF token ONCE when the app loads
+      restoreCSRF();
       setIsLoaded(true);
     });
-  }, [dispatch]); // ✅ Remove `sessionUser` dependency
+  }, [dispatch]);
 
   return (
     <>
@@ -33,7 +34,6 @@ function Layout() {
   );
 }
 
-// ✅ Define Routes Properly
 const router = createBrowserRouter([
   {
     element: <Layout />,
@@ -46,6 +46,7 @@ const router = createBrowserRouter([
       { path: "/manage-spots", element: <ManageSpotsPage /> },
       { path: "/spots/:spotId/edit", element: <UpdateSpotForm /> },
       { path: "/reserve", element: <ReservationPage /> },
+      { path: "/reviews/manage", element: <ManageReviewsPage /> }, // Add Manage Reviews route
     ],
   },
 ]);

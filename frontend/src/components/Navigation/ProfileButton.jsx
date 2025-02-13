@@ -1,11 +1,11 @@
-import { useState, useEffect, useRef } from 'react';
-import { useDispatch } from 'react-redux';
-import { FaUserCircle } from 'react-icons/fa';
-import { useNavigate } from 'react-router-dom';
-import * as sessionActions from '../../store/session';
-import OpenModalMenuItem from './OpenModalMenuItem.jsx';
-import LoginFormModal from '../LoginFormModal/LoginFormModal';
-import SignupFormModal from '../SignupFormModal/SignupFormModal';
+import { useState, useEffect, useRef } from "react";
+import { useDispatch } from "react-redux";
+import { FaUserCircle } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
+import * as sessionActions from "../../store/session";
+import OpenModalMenuItem from "./OpenModalMenuItem.jsx";
+import LoginFormModal from "../LoginFormModal/LoginFormModal";
+import SignupFormModal from "../SignupFormModal/SignupFormModal";
 
 function ProfileButton({ user }) {
   const dispatch = useDispatch();
@@ -27,23 +27,28 @@ function ProfileButton({ user }) {
       }
     };
 
-    document.addEventListener('click', closeMenu);
-    return () => document.removeEventListener('click', closeMenu);
+    document.addEventListener("click", closeMenu);
+    return () => document.removeEventListener("click", closeMenu);
   }, [showMenu]);
 
   const logout = async (e) => {
     e.preventDefault();
-    await dispatch(sessionActions.logout()); // Log out the user
+    await dispatch(sessionActions.logout());
     setShowMenu(false);
-    navigate('/'); // Navigate to the home page
+    navigate("/");
   };
 
   const navigateToManageSpots = () => {
     setShowMenu(false);
-    navigate('/manage-spots');
+    navigate("/manage-spots");
   };
 
-  const ulClassName = `profile-dropdown ${showMenu ? 'visible' : 'hidden'}`;
+  const navigateToManageReviews = () => {
+    setShowMenu(false);
+    navigate("/reviews/manage");
+  };
+
+  const ulClassName = `profile-dropdown ${showMenu ? "visible" : "hidden"}`;
 
   return (
     <div className="profile-button-container">
@@ -59,6 +64,11 @@ function ProfileButton({ user }) {
             <li className="dropdown-item">
               <button onClick={navigateToManageSpots} className="dropdown-button">
                 Manage Spots
+              </button>
+            </li>
+            <li className="dropdown-item">
+              <button onClick={navigateToManageReviews} className="dropdown-button">
+                Manage Reviews
               </button>
             </li>
             <li className="dropdown-item">
