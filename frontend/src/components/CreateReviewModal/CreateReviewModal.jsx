@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { useDispatch } from "react-redux";
 import { postReview, fetchReviews } from "../../store/spots";
-import "./CreateReviewModal.css";
+import "./CreateReviewModal.css";  // ✅ Correct import for CreateReviewModal's CSS
 
 function CreateReviewModal({ spotId, spotName, closeModal }) {
   const dispatch = useDispatch();
@@ -49,7 +49,7 @@ function CreateReviewModal({ spotId, spotName, closeModal }) {
         <button className="close-modal-button" onClick={closeModal}>
           ✖
         </button>
-        <h2>How was your stay at <span className="spot-name">{spotName}</span>?</h2>
+        <h2>How was your stay at <span className="spot-name">&quot;{spotName}&quot;</span>?</h2>
         {errors.api && <p className="error">{errors.api}</p>}
         <form onSubmit={handleSubmit}>
           <textarea

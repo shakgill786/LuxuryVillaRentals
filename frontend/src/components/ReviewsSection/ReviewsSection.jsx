@@ -1,19 +1,18 @@
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchReviews, deleteReview } from "../../store/reviews";
-import CreateReviewButton from "../CreateReviewModal/CreateReviewButton";
+import CreateReviewModal from "../CreateReviewModal/CreateReviewModal";
 import DeleteReviewModal from "../DeleteReviewModal/DeleteReviewModal";
-import UpdateReviewModal from "../UpdateReviewModal/UpdateReviewModal"; // Import UpdateReviewModal
+import UpdateReviewModal from "../UpdateReviewModal/UpdateReviewModal";
 
-const ReviewsSection = ({ spotId, loggedInUser }) => {
+const ReviewsSection = ({ spotId, loggedInUser, spot }) => {
   const dispatch = useDispatch();
   const reviews = useSelector((state) => Object.values(state.reviews.spotReviews || {}));
-  const spot = useSelector((state) => state.spots.singleSpot);
-
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [reviewToDelete, setReviewToDelete] = useState(null);
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
   const [reviewToUpdate, setReviewToUpdate] = useState(null);
+  const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
 
   useEffect(() => {
     dispatch(fetchReviews(spotId));
@@ -23,21 +22,6 @@ const ReviewsSection = ({ spotId, loggedInUser }) => {
     await dispatch(deleteReview(reviewId));
     await dispatch(fetchReviews(spotId));
     setIsDeleteModalOpen(false);
-  };
-
-  const openDeleteModal = (reviewId) => {
-    setReviewToDelete(reviewId);
-    setIsDeleteModalOpen(true);
-  };
-
-  const openUpdateModal = (review) => {
-    setReviewToUpdate(review);
-    setIsUpdateModalOpen(true);
-  };
-
-  const closeUpdateModal = () => {
-    setReviewToUpdate(null);
-    setIsUpdateModalOpen(false);
   };
 
   const userHasReviewed = reviews.some((review) => review.userId === loggedInUser?.id);
@@ -56,12 +40,14 @@ const ReviewsSection = ({ spotId, loggedInUser }) => {
         )}
       </h3>
 
+      {/* Post Your Review Button */}
       {shouldShowReviewButton && (
-        <div className="write-review-button">
-          <CreateReviewButton spotId={spotId} />
+        <div className="post-review-button">
+          <button onClick={() => setIsReviewModalOpen(true)}>Post Your Review</button>
         </div>
       )}
 
+      {/* Review List */}
       {reviews.length > 0 ? (
         <ul className="review-list">
           {reviews.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)).map((review) => (
@@ -72,8 +58,8 @@ const ReviewsSection = ({ spotId, loggedInUser }) => {
               <p>{review.review}</p>
               {loggedInUser && loggedInUser.id === review.userId && (
                 <div className="review-actions">
-                  <button className="update-review-button" onClick={() => openUpdateModal(review)}>Update</button>
-                  <button className="delete-review-button" onClick={() => openDeleteModal(review.id)}>Delete</button>
+                  <button className="update-review-button" onClick={() => setReviewToUpdate(review) || setIsUpdateModalOpen(true)}>Update</button>
+                  <button className="delete-review-button" onClick={() => setReviewToDelete(review.id) || setIsDeleteModalOpen(true)}>Delete</button>
                 </div>
               )}
             </li>
@@ -83,6 +69,7 @@ const ReviewsSection = ({ spotId, loggedInUser }) => {
         <p className="first-review-prompt">Be the first to post a review!</p>
       )}
 
+      {/* Modals */}
       {isDeleteModalOpen && (
         <DeleteReviewModal
           onDelete={() => handleDeleteReview(reviewToDelete)}
@@ -94,7 +81,15 @@ const ReviewsSection = ({ spotId, loggedInUser }) => {
         <UpdateReviewModal
           review={reviewToUpdate}
           spotId={spotId}
-          closeModal={closeUpdateModal}
+          closeModal={() => setIsUpdateModalOpen(false)}
+        />
+      )}
+
+      {isReviewModalOpen && (
+        <CreateReviewModal
+          spotId={spotId}
+          spotName={spot?.name}
+          closeModal={() => setIsReviewModalOpen(false)}
         />
       )}
     </section>

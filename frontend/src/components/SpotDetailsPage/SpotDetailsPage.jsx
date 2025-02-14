@@ -3,9 +3,7 @@ import { useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import Modal from "react-modal";
 import { fetchSpotDetails } from "../../store/spots";
-import { fetchReviews } from "../../store/reviews";  // Fetch reviews
 import ReviewsSection from "../ReviewsSection/ReviewsSection";
-import CreateReviewModal from "../CreateReviewModal/CreateReviewModal"; 
 import "./SpotDetailsPage.css";
 
 const SpotDetailsPage = () => {
@@ -13,10 +11,7 @@ const SpotDetailsPage = () => {
   const dispatch = useDispatch();
   const loggedInUser = useSelector((state) => state.session.user);
   const spot = useSelector((state) => state.spots.singleSpot);
-  const reviews = useSelector((state) => Object.values(state.reviews.spotReviews || {}));
-
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -24,7 +19,6 @@ const SpotDetailsPage = () => {
     const fetchData = async () => {
       try {
         await dispatch(fetchSpotDetails(spotId));
-        await dispatch(fetchReviews(spotId));
         setIsLoading(false);
       } catch (err) {
         console.error("❌ Error fetching spot details:", err);
@@ -36,7 +30,7 @@ const SpotDetailsPage = () => {
   }, [dispatch, spotId]);
 
   const handleReserve = () => {
-    alert("Feature coming soon!");
+    alert("Reservation feature coming soon!");
   };
 
   if (isLoading) return <div>Loading...</div>;
@@ -47,28 +41,25 @@ const SpotDetailsPage = () => {
     ? Number(spot.avgStarRating).toFixed(1)
     : "New";
 
-  // Check if the logged-in user is the spot owner or has already reviewed
-  const isSpotOwner = loggedInUser && spot.ownerId === loggedInUser.id;
-  const userHasReviewed = reviews.some((review) => review.userId === loggedInUser?.id);
-  const shouldShowReviewButton = loggedInUser && !isSpotOwner && !userHasReviewed;
-
   return (
     <div className="spot-details-page">
       <header className="spot-header">
         <h1>{spot.name}</h1>
-        <p>{spot.city}, {spot.state}, {spot.country}</p>
+        <p>
+          {spot.city}, {spot.state}, {spot.country}
+        </p>
       </header>
 
-      {/* Modal for Spot Details */}
       <Modal isOpen={isModalOpen} onRequestClose={() => setIsModalOpen(false)} className="spot-modal">
         <div className="modal-content">
           <h1>{spot.name}</h1>
           <p>{spot.description}</p>
-          <button onClick={() => setIsModalOpen(false)} className="close-modal">Close</button>
+          <button onClick={() => setIsModalOpen(false)} className="close-modal">
+            Close
+          </button>
         </div>
       </Modal>
 
-      {/* Image Gallery */}
       <section className="image-gallery">
         <div className="main-image">
           <img src={spot.SpotImages?.[0]?.url || "/placeholder.jpg"} alt={spot.name} />
@@ -82,7 +73,9 @@ const SpotDetailsPage = () => {
 
       <div className="Details-body">
         <section className="host-info">
-          <h2>Hosted by {spot.Owner?.firstName} {spot.Owner?.lastName}</h2>
+          <h2>
+            Hosted by {spot.Owner?.firstName} {spot.Owner?.lastName}
+          </h2>
           <p>{spot.description}</p>
         </section>
 
@@ -109,24 +102,9 @@ const SpotDetailsPage = () => {
 
       <hr className="section-divider" />
 
+      {/* Pass down control to ReviewsSection */}
       <section className="reviews-section">
-        <h2>Reviews</h2>
-        {shouldShowReviewButton && (
-          <button className="write-review-button" onClick={() => setIsReviewModalOpen(true)}>
-            Write a Review
-          </button>
-        )}
-
-        <ReviewsSection spotId={spotId} loggedInUser={loggedInUser} />
-
-        {/* Create Review Modal */}
-        {isReviewModalOpen && (
-          <CreateReviewModal
-            spotId={spotId}
-            spotName={spot.name}
-            closeModal={() => setIsReviewModalOpen(false)}
-          />
-        )}
+        <ReviewsSection spotId={spotId} loggedInUser={loggedInUser} spot={spot} />
       </section>
     </div>
   );
