@@ -3,14 +3,13 @@ import { useDispatch } from "react-redux";
 import { postReview, fetchReviews } from "../../store/spots";
 import "./CreateReviewModal.css";
 
-function CreateReviewModal({ spotId, spotName, closeModal }) { // Accept spotName as a prop
+function CreateReviewModal({ spotId, spotName, closeModal }) {
   const dispatch = useDispatch();
   const [review, setReview] = useState("");
   const [stars, setStars] = useState(0);
-  const [hoveredStars, setHoveredStars] = useState(0); // For hover state
+  const [hoveredStars, setHoveredStars] = useState(0);
   const [errors, setErrors] = useState({});
-
-  const modalRef = useRef(null);
+  const modalRef = useRef();
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -33,7 +32,6 @@ function CreateReviewModal({ spotId, spotName, closeModal }) { // Accept spotNam
     }
 
     const reviewData = { review, stars };
-
     try {
       await dispatch(postReview(spotId, reviewData));
       setReview("");
@@ -46,8 +44,11 @@ function CreateReviewModal({ spotId, spotName, closeModal }) { // Accept spotNam
   };
 
   return (
-    <div className="create-review-modal">
+    <div className="modal-overlay">
       <div className="modal-content" ref={modalRef}>
+        <button className="close-modal-button" onClick={closeModal}>
+          ✖
+        </button>
         <h2>How was your stay at <span className="spot-name">{spotName}</span>?</h2>
         {errors.api && <p className="error">{errors.api}</p>}
         <form onSubmit={handleSubmit}>
@@ -64,9 +65,9 @@ function CreateReviewModal({ spotId, spotName, closeModal }) { // Accept spotNam
                 type="button"
                 key={index}
                 className={`star ${index + 1 <= (hoveredStars || stars) ? "filled" : ""}`}
-                onClick={() => setStars(index + 1)} // Set the clicked star rating
-                onMouseEnter={() => setHoveredStars(index + 1)} // Show hover effect
-                onMouseLeave={() => setHoveredStars(0)} // Remove hover effect
+                onClick={() => setStars(index + 1)}
+                onMouseEnter={() => setHoveredStars(index + 1)}
+                onMouseLeave={() => setHoveredStars(0)}
               >
                 ★
               </button>

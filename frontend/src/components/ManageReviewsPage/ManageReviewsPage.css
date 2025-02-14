@@ -1,26 +1,58 @@
 .manage-reviews-page {
-    padding: 20px;
-  }
-  
-  h1 {
-    font-size: 2rem;
-    margin-bottom: 20px;
-  }
-  
-  .reviews-list {
-    list-style: none;
-    padding: 0;
-  }
-  
-  .reviews-list li {
-    background: #f9f9f9;
-    border: 1px solid #ddd;
-    padding: 15px;
-    margin-bottom: 10px;
-    border-radius: 5px;
-  }
-  
-  .reviews-list p {
-    margin: 5px 0;
-  }
-  
+  padding: 20px;
+}
+
+h1 {
+  font-size: 2rem;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.review-list {
+  list-style: none;
+  padding: 0;
+}
+
+.review-item {
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 15px;
+  margin-bottom: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.review-details {
+  margin-bottom: 10px;
+}
+
+.review-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.update-button,
+.delete-button {
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.update-button {
+  background-color: goldenrod;
+  color: black;
+}
+
+.delete-button {
+  background-color: #ff6f61;
+  color: white;
+}
+
+.update-button:hover {
+  background-color: darkgoldenrod;
+}
+
+.delete-button:hover {
+  background-color: darkred;
+}

@@ -1,8 +1,8 @@
-// LuxuryVillaServices/frontend/src/store/reviews.js
 import { csrfFetch } from "./csrf";
 
 // Action Types
 const LOAD_REVIEWS = "reviews/loadReviews";
+const LOAD_USER_REVIEWS = "reviews/loadUserReviews";
 const ADD_REVIEW = "reviews/addReview";
 const UPDATE_REVIEW = "reviews/updateReview";
 const DELETE_REVIEW = "reviews/deleteReview";
@@ -10,6 +10,11 @@ const DELETE_REVIEW = "reviews/deleteReview";
 // Action Creators
 const loadReviews = (reviews) => ({
   type: LOAD_REVIEWS,
+  reviews,
+});
+
+const loadUserReviews = (reviews) => ({
+  type: LOAD_USER_REVIEWS,
   reviews,
 });
 
@@ -38,6 +43,18 @@ export const fetchReviews = (spotId) => async (dispatch) => {
     }
   } catch (err) {
     console.error("Failed to fetch reviews:", err);
+  }
+};
+
+export const fetchUserReviews = () => async (dispatch) => {
+  try {
+    const response = await csrfFetch(`/api/reviews/current`);
+    if (response.ok) {
+      const data = await response.json();
+      dispatch(loadUserReviews(data.Reviews));
+    }
+  } catch (err) {
+    console.error("Failed to fetch user reviews:", err);
   }
 };
 
@@ -92,19 +109,26 @@ export const deleteReview = (reviewId) => async (dispatch) => {
 // Initial State
 const initialState = {
   spotReviews: {},
+  userReviews: {}, // State for user-specific reviews
 };
 
 // Reducer
 const reviewsReducer = (state = initialState, action) => {
   switch (action.type) {
     case LOAD_REVIEWS: {
-      const newState = { ...state };
       const spotReviews = {};
       action.reviews.forEach((review) => {
         spotReviews[review.id] = review;
       });
-      newState.spotReviews = spotReviews;
-      return newState;
+      return { ...state, spotReviews };
+    }
+
+    case LOAD_USER_REVIEWS: {
+      const userReviews = {};
+      action.reviews.forEach((review) => {
+        userReviews[review.id] = review;
+      });
+      return { ...state, userReviews };
     }
 
     case ADD_REVIEW: {
@@ -130,6 +154,7 @@ const reviewsReducer = (state = initialState, action) => {
     case DELETE_REVIEW: {
       const newState = { ...state };
       delete newState.spotReviews[action.reviewId];
+      delete newState.userReviews[action.reviewId];
       return newState;
     }
 

@@ -1,5 +1,4 @@
-// LuxuryVillaServices/frontend/src/components/UpdateReviewModal/UpdateReviewModal.jsx
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { updateReviewThunk, fetchReviews } from "../../store/reviews";
 import "./UpdateReviewModal.css";
@@ -10,6 +9,18 @@ const UpdateReviewModal = ({ review, spotId, closeModal }) => {
   const [stars, setStars] = useState(review.stars);
   const [hoveredStars, setHoveredStars] = useState(0);
   const [errors, setErrors] = useState({});
+  const modalRef = useRef();
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (modalRef.current && !modalRef.current.contains(event.target)) {
+        closeModal();
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [closeModal]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -30,8 +41,11 @@ const UpdateReviewModal = ({ review, spotId, closeModal }) => {
   };
 
   return (
-    <div className="update-review-modal">
-      <div className="modal-content">
+    <div className="modal-overlay">
+      <div className="modal-content" ref={modalRef}>
+        <button className="close-modal-button" onClick={closeModal}>
+          ✖
+        </button>
         <h2>Update Your Review</h2>
         {errors.api && <p className="error">{errors.api}</p>}
         <form onSubmit={handleSubmit}>
