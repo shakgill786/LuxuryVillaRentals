@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { useDispatch } from "react-redux";
-import { postReview, fetchReviews } from "../../store/spots";
-import "./CreateReviewModal.css";  // ✅ Correct import for CreateReviewModal's CSS
+import { addReviewThunk } from "../../store/reviews"; // ✅ Replace postReview with addReviewThunk
+import "./CreateReviewModal.css";
 
 function CreateReviewModal({ spotId, spotName, closeModal }) {
   const dispatch = useDispatch();
@@ -33,13 +33,12 @@ function CreateReviewModal({ spotId, spotName, closeModal }) {
 
     const reviewData = { review, stars };
     try {
-      await dispatch(postReview(spotId, reviewData));
+      await dispatch(addReviewThunk(spotId, reviewData)); // ✅ Use addReviewThunk here
       setReview("");
       setStars(0);
       closeModal();
-      await dispatch(fetchReviews(spotId));
     } catch (error) {
-      setErrors({ api: "Review already exists for this spot" });
+      setErrors({ api: "Failed to submit the review. Please try again." });
     }
   };
 

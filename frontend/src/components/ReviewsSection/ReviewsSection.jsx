@@ -1,21 +1,18 @@
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { fetchReviews, deleteReview } from "../../store/reviews";
+import { fetchReviews, deleteReview, addReviewThunk } from "../../store/reviews"; // ✅ addReviewThunk imported
 import CreateReviewModal from "../CreateReviewModal/CreateReviewModal";
 import UpdateReviewModal from "../UpdateReviewModal/UpdateReviewModal";
 import DeleteConfirmationModal from "../DeleteConfirmationModal/DeleteConfirmationModal";
 
-
 const ReviewsSection = ({ spotId, loggedInUser, spot }) => {
   const dispatch = useDispatch();
   const reviews = useSelector((state) => Object.values(state.reviews.spotReviews || {}));
-  
+
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [reviewToDelete, setReviewToDelete] = useState(null);
-  
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
   const [reviewToUpdate, setReviewToUpdate] = useState(null);
-  
   const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
 
   useEffect(() => {
@@ -25,15 +22,20 @@ const ReviewsSection = ({ spotId, loggedInUser, spot }) => {
   const handleDeleteReview = async () => {
     if (reviewToDelete) {
       await dispatch(deleteReview(reviewToDelete));
-      await dispatch(fetchReviews(spotId));
       setIsDeleteModalOpen(false);
       setReviewToDelete(null);
     }
   };
 
-  const openDeleteModal = (reviewId) => {
-    setReviewToDelete(reviewId);
-    setIsDeleteModalOpen(true);
+  const handleAddReview = async (spotId, reviewData) => {
+    try {
+      const newReview = await dispatch(addReviewThunk(spotId, reviewData));
+      if (newReview) {
+        setIsReviewModalOpen(false);
+      }
+    } catch (error) {
+      console.error("Failed to add review:", error);
+    }
   };
 
   const userHasReviewed = reviews.some((review) => review.userId === loggedInUser?.id);
@@ -62,20 +64,22 @@ const ReviewsSection = ({ spotId, loggedInUser, spot }) => {
       {/* Review List */}
       {reviews.length > 0 ? (
         <ul className="review-list">
-          {reviews.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)).map((review) => (
-            <li key={review.id}>
-              <p>
-                <strong>{review.User?.firstName}</strong> · {new Date(review.createdAt).toLocaleDateString("en-US", { month: "long", year: "numeric" })}
-              </p>
-              <p>{review.review}</p>
-              {loggedInUser && loggedInUser.id === review.userId && (
-                <div className="review-actions">
-                  <button className="update-review-button" onClick={() => setReviewToUpdate(review) || setIsUpdateModalOpen(true)}>Update</button>
-                  <button className="delete-review-button" onClick={() => openDeleteModal(review.id)}>Delete</button>
-                </div>
-              )}
-            </li>
-          ))}
+          {reviews
+            .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+            .map((review) => (
+              <li key={review.id}>
+                <p>
+                  <strong>{review.User?.firstName}</strong> · {new Date(review.createdAt).toLocaleDateString("en-US", { month: "long", year: "numeric" })}
+                </p>
+                <p>{review.review}</p>
+                {loggedInUser && loggedInUser.id === review.userId && (
+                  <div className="review-actions">
+                    <button className="update-review-button" onClick={() => setReviewToUpdate(review) || setIsUpdateModalOpen(true)}>Update</button>
+                    <button className="delete-review-button" onClick={() => setReviewToDelete(review.id) || setIsDeleteModalOpen(true)}>Delete</button>
+                  </div>
+                )}
+              </li>
+            ))}
         </ul>
       ) : (
         <p className="first-review-prompt">Be the first to post a review!</p>
@@ -102,6 +106,7 @@ const ReviewsSection = ({ spotId, loggedInUser, spot }) => {
           spotId={spotId}
           spotName={spot?.name}
           closeModal={() => setIsReviewModalOpen(false)}
+          onSubmit={handleAddReview} // Pass handleAddReview to the modal
         />
       )}
     </section>
