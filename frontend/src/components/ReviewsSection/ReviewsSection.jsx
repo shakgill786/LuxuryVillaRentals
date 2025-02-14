@@ -2,26 +2,38 @@ import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchReviews, deleteReview } from "../../store/reviews";
 import CreateReviewModal from "../CreateReviewModal/CreateReviewModal";
-import DeleteReviewModal from "../DeleteReviewModal/DeleteReviewModal";
 import UpdateReviewModal from "../UpdateReviewModal/UpdateReviewModal";
+import DeleteConfirmationModal from "../DeleteConfirmationModal/DeleteConfirmationModal";
+
 
 const ReviewsSection = ({ spotId, loggedInUser, spot }) => {
   const dispatch = useDispatch();
   const reviews = useSelector((state) => Object.values(state.reviews.spotReviews || {}));
+  
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [reviewToDelete, setReviewToDelete] = useState(null);
+  
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
   const [reviewToUpdate, setReviewToUpdate] = useState(null);
+  
   const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
 
   useEffect(() => {
     dispatch(fetchReviews(spotId));
   }, [dispatch, spotId]);
 
-  const handleDeleteReview = async (reviewId) => {
-    await dispatch(deleteReview(reviewId));
-    await dispatch(fetchReviews(spotId));
-    setIsDeleteModalOpen(false);
+  const handleDeleteReview = async () => {
+    if (reviewToDelete) {
+      await dispatch(deleteReview(reviewToDelete));
+      await dispatch(fetchReviews(spotId));
+      setIsDeleteModalOpen(false);
+      setReviewToDelete(null);
+    }
+  };
+
+  const openDeleteModal = (reviewId) => {
+    setReviewToDelete(reviewId);
+    setIsDeleteModalOpen(true);
   };
 
   const userHasReviewed = reviews.some((review) => review.userId === loggedInUser?.id);
@@ -59,7 +71,7 @@ const ReviewsSection = ({ spotId, loggedInUser, spot }) => {
               {loggedInUser && loggedInUser.id === review.userId && (
                 <div className="review-actions">
                   <button className="update-review-button" onClick={() => setReviewToUpdate(review) || setIsUpdateModalOpen(true)}>Update</button>
-                  <button className="delete-review-button" onClick={() => setReviewToDelete(review.id) || setIsDeleteModalOpen(true)}>Delete</button>
+                  <button className="delete-review-button" onClick={() => openDeleteModal(review.id)}>Delete</button>
                 </div>
               )}
             </li>
@@ -71,9 +83,9 @@ const ReviewsSection = ({ spotId, loggedInUser, spot }) => {
 
       {/* Modals */}
       {isDeleteModalOpen && (
-        <DeleteReviewModal
-          onDelete={() => handleDeleteReview(reviewToDelete)}
-          onClose={() => setIsDeleteModalOpen(false)}
+        <DeleteConfirmationModal
+          onConfirm={handleDeleteReview}
+          onCancel={() => setIsDeleteModalOpen(false)}
         />
       )}
 

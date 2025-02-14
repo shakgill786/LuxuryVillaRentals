@@ -148,4 +148,11 @@
   .price-input-container .dollar-sign {
     margin-bottom: 5px;
   }
+  .address-caption {
+    font-size: 0.9rem;
+    color: gray;
+    margin-top: 5px;
+    font-style: italic;
+  }
+  
 }

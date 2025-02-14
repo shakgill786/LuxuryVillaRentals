@@ -79,7 +79,8 @@ function CreateSpotForm() {
     <div className="create-spot-form">
       <h1>Create a New Spot</h1>
       <form onSubmit={handleSubmit}>
-        <h2>Where&apos;s your place located?</h2>
+      <h2>Where&apos;s your place located?</h2>
+        
         <label>
           Country
           <input type="text" name="country" value={formData.country} onChange={handleChange} placeholder="Country" />
@@ -91,6 +92,11 @@ function CreateSpotForm() {
           <input type="text" name="address" value={formData.address} onChange={handleChange} placeholder="Street Address" />
           {formErrors.address && <p className="error">{formErrors.address}</p>}
         </label>
+        
+        {/* Caption added below the address field */}
+        <p className="address-caption">
+          Guests will only get your exact address once they book a reservation.
+        </p>
 
         <div className="location-inputs">
           <label>
@@ -108,24 +114,12 @@ function CreateSpotForm() {
         <div className="coordinates-inputs">
           <label>
             Latitude
-            <input
-              type="number"
-              name="lat"
-              value={formData.lat}
-              onChange={handleChange}
-              placeholder="Latitude (-90 to 90)"
-            />
+            <input type="number" name="lat" value={formData.lat} onChange={handleChange} placeholder="Latitude (-90 to 90)" />
             {formErrors.lat && <p className="error">{formErrors.lat}</p>}
           </label>
           <label>
             Longitude
-            <input
-              type="number"
-              name="lng"
-              value={formData.lng}
-              onChange={handleChange}
-              placeholder="Longitude (-180 to 180)"
-            />
+            <input type="number" name="lng" value={formData.lng} onChange={handleChange} placeholder="Longitude (-180 to 180)" />
             {formErrors.lng && <p className="error">{formErrors.lng}</p>}
           </label>
         </div>
@@ -144,23 +138,11 @@ function CreateSpotForm() {
         {formErrors.name && <p className="error">{formErrors.name}</p>}
 
         <h2>Set a base price for your spot</h2>
-        <input
-          type="number"
-          name="price"
-          value={formData.price}
-          onChange={handleChange}
-          placeholder="Price per night (USD)"
-        />
+        <input type="number" name="price" value={formData.price} onChange={handleChange} placeholder="Price per night (USD)" />
         {formErrors.price && <p className="error">{formErrors.price}</p>}
 
         <h2>Liven up your spot with photos</h2>
-        <input
-          type="text"
-          name="previewImage"
-          value={formData.previewImage}
-          onChange={handleChange}
-          placeholder="Preview Image URL"
-        />
+        <input type="text" name="previewImage" value={formData.previewImage} onChange={handleChange} placeholder="Preview Image URL" />
         {formErrors.previewImage && <p className="error">{formErrors.previewImage}</p>}
 
         {imageUrls.map((url, index) => (
